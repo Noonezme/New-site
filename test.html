@@ -53,6 +53,32 @@ video {
   border-radius: 10px;
   box-shadow: 0 0 20px rgba(0,0,0,0.5);
 }
+.overlay-container {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 35%;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  pointer-events: none;
+  z-index: 1000;
+}
+.overlay-message {
+  background: rgba(0,0,0,0.7);
+  color: #fff;
+  padding: 6px 10px;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  opacity: 0;
+  transform: translateX(20px);
+  animation: slideFade 4s forwards;
+}
+@keyframes slideFade {
+  0% { opacity: 1; transform: translateX(0); }
+  80% { opacity: 1; transform: translateX(0); }
+  100% { opacity: 0; transform: translateX(20px); }
+}
 .chat-section {
   flex: 1;
   display: flex;
@@ -90,25 +116,6 @@ video {
   border-top: 1px solid #333;
   font-size: 0.9em;
 }
-.overlay-chat {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  max-width: 40%;
-  background: rgba(0,0,0,0.6);
-  color: #fff;
-  padding: 8px 12px;
-  border-radius: 8px;
-  font-size: 0.9rem;
-  animation: fadeOut 4s forwards;
-  z-index: 1000;
-  pointer-events: none;
-}
-@keyframes fadeOut {
-  0% { opacity: 1; }
-  80% { opacity: 1; }
-  100% { opacity: 0; }
-}
 /* Mobile-friendly */
 @media (max-width: 768px) {
   main {
@@ -138,6 +145,7 @@ video {
 <main>
 <div class="video-section">
   <video id="videoPlayer" controls></video>
+  <div class="overlay-container" id="overlayContainer"></div>
 </div>
 <div class="chat-section">
   <div class="chat-messages" id="chatMessages"></div>
@@ -174,6 +182,7 @@ if(!username){
 
 // Elements
 const video = document.getElementById("videoPlayer");
+const overlayContainer = document.getElementById("overlayContainer");
 const fileInput = document.getElementById("fileInput");
 const chatMessages = document.getElementById("chatMessages");
 const chatInput = document.getElementById("chatInput");
@@ -223,7 +232,7 @@ db.ref("sessions/MAIN/videoState").on("value",(snap)=>{
   else if(data.state==="seek"){video.currentTime=data.time;}
 });
 
-// Chat with overlay
+// Chat
 function sendMessage(){
   const msg = chatInput.value.trim();
   if(!msg) return;
@@ -233,25 +242,34 @@ function sendMessage(){
 sendBtn.addEventListener("click",sendMessage);
 chatInput.addEventListener("keypress",(e)=>{if(e.key==="Enter") sendMessage();});
 
-// Helper: check if video is fullscreen
+// Fullscreen detection
 function isFullScreen() {
   return document.fullscreenElement || document.webkitFullscreenElement || document.mozFullScreenElement || document.msFullscreenElement;
+}
+
+// Show overlay message
+function showOverlayMessage(text){
+  const msgDiv = document.createElement("div");
+  msgDiv.className = "overlay-message";
+  msgDiv.textContent = text;
+  overlayContainer.appendChild(msgDiv);
+  setTimeout(()=>msgDiv.remove(),4000);
 }
 
 // Listen for chat messages
 db.ref("sessions/MAIN/chat").on("child_added",(snap)=>{
   const data = snap.val();
+  const messageText = `${data.user}: ${data.text}`;
+
+  // Chat panel
   const div = document.createElement("div");
-  div.textContent = data.user+": "+data.text;
+  div.textContent = messageText;
   chatMessages.appendChild(div);
   chatMessages.scrollTop = chatMessages.scrollHeight;
 
+  // Overlay if fullscreen
   if(isFullScreen()){
-    const overlay = document.createElement("div");
-    overlay.className = "overlay-chat";
-    overlay.textContent = data.user+": "+data.text;
-    video.parentElement.appendChild(overlay);
-    setTimeout(()=>overlay.remove(),4000);
+    showOverlayMessage(messageText);
   }
 });
 
