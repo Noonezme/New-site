@@ -17,9 +17,9 @@ header {
   background: #1a1a1f;
   text-align: center;
 }
-header input[type="file"] {
+header input[type="file"], header button {
   margin-top: 10px;
-  padding: 6px;
+  padding: 6px 12px;
   border-radius: 8px;
   border: none;
   cursor: pointer;
@@ -81,10 +81,45 @@ header input[type="file"] {
   font-weight:bold;
   cursor:pointer;
 }
+
+/* Mobile-friendly */
 @media(max-width:768px){
-  .fullscreen-wrapper { flex-direction:column; }
-  .fullscreen-video { flex:3; }
-  .fullscreen-chat { flex:2; border-left:none; border-top:2px solid #333; }
+  .fullscreen-wrapper { 
+    flex-direction: column; 
+    height: 100vh;
+  }
+  .fullscreen-video { 
+    flex: 3; 
+    min-height: 40vh;
+  }
+  .fullscreen-video video {
+    max-height: 100%;
+    width: 100%;
+  }
+  .fullscreen-chat { 
+    flex: 2; 
+    border-left:none; 
+    border-top:2px solid #333;
+    display:flex;
+    flex-direction:column;
+  }
+  .fullscreen-chat-messages {
+    flex: 1;
+    overflow-y:auto;
+  }
+  .fullscreen-chat-input {
+    flex: 0;
+    display:flex;
+  }
+  .fullscreen-chat-input input {
+    flex: 1;
+    padding: 12px;
+    font-size: 1rem;
+  }
+  .fullscreen-chat-input button {
+    padding: 12px;
+    font-size: 1rem;
+  }
 }
 </style>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
@@ -191,10 +226,8 @@ function sendFSMessage(){
 sendFS.addEventListener("click", sendFSMessage);
 chatInputFS.addEventListener("keypress", e=>{if(e.key==="Enter") sendFSMessage();});
 
-// Chat + sound
-// Use a subtle notification sound
+// Chat + subtle ping
 const msgSound = new Audio("https://freesound.org/data/previews/522/522072_7037-lq.mp3"); // short ping
-
 db.ref("sessions/MAIN/chat").on("child_added", snap=>{
   const data = snap.val();
   const text = `${data.user}: ${data.text}`;
@@ -213,7 +246,7 @@ const userRef = db.ref("sessions/MAIN/users/"+userId);
 userRef.set({name:username,joined:Date.now(),lastActive:Date.now()});
 userRef.onDisconnect().remove();
 db.ref("sessions/MAIN/users").on("value", snap=>{
-  // Optionally, you can display online users
+  // Optionally display users
 });
 
 // Enter fake fullscreen
