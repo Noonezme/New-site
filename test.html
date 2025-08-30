@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
+<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>SyncStream - Watch Together</title>
 <style>
@@ -87,7 +87,6 @@ video {
   }
 }
 </style>
-<!-- Firebase SDKs -->
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-storage.js"></script>
@@ -96,7 +95,7 @@ video {
 <header>
 <h1>🎬 SyncStream</h1>
 <p>Watch videos together in real-time</p>
-<input type="file" id="fileInput" accept="video/*" />
+<input type="file" id="fileInput" accept="video/*"/>
 </header>
 
 <main>
@@ -114,7 +113,7 @@ video {
 </main>
 
 <script>
-// ✅ Firebase Config
+// Firebase Config
 const firebaseConfig = {
   apiKey: "AIzaSyD5CSVD8q_jKxxnmX65Do1V5NALdX1oYO0",
   authDomain: "wechatwatch-e76ae.firebaseapp.com",
@@ -129,10 +128,10 @@ firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
 const storage = firebase.storage();
 
-// ✅ Ask for username
+// Username prompt
 let username = localStorage.getItem("username");
-if (!username) {
-  username = prompt("Enter your name:") || "Guest" + Math.floor(Math.random() * 1000);
+if(!username){
+  username = prompt("Enter your name:") || "Guest"+Math.floor(Math.random()*1000);
   localStorage.setItem("username", username);
 }
 
@@ -144,92 +143,77 @@ const chatInput = document.getElementById("chatInput");
 const sendBtn = document.getElementById("sendBtn");
 const usersList = document.getElementById("usersList");
 
-// ✅ Upload video to Firebase Storage
-fileInput.addEventListener("change", async (e) => {
+// Upload video and share URL
+fileInput.addEventListener("change", async (e)=>{
   const file = e.target.files[0];
-  if (!file) return;
+  if(!file) return;
 
-  const storageRef = storage.ref("videos/" + file.name);
+  // Play locally immediately
+  const localURL = URL.createObjectURL(file);
+  video.src = localURL;
+
+  // Upload to storage
+  const storageRef = storage.ref("videos/"+file.name);
   const uploadTask = storageRef.put(file);
 
-  uploadTask.on("state_changed",
-    snapshot => {
-      // optional: progress indicator
-    },
+  uploadTask.on("state_changed", 
+    snapshot => {},
     error => console.error(error),
-    async () => {
+    async ()=>{
       const url = await uploadTask.snapshot.ref.getDownloadURL();
+      // Save URL to RTDB
       db.ref("sessions/MAIN/videoFile").set(url);
     }
   );
 });
 
-// ✅ Load video from RTDB
-db.ref("sessions/MAIN/videoFile").on("value", (snap) => {
+// Listen for video URL from RTDB
+db.ref("sessions/MAIN/videoFile").on("value", (snap)=>{
   const url = snap.val();
-  if (url && video.src !== url) {
+  if(url && video.src !== url){
     video.src = url;
   }
 });
 
-// ✅ Sync play/pause/seek
-video.addEventListener("play", () => {
-  db.ref("sessions/MAIN/videoState").set({ state: "play", time: video.currentTime });
-});
-video.addEventListener("pause", () => {
-  db.ref("sessions/MAIN/videoState").set({ state: "pause", time: video.currentTime });
-});
-video.addEventListener("seeking", () => {
-  db.ref("sessions/MAIN/videoState").set({ state: "seek", time: video.currentTime });
-});
+// Sync play/pause/seek
+video.addEventListener("play", ()=>db.ref("sessions/MAIN/videoState").set({state:"play",time:video.currentTime}));
+video.addEventListener("pause", ()=>db.ref("sessions/MAIN/videoState").set({state:"pause",time:video.currentTime}));
+video.addEventListener("seeking", ()=>db.ref("sessions/MAIN/videoState").set({state:"seek",time:video.currentTime}));
 
-db.ref("sessions/MAIN/videoState").on("value", (snap) => {
+db.ref("sessions/MAIN/videoState").on("value",(snap)=>{
   const data = snap.val();
-  if (!data) return;
-  if (data.state === "play" && video.paused) {
-    video.currentTime = data.time;
-    video.play();
-  } else if (data.state === "pause" && !video.paused) {
-    video.currentTime = data.time;
-    video.pause();
-  } else if (data.state === "seek") {
-    video.currentTime = data.time;
-  }
+  if(!data) return;
+  if(data.state==="play" && video.paused){video.currentTime=data.time; video.play();}
+  else if(data.state==="pause" && !video.paused){video.currentTime=data.time; video.pause();}
+  else if(data.state==="seek"){video.currentTime=data.time;}
 });
 
-// ✅ Chat
-function sendMessage() {
+// Chat
+function sendMessage(){
   const msg = chatInput.value.trim();
-  if (!msg) return;
-  db.ref("sessions/MAIN/chat").push({
-    user: username,
-    text: msg,
-    time: Date.now()
-  });
-  chatInput.value = "";
+  if(!msg) return;
+  db.ref("sessions/MAIN/chat").push({user:username,text:msg,time:Date.now()});
+  chatInput.value="";
 }
-sendBtn.addEventListener("click", sendMessage);
-chatInput.addEventListener("keypress", (e) => {
-  if (e.key === "Enter") sendMessage();
-});
-db.ref("sessions/MAIN/chat").on("child_added", (snap) => {
+sendBtn.addEventListener("click",sendMessage);
+chatInput.addEventListener("keypress",(e)=>{if(e.key==="Enter") sendMessage();});
+db.ref("sessions/MAIN/chat").on("child_added",(snap)=>{
   const data = snap.val();
   const div = document.createElement("div");
-  div.textContent = data.user + ": " + data.text;
+  div.textContent = data.user+": "+data.text;
   chatMessages.appendChild(div);
   chatMessages.scrollTop = chatMessages.scrollHeight;
 });
 
-// ✅ Users online
-const userId = "user_" + Math.floor(Math.random() * 10000);
-const userRef = db.ref("sessions/MAIN/users/" + userId);
-userRef.set({ name: username, joined: Date.now(), lastActive: Date.now() });
+// Users online
+const userId = "user_"+Math.floor(Math.random()*10000);
+const userRef = db.ref("sessions/MAIN/users/"+userId);
+userRef.set({name:username,joined:Date.now(),lastActive:Date.now()});
 userRef.onDisconnect().remove();
-
-db.ref("sessions/MAIN/users").on("value", (snap) => {
-  const users = snap.val() || {};
-  const names = Object.values(users).map(u => u.name);
-  usersList.innerHTML = "👥 Users Online: " + names.join(", ");
+db.ref("sessions/MAIN/users").on("value",(snap)=>{
+  const users = snap.val()||{};
+  const names = Object.values(users).map(u=>u.name);
+  usersList.innerHTML = "👥 Users Online: "+names.join(", ");
 });
 </script>
 </body>
