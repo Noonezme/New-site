@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Local Video Sync</title>
+    <title>SyncStream - Watch Videos Together</title>
     <style>
         * {
             box-sizing: border-box;
@@ -437,13 +437,40 @@
         .user-list div:last-child {
             border-bottom: none;
         }
+
+        .connection-status {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 0.9rem;
+            color: #ccc;
+        }
+
+        .status-indicator {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #4CAF50;
+        }
+
+        .status-indicator.connecting {
+            background: #ff9800;
+        }
+
+        .status-indicator.disconnected {
+            background: #f44336;
+        }
     </style>
+    <!-- Firebase App (the core Firebase SDK) -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <!-- Firebase Database -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 </head>
 <body>
     <div class="container">
         <header>
-            <h1>Local Video Sync 🎬</h1>
-            <p>Watch your own videos in sync with friends</p>
+            <h1>SyncStream 🎬</h1>
+            <p>Watch videos together in real-time</p>
             <div class="session-info">
                 <div class="session-id">Session: <span id="session-id">MAIN</span></div>
                 <div class="user-list-container">
@@ -451,6 +478,10 @@
                     <div class="user-list" id="user-list">
                         <!-- Users will be listed here -->
                     </div>
+                </div>
+                <div class="connection-status">
+                    <div class="status-indicator" id="connection-status"></div>
+                    <span id="connection-text">Connected</span>
                 </div>
                 <button id="copy-link">Copy Session Link</button>
             </div>
@@ -500,7 +531,7 @@
                 <div class="messages" id="chat-messages">
                     <div class="message new">
                         <span class="username">System:</span>
-                        <span>Welcome to Local Video Sync! Upload a video to get started.</span>
+                        <span>Welcome to SyncStream! Upload a video to get started.</span>
                         <div class="time">Just now</div>
                     </div>
                 </div>
@@ -512,7 +543,7 @@
         </div>
 
         <footer>
-            <p>Local Video Sync - Watch your own videos together in real-time | No server required</p>
+            <p>SyncStream - Watch videos together in real-time | Powered by Firebase</p>
         </footer>
     </div>
 
@@ -521,7 +552,7 @@
 
     <div class="modal" id="username-modal">
         <div class="modal-content">
-            <h2>Welcome to Local Video Sync!</h2>
+            <h2>Welcome to SyncStream!</h2>
             <p>Please choose a username to get started:</p>
             <input type="text" id="username-input" placeholder="Enter your username" maxlength="20">
             <button id="submit-username">Join Session</button>
@@ -529,11 +560,29 @@
     </div>
 
     <script>
+        // Firebase configuration - using your provided config
+        const firebaseConfig = {
+            apiKey: "AIzaSyD5CSVD8q_jKxxnmX65Do1V5NALdX1oYO0",
+            authDomain: "wechatwatch-e76ae.firebaseapp.com",
+            databaseURL: "https://wechatwatch-e76ae-default-rtdb.europe-west1.firebasedatabase.app",
+            projectId: "wechatwatch-e76ae",
+            storageBucket: "wechatwatch-e76ae.firebasestorage.app",
+            messagingSenderId: "247455453850",
+            appId: "1:247455453850:web:a9481b0e1b825c4cf74523",
+            measurementId: "G-WQ9S69L3DY"
+        };
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const database = firebase.database();
+
         // DOM elements
         const sessionIdElement = document.getElementById('session-id');
         const userCountElement = document.getElementById('user-count');
         const userListElement = document.getElementById('user-list');
         const chatUserCountElement = document.getElementById('chat-user-count');
+        const connectionStatus = document.getElementById('connection-status');
+        const connectionText = document.getElementById('connection-text');
         const copyLinkButton = document.getElementById('copy-link');
         const playButton = document.getElementById('play-btn');
         const pauseButton = document.getElementById('pause-btn');
@@ -563,12 +612,15 @@
             playing: false,
             timestamp: 0,
             videoUrl: null,
-            videoName: "No video selected"
+            videoName: "No video selected",
+            duration: 0
         };
         let storedVideos = JSON.parse(localStorage.getItem('storedVideos')) || {};
         let users = {};
         let isFullscreen = false;
         let currentViewMode = 'theater';
+        let isSyncing = false;
+        let lastUpdateTime = 0;
 
         // Initialize the application
         function init() {
@@ -594,24 +646,6 @@
                 localStorage.setItem('username', username);
                 usernameModal.style.display = 'none';
                 initializeApp();
-                
-                // Add user to the session
-                users[username] = {
-                    joined: Date.now(),
-                    lastActive: Date.now()
-                };
-                saveUsers();
-                
-                // Send join message
-                const message = {
-                    id: Date.now().toString(),
-                    username: 'System',
-                    text: `${username} joined the session`,
-                    timestamp: new Date().toISOString()
-                };
-                
-                saveChatMessage(message);
-                addMessageToChat(message);
             }
         }
 
@@ -642,91 +676,97 @@
             videoPlayer.addEventListener('seeked', handleVideoSeek);
             videoPlayer.addEventListener('timeupdate', handleTimeUpdate);
             videoPlayer.addEventListener('fullscreenchange', handleFullscreenChange);
+            videoPlayer.addEventListener('loadedmetadata', handleVideoLoaded);
             
             // Load stored videos
             loadStoredVideos();
             
-            // Set up simulated WebSocket using localStorage for communication
-            setInterval(checkForUpdates, 1000);
-            setInterval(updateUserActivity, 5000);
+            // Set up Firebase listeners
+            setupFirebaseListeners();
             
-            // Load initial state
-            const sessionData = JSON.parse(localStorage.getItem(`session_${currentSessionId}`)) || {};
-            if (sessionData.videoState) {
-                updateVideoState(sessionData.videoState);
-            }
+            // Add user to the session
+            addUserToSession();
             
-            // Load users
-            const savedUsers = JSON.parse(localStorage.getItem('users')) || {};
-            users = savedUsers;
-            updateUserList();
-            
-            // Load chat history
-            if (sessionData.chat) {
-                sessionData.chat.forEach(message => {
-                    addMessageToChat(message, true);
-                });
-                chatMessages.scrollTop = chatMessages.scrollHeight;
-            }
+            // Load initial video state if available
+            loadInitialVideoState();
         }
 
-        // Simulate WebSocket communication using localStorage
-        function checkForUpdates() {
-            const sessionData = JSON.parse(localStorage.getItem(`session_${currentSessionId}`)) || {};
-            const lastUpdate = sessionData.timestamp || 0;
-            
-            if (sessionData.videoState && sessionData.videoState.timestamp > videoState.timestamp) {
-                updateVideoState(sessionData.videoState);
-            }
-            
-            if (sessionData.chat) {
-                sessionData.chat.forEach(message => {
-                    if (!document.querySelector(`[data-message-id="${message.id}"]`)) {
-                        addMessageToChat(message);
-                        
-                        // Show notification if in fullscreen mode
-                        if (isFullscreen || currentViewMode === 'fullscreen-video') {
-                            showChatNotification(message);
-                        }
+        function setupFirebaseListeners() {
+            // Listen for video state changes
+            database.ref('sessions/MAIN/videoState').on('value', (snapshot) => {
+                const newVideoState = snapshot.val();
+                if (newVideoState && !isSyncing) {
+                    // Prevent feedback loop
+                    if (Date.now() - lastUpdateTime > 500) {
+                        updateVideoState(newVideoState);
                     }
-                });
-            }
+                }
+            });
             
-            // Check for user updates
-            const savedUsers = JSON.parse(localStorage.getItem('users')) || {};
-            if (Object.keys(savedUsers).length !== Object.keys(users).length) {
-                users = savedUsers;
+            // Listen for chat messages
+            database.ref('sessions/MAIN/chat').limitToLast(100).on('child_added', (snapshot) => {
+                const message = snapshot.val();
+                if (!document.querySelector(`[data-message-id="${message.id}"]`)) {
+                    addMessageToChat(message);
+                    
+                    // Show notification if in fullscreen mode
+                    if (isFullscreen || currentViewMode === 'fullscreen-video') {
+                        showChatNotification(message);
+                    }
+                }
+            });
+            
+            // Listen for user updates
+            database.ref('sessions/MAIN/users').on('value', (snapshot) => {
+                users = snapshot.val() || {};
                 updateUserList();
-            }
+                
+                // Check if our user is in the list, if not add it
+                if (username && !users[username]) {
+                    addUserToSession();
+                }
+            });
+            
+            // Monitor connection status
+            database.ref('.info/connected').on('value', (snapshot) => {
+                if (snapshot.val() === true) {
+                    connectionStatus.className = 'status-indicator';
+                    connectionText.textContent = 'Connected';
+                } else {
+                    connectionStatus.className = 'status-indicator disconnected';
+                    connectionText.textContent = 'Disconnected';
+                }
+            });
         }
 
-        function updateUserActivity() {
+        function addUserToSession() {
             if (username) {
-                users[username] = {
-                    joined: users[username] ? users[username].joined : Date.now(),
+                database.ref('sessions/MAIN/users/' + username).set({
+                    joined: Date.now(),
                     lastActive: Date.now()
-                };
-                saveUsers();
-                
-                // Remove inactive users (more than 30 seconds since last activity)
-                const now = Date.now();
-                Object.keys(users).forEach(user => {
-                    if (now - users[user].lastActive > 30000) {
-                        delete users[user];
-                    }
                 });
                 
-                updateUserList();
+                // Set up interval to update user activity
+                setInterval(() => {
+                    if (username) {
+                        database.ref('sessions/MAIN/users/' + username + '/lastActive').set(Date.now());
+                    }
+                }, 10000);
             }
-        }
-
-        function saveUsers() {
-            localStorage.setItem('users', JSON.stringify(users));
         }
 
         function updateUserList() {
-            userCountElement.textContent = Object.keys(users).length;
-            chatUserCountElement.textContent = Object.keys(users).length;
+            const userCount = Object.keys(users).length;
+            userCountElement.textContent = userCount;
+            chatUserCountElement.textContent = userCount;
+            
+            // Remove inactive users (more than 30 seconds since last activity)
+            const now = Date.now();
+            Object.keys(users).forEach(user => {
+                if (now - users[user].lastActive > 30000) {
+                    database.ref('sessions/MAIN/users/' + user).remove();
+                }
+            });
             
             userListElement.innerHTML = '';
             Object.keys(users).forEach(user => {
@@ -736,60 +776,66 @@
             });
         }
 
-        // Save video state to localStorage
+        function loadInitialVideoState() {
+            database.ref('sessions/MAIN/videoState').once('value').then((snapshot) => {
+                const savedVideoState = snapshot.val();
+                if (savedVideoState && savedVideoState.videoUrl) {
+                    updateVideoState(savedVideoState);
+                }
+            });
+        }
+
+        // Save video state to Firebase
         function saveVideoState() {
-            const sessionData = JSON.parse(localStorage.getItem(`session_${currentSessionId}`)) || {};
-            sessionData.videoState = videoState;
-            sessionData.timestamp = Date.now();
-            localStorage.setItem(`session_${currentSessionId}`, JSON.stringify(sessionData));
-        }
-
-        // Save chat message to localStorage
-        function saveChatMessage(message) {
-            const sessionData = JSON.parse(localStorage.getItem(`session_${currentSessionId}`)) || {};
-            if (!sessionData.chat) sessionData.chat = [];
-            sessionData.chat.push(message);
-            
-            // Keep only the last 100 messages
-            if (sessionData.chat.length > 100) {
-                sessionData.chat = sessionData.chat.slice(-100);
+            if (username) {
+                isSyncing = true;
+                lastUpdateTime = Date.now();
+                database.ref('sessions/MAIN/videoState').set(videoState);
+                setTimeout(() => { isSyncing = false; }, 100);
             }
-            
-            sessionData.timestamp = Date.now();
-            localStorage.setItem(`session_${currentSessionId}`, JSON.stringify(sessionData));
         }
 
-        // Update local video state
+        // Update local video state based on Firebase changes
         function updateVideoState(state) {
             // Don't update if the change is from our own action
             if (state.source === username) return;
             
             videoState = state;
             
-            // Only seek if the difference is more than 2 seconds
-            if (Math.abs(videoPlayer.currentTime - state.timestamp) > 2) {
-                videoPlayer.currentTime = state.timestamp;
-            }
-            
-            if (state.playing && videoPlayer.paused) {
-                videoPlayer.play().catch(e => console.log('Play attempt failed:', e));
-            } else if (!state.playing && !videoPlayer.paused) {
-                videoPlayer.pause();
-            }
-            
-            // Update video source if different
+            // Only update if the difference is significant
             if (state.videoUrl && videoPlayer.src !== state.videoUrl) {
                 videoPlayer.src = state.videoUrl;
                 videoPlayer.load();
                 
-                if (state.playing) {
+                // Wait for video to load before seeking
+                videoPlayer.onloadedmetadata = function() {
+                    if (Math.abs(videoPlayer.currentTime - state.timestamp) > 2) {
+                        videoPlayer.currentTime = state.timestamp;
+                    }
+                    
+                    if (state.playing && videoPlayer.paused) {
+                        videoPlayer.play().catch(e => console.log('Play attempt failed:', e));
+                    } else if (!state.playing && !videoPlayer.paused) {
+                        videoPlayer.pause();
+                    }
+                };
+            } else {
+                if (Math.abs(videoPlayer.currentTime - state.timestamp) > 2) {
+                    videoPlayer.currentTime = state.timestamp;
+                }
+                
+                if (state.playing && videoPlayer.paused) {
                     videoPlayer.play().catch(e => console.log('Play attempt failed:', e));
+                } else if (!state.playing && !videoPlayer.paused) {
+                    videoPlayer.pause();
                 }
             }
         }
 
         // Handle video play event
         function handleVideoPlay() {
+            if (isSyncing) return;
+            
             videoState.playing = true;
             videoState.timestamp = videoPlayer.currentTime;
             videoState.source = username;
@@ -798,6 +844,8 @@
 
         // Handle video pause event
         function handleVideoPause() {
+            if (isSyncing) return;
+            
             videoState.playing = false;
             videoState.timestamp = videoPlayer.currentTime;
             videoState.source = username;
@@ -806,6 +854,8 @@
 
         // Handle video seek event
         function handleVideoSeek() {
+            if (isSyncing) return;
+            
             videoState.timestamp = videoPlayer.currentTime;
             videoState.source = username;
             saveVideoState();
@@ -813,10 +863,20 @@
 
         // Handle time update event
         function handleTimeUpdate() {
-            if (videoPlayer.paused) return;
+            if (isSyncing || videoPlayer.paused) return;
+            
             videoState.timestamp = videoPlayer.currentTime;
             videoState.source = username;
-            saveVideoState();
+            
+            // Only update Firebase periodically to reduce load
+            if (Date.now() - lastUpdateTime > 1000) {
+                saveVideoState();
+            }
+        }
+
+        // Handle video loaded event
+        function handleVideoLoaded() {
+            videoState.duration = videoPlayer.duration;
         }
 
         // Handle fullscreen change event
@@ -890,7 +950,7 @@
         // Send a chat message
         function sendMessage() {
             const messageText = messageInput.value.trim();
-            if (messageText) {
+            if (messageText && username) {
                 const message = {
                     id: Date.now().toString(),
                     username: username,
@@ -898,8 +958,7 @@
                     timestamp: new Date().toISOString()
                 };
                 
-                saveChatMessage(message);
-                addMessageToChat(message);
+                database.ref('sessions/MAIN/chat').push(message);
                 messageInput.value = '';
             }
         }
@@ -1024,8 +1083,7 @@
                 timestamp: new Date().toISOString()
             };
             
-            saveChatMessage(message);
-            addMessageToChat(message);
+            database.ref('sessions/MAIN/chat').push(message);
             
             showNotification(`Loaded video: ${name}`);
         }
