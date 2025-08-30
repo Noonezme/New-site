@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>SyncStream - Watch Together</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #111;
+      color: white;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+    }
+    header {
+      padding: 15px;
+      background: #222;
+      text-align: center;
+    }
+    main {
+      flex: 1;
+      display: flex;
+    }
+    .video-section {
+      flex: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 10px;
+    }
+    video {
+      width: 100%;
+      max-width: 900px;
+      background: black;
+    }
+    .chat-section {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      border-left: 2px solid #333;
+    }
+    .chat-messages {
+      flex: 1;
+      padding: 10px;
+      overflow-y: auto;
+    }
+    .chat-input {
+      display: flex;
+      border-top: 1px solid #333;
+    }
+    .chat-input input {
+      flex: 1;
+      padding: 10px;
+      border: none;
+      outline: none;
+    }
+    .chat-input button {
+      padding: 10px;
+      background: #fdbb2d;
+      border: none;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    .users-list {
+      background: #1a1a1a;
+      padding: 10px;
+      border-top: 1px solid #333;
+      font-size: 0.9em;
+    }
+  </style>
+  <!-- Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+</head>
+<body>
+  <header>
+    <h1>🎬 SyncStream</h1>
+    <p>Watch videos together in real-time</p>
+    <input type="file" id="fileInput" accept="video/*" />
+  </header>
+
+  <main>
+    <div class="video-section">
+      <video id="videoPlayer" controls></video>
+    </div>
+
+    <div class="chat-section">
+      <div class="chat-messages" id="chatMessages"></div>
+      <div class="chat-input">
+        <input type="text" id="chatInput" placeholder="Type a message..." />
+        <button id="sendBtn">Send</button>
+      </div>
+      <div class="users-list" id="usersList">👥 Users Online:</div>
+    </div>
+  </main>
+
+  <script>
+    // ✅ Your Firebase Config
+    const firebaseConfig = {
+      apiKey: "AIzaSyD5CSVD8q_jKxxnmX65Do1V5NALdX1oYO0",
+      authDomain: "wechatwatch-e76ae.firebaseapp.com",
+      databaseURL: "https://wechatwatch-e76ae-default-rtdb.europe-west1.firebasedatabase.app",
+      projectId: "wechatwatch-e76ae",
+      storageBucket: "wechatwatch-e76ae.firebasestorage.app",
+      messagingSenderId: "247455453850",
+      appId: "1:247455453850:web:a9481b0e1b825c4cf74523",
+      measurementId: "G-WQ9S69L3DY"
+    };
+
+    // ✅ Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.database();
+
+    // Elements
+    const video = document.getElementById("videoPlayer");
+    const fileInput = document.getElementById("fileInput");
+    const chatMessages = document.getElementById("chatMessages");
+    const chatInput = document.getElementById("chatInput");
+    const sendBtn = document.getElementById("sendBtn");
+    const usersList = document.getElementById("usersList");
+
+    // Load local video
+    fileInput.addEventListener("change", (e) => {
+      const file = e.target.files[0];
+      if (file) {
+        const url = URL.createObjectURL(file);
+        video.src = url;
+      }
+    });
+
+    // Sync play/pause/seek
+    video.addEventListener("play", () => {
+      db.ref("sessions/MAIN/videoState").set({ state: "play", time: video.currentTime });
+    });
+
+    video.addEventListener("pause", () => {
+      db.ref("sessions/MAIN/videoState").set({ state: "pause", time: video.currentTime });
+    });
+
+    video.addEventListener("seeking", () => {
+      db.ref("sessions/MAIN/videoState").set({ state: "seek", time: video.currentTime });
+    });
+
+    db.ref("sessions/MAIN/videoState").on("value", (snap) => {
+      const data = snap.val();
+      if (!data) return;
+      if (data.state === "play" && video.paused) {
+        video.currentTime = data.time;
+        video.play();
+      } else if (data.state === "pause" && !video.paused) {
+        video.currentTime = data.time;
+        video.pause();
+      } else if (data.state === "seek") {
+        video.currentTime = data.time;
+      }
+    });
+
+    // Chat
+    sendBtn.addEventListener("click", sendMessage);
+    chatInput.addEventListener("keypress", (e) => {
+      if (e.key === "Enter") sendMessage();
+    });
+
+    function sendMessage() {
+      const msg = chatInput.value.trim();
+      if (!msg) return;
+      const user = localStorage.getItem("username") || ("User" + Math.floor(Math.random() * 1000));
+      db.ref("sessions/MAIN/chat").push({
+        user,
+        text: msg,
+        time: Date.now()
+      });
+      chatInput.value = "";
+    }
+
+    db.ref("sessions/MAIN/chat").on("child_added", (snap) => {
+      const data = snap.val();
+      const div = document.createElement("div");
+      div.textContent = data.user + ": " + data.text;
+      chatMessages.appendChild(div);
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+    });
+
+    // Users Online
+    const userId = "user_" + Math.floor(Math.random() * 10000);
+    const userRef = db.ref("sessions/MAIN/users/" + userId);
+    userRef.set({ joined: Date.now(), lastActive: Date.now() });
+    userRef.onDisconnect().remove();
+
+    db.ref("sessions/MAIN/users").on("value", (snap) => {
+      const users = snap.val() || {};
+      usersList.innerHTML = "👥 Users Online: " + Object.keys(users).length;
+    });
+  </script>
+</body>
+</html>
