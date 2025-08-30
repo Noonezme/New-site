@@ -149,10 +149,9 @@ fileInput.addEventListener("change", async (e)=>{
   if(!file) return;
 
   // Play locally immediately
-  const localURL = URL.createObjectURL(file);
-  video.src = localURL;
+  video.src = URL.createObjectURL(file);
 
-  // Upload to storage
+  // Upload to Firebase Storage
   const storageRef = storage.ref("videos/"+file.name);
   const uploadTask = storageRef.put(file);
 
@@ -161,7 +160,7 @@ fileInput.addEventListener("change", async (e)=>{
     error => console.error(error),
     async ()=>{
       const url = await uploadTask.snapshot.ref.getDownloadURL();
-      // Save URL to RTDB
+      // Save URL to RTDB for all clients
       db.ref("sessions/MAIN/videoFile").set(url);
     }
   );
@@ -171,7 +170,7 @@ fileInput.addEventListener("change", async (e)=>{
 db.ref("sessions/MAIN/videoFile").on("value", (snap)=>{
   const url = snap.val();
   if(url && video.src !== url){
-    video.src = url;
+    video.src = url; // All clients will now play the uploaded video
   }
 });
 
