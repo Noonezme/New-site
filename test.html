@@ -1,229 +1,236 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>SyncStream - Watch Together</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #111;
-      color: white;
-      margin: 0;
-      padding: 0;
-      display: flex;
-      flex-direction: column;
-      height: 100vh;
-    }
-    header {
-      padding: 15px;
-      background: #222;
-      text-align: center;
-    }
-    main {
-      flex: 1;
-      display: flex;
-      flex-direction: row;
-    }
-    .video-section {
-      flex: 2;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: 10px;
-    }
-    video {
-      width: 100%;
-      max-width: 900px;
-      background: black;
-    }
-    .chat-section {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      border-left: 2px solid #333;
-    }
-    .chat-messages {
-      flex: 1;
-      padding: 10px;
-      overflow-y: auto;
-    }
-    .chat-input {
-      display: flex;
-      border-top: 1px solid #333;
-    }
-    .chat-input input {
-      flex: 1;
-      padding: 10px;
-      border: none;
-      outline: none;
-    }
-    .chat-input button {
-      padding: 10px;
-      background: #fdbb2d;
-      border: none;
-      font-weight: bold;
-      cursor: pointer;
-    }
-    .users-list {
-      background: #1a1a1a;
-      padding: 10px;
-      border-top: 1px solid #333;
-      font-size: 0.9em;
-    }
-
-    /* 📱 Mobile-friendly */
-    @media (max-width: 768px) {
-      main {
-        flex-direction: column;
-      }
-      .chat-section {
-        border-left: none;
-        border-top: 2px solid #333;
-        height: 40vh;
-      }
-      .video-section {
-        height: 60vh;
-      }
-    }
-  </style>
-  <!-- Firebase SDKs -->
-  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>SyncStream - Watch Together</title>
+<style>
+body {
+  font-family: Arial, sans-serif;
+  background: #111;
+  color: white;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+header {
+  padding: 15px;
+  background: #222;
+  text-align: center;
+}
+main {
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+}
+.video-section {
+  flex: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+}
+video {
+  width: 100%;
+  max-width: 900px;
+  background: black;
+}
+.chat-section {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  border-left: 2px solid #333;
+}
+.chat-messages {
+  flex: 1;
+  padding: 10px;
+  overflow-y: auto;
+}
+.chat-input {
+  display: flex;
+  border-top: 1px solid #333;
+}
+.chat-input input {
+  flex: 1;
+  padding: 10px;
+  border: none;
+  outline: none;
+}
+.chat-input button {
+  padding: 10px;
+  background: #fdbb2d;
+  border: none;
+  font-weight: bold;
+  cursor: pointer;
+}
+.users-list {
+  background: #1a1a1a;
+  padding: 10px;
+  border-top: 1px solid #333;
+  font-size: 0.9em;
+}
+/* Mobile-friendly */
+@media (max-width: 768px) {
+  main {
+    flex-direction: column;
+  }
+  .chat-section {
+    border-left: none;
+    border-top: 2px solid #333;
+    height: 40vh;
+  }
+  .video-section {
+    height: 60vh;
+  }
+}
+</style>
+<!-- Firebase SDKs -->
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-storage.js"></script>
 </head>
 <body>
-  <header>
-    <h1>🎬 SyncStream</h1>
-    <p>Watch videos together in real-time</p>
-    <input type="file" id="fileInput" accept="video/*" />
-  </header>
+<header>
+<h1>🎬 SyncStream</h1>
+<p>Watch videos together in real-time</p>
+<input type="file" id="fileInput" accept="video/*" />
+</header>
 
-  <main>
-    <div class="video-section">
-      <video id="videoPlayer" controls></video>
-    </div>
+<main>
+<div class="video-section">
+  <video id="videoPlayer" controls></video>
+</div>
+<div class="chat-section">
+  <div class="chat-messages" id="chatMessages"></div>
+  <div class="chat-input">
+    <input type="text" id="chatInput" placeholder="Type a message..." />
+    <button id="sendBtn">Send</button>
+  </div>
+  <div class="users-list" id="usersList">👥 Users Online:</div>
+</div>
+</main>
 
-    <div class="chat-section">
-      <div class="chat-messages" id="chatMessages"></div>
-      <div class="chat-input">
-        <input type="text" id="chatInput" placeholder="Type a message..." />
-        <button id="sendBtn">Send</button>
-      </div>
-      <div class="users-list" id="usersList">👥 Users Online:</div>
-    </div>
-  </main>
+<script>
+// ✅ Firebase Config
+const firebaseConfig = {
+  apiKey: "AIzaSyD5CSVD8q_jKxxnmX65Do1V5NALdX1oYO0",
+  authDomain: "wechatwatch-e76ae.firebaseapp.com",
+  databaseURL: "https://wechatwatch-e76ae-default-rtdb.europe-west1.firebasedatabase.app",
+  projectId: "wechatwatch-e76ae",
+  storageBucket: "wechatwatch-e76ae.firebasestorage.app",
+  messagingSenderId: "247455453850",
+  appId: "1:247455453850:web:a9481b0e1b825c4cf74523",
+  measurementId: "G-WQ9S69L3DY"
+};
+firebase.initializeApp(firebaseConfig);
+const db = firebase.database();
+const storage = firebase.storage();
 
-  <script>
-    // ✅ Firebase Config (yours)
-    const firebaseConfig = {
-      apiKey: "AIzaSyD5CSVD8q_jKxxnmX65Do1V5NALdX1oYO0",
-      authDomain: "wechatwatch-e76ae.firebaseapp.com",
-      databaseURL: "https://wechatwatch-e76ae-default-rtdb.europe-west1.firebasedatabase.app",
-      projectId: "wechatwatch-e76ae",
-      storageBucket: "wechatwatch-e76ae.firebasestorage.app",
-      messagingSenderId: "247455453850",
-      appId: "1:247455453850:web:a9481b0e1b825c4cf74523",
-      measurementId: "G-WQ9S69L3DY"
-    };
-    firebase.initializeApp(firebaseConfig);
-    const db = firebase.database();
+// ✅ Ask for username
+let username = localStorage.getItem("username");
+if (!username) {
+  username = prompt("Enter your name:") || "Guest" + Math.floor(Math.random() * 1000);
+  localStorage.setItem("username", username);
+}
 
-    // ✅ Ask for username
-    let username = localStorage.getItem("username");
-    if (!username) {
-      username = prompt("Enter your name:") || "Guest" + Math.floor(Math.random() * 1000);
-      localStorage.setItem("username", username);
+// Elements
+const video = document.getElementById("videoPlayer");
+const fileInput = document.getElementById("fileInput");
+const chatMessages = document.getElementById("chatMessages");
+const chatInput = document.getElementById("chatInput");
+const sendBtn = document.getElementById("sendBtn");
+const usersList = document.getElementById("usersList");
+
+// ✅ Upload video to Firebase Storage
+fileInput.addEventListener("change", async (e) => {
+  const file = e.target.files[0];
+  if (!file) return;
+
+  const storageRef = storage.ref("videos/" + file.name);
+  const uploadTask = storageRef.put(file);
+
+  uploadTask.on("state_changed",
+    snapshot => {
+      // optional: progress indicator
+    },
+    error => console.error(error),
+    async () => {
+      const url = await uploadTask.snapshot.ref.getDownloadURL();
+      db.ref("sessions/MAIN/videoFile").set(url);
     }
+  );
+});
 
-    // Elements
-    const video = document.getElementById("videoPlayer");
-    const fileInput = document.getElementById("fileInput");
-    const chatMessages = document.getElementById("chatMessages");
-    const chatInput = document.getElementById("chatInput");
-    const sendBtn = document.getElementById("sendBtn");
-    const usersList = document.getElementById("usersList");
+// ✅ Load video from RTDB
+db.ref("sessions/MAIN/videoFile").on("value", (snap) => {
+  const url = snap.val();
+  if (url && video.src !== url) {
+    video.src = url;
+  }
+});
 
-    // ✅ Upload & share video
-    fileInput.addEventListener("change", (e) => {
-      const file = e.target.files[0];
-      if (file) {
-        const reader = new FileReader();
-        reader.onload = function(ev) {
-          const base64 = ev.target.result;
-          db.ref("sessions/MAIN/videoFile").set(base64);
-        };
-        reader.readAsDataURL(file);
-      }
-    });
+// ✅ Sync play/pause/seek
+video.addEventListener("play", () => {
+  db.ref("sessions/MAIN/videoState").set({ state: "play", time: video.currentTime });
+});
+video.addEventListener("pause", () => {
+  db.ref("sessions/MAIN/videoState").set({ state: "pause", time: video.currentTime });
+});
+video.addEventListener("seeking", () => {
+  db.ref("sessions/MAIN/videoState").set({ state: "seek", time: video.currentTime });
+});
 
-    // Receive video from Firebase
-    db.ref("sessions/MAIN/videoFile").on("value", (snap) => {
-      const data = snap.val();
-      if (data) {
-        video.src = data;
-      }
-    });
+db.ref("sessions/MAIN/videoState").on("value", (snap) => {
+  const data = snap.val();
+  if (!data) return;
+  if (data.state === "play" && video.paused) {
+    video.currentTime = data.time;
+    video.play();
+  } else if (data.state === "pause" && !video.paused) {
+    video.currentTime = data.time;
+    video.pause();
+  } else if (data.state === "seek") {
+    video.currentTime = data.time;
+  }
+});
 
-    // ✅ Sync play/pause/seek
-    video.addEventListener("play", () => {
-      db.ref("sessions/MAIN/videoState").set({ state: "play", time: video.currentTime });
-    });
-    video.addEventListener("pause", () => {
-      db.ref("sessions/MAIN/videoState").set({ state: "pause", time: video.currentTime });
-    });
-    video.addEventListener("seeking", () => {
-      db.ref("sessions/MAIN/videoState").set({ state: "seek", time: video.currentTime });
-    });
+// ✅ Chat
+function sendMessage() {
+  const msg = chatInput.value.trim();
+  if (!msg) return;
+  db.ref("sessions/MAIN/chat").push({
+    user: username,
+    text: msg,
+    time: Date.now()
+  });
+  chatInput.value = "";
+}
+sendBtn.addEventListener("click", sendMessage);
+chatInput.addEventListener("keypress", (e) => {
+  if (e.key === "Enter") sendMessage();
+});
+db.ref("sessions/MAIN/chat").on("child_added", (snap) => {
+  const data = snap.val();
+  const div = document.createElement("div");
+  div.textContent = data.user + ": " + data.text;
+  chatMessages.appendChild(div);
+  chatMessages.scrollTop = chatMessages.scrollHeight;
+});
 
-    db.ref("sessions/MAIN/videoState").on("value", (snap) => {
-      const data = snap.val();
-      if (!data) return;
-      if (data.state === "play" && video.paused) {
-        video.currentTime = data.time;
-        video.play();
-      } else if (data.state === "pause" && !video.paused) {
-        video.currentTime = data.time;
-        video.pause();
-      } else if (data.state === "seek") {
-        video.currentTime = data.time;
-      }
-    });
+// ✅ Users online
+const userId = "user_" + Math.floor(Math.random() * 10000);
+const userRef = db.ref("sessions/MAIN/users/" + userId);
+userRef.set({ name: username, joined: Date.now(), lastActive: Date.now() });
+userRef.onDisconnect().remove();
 
-    // ✅ Chat
-    function sendMessage() {
-      const msg = chatInput.value.trim();
-      if (!msg) return;
-      db.ref("sessions/MAIN/chat").push({
-        user: username,
-        text: msg,
-        time: Date.now()
-      });
-      chatInput.value = "";
-    }
-    sendBtn.addEventListener("click", sendMessage);
-    chatInput.addEventListener("keypress", (e) => {
-      if (e.key === "Enter") sendMessage();
-    });
-    db.ref("sessions/MAIN/chat").on("child_added", (snap) => {
-      const data = snap.val();
-      const div = document.createElement("div");
-      div.textContent = data.user + ": " + data.text;
-      chatMessages.appendChild(div);
-      chatMessages.scrollTop = chatMessages.scrollHeight;
-    });
-
-    // ✅ Users Online
-    const userId = "user_" + Math.floor(Math.random() * 10000);
-    const userRef = db.ref("sessions/MAIN/users/" + userId);
-    userRef.set({ name: username, joined: Date.now(), lastActive: Date.now() });
-    userRef.onDisconnect().remove();
-
-    db.ref("sessions/MAIN/users").on("value", (snap) => {
-      const users = snap.val() || {};
-      const names = Object.values(users).map(u => u.name);
-      usersList.innerHTML = "👥 Users Online: " + names.join(", ");
-    });
-  </script>
+db.ref("sessions/MAIN/users").on("value", (snap) => {
+  const users = snap.val() || {};
+  const names = Object.values(users).map(u => u.name);
+  usersList.innerHTML = "👥 Users Online: " + names.join(", ");
+});
+</script>
 </body>
 </html>
