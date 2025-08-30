@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>SyncStream - Fake Fullscreen</title>
+<title>SyncStream - Mobile-Friendly Chat</title>
 <style>
 body {
   font-family: 'Segoe UI', sans-serif;
@@ -17,9 +17,9 @@ header {
   background: #1a1a1f;
   text-align: center;
 }
-header input[type="file"] {
-  margin-top: 10px;
-  padding: 6px;
+header input[type="file"], header button {
+  margin: 5px;
+  padding: 6px 12px;
   border-radius: 8px;
   border: none;
   cursor: pointer;
@@ -58,33 +58,87 @@ header input[type="file"] {
   flex-direction:column;
   background:#141417;
   border-left:2px solid #333;
+  min-width:200px;
+  max-width:350px;
 }
 .fullscreen-chat-messages {
   flex:1;
   overflow-y:auto;
   padding:10px;
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+}
+.fullscreen-chat-messages div {
+  background: rgba(253,187,45,0.1);
+  padding:6px 10px;
+  border-radius:8px;
+  word-break: break-word;
 }
 .fullscreen-chat-input {
   display:flex;
   border-top:1px solid #333;
+  padding:5px;
+  background:#1a1a1f;
 }
 .fullscreen-chat-input input {
   flex:1;
   padding:10px;
   border:none;
+  border-radius:6px;
   outline:none;
+  font-size:1rem;
 }
 .fullscreen-chat-input button {
+  margin-left:5px;
   padding:10px;
   background:#fdbb2d;
   border:none;
+  border-radius:6px;
   font-weight:bold;
   cursor:pointer;
+  font-size:1rem;
 }
+
+/* Mobile-friendly */
 @media(max-width:768px){
-  .fullscreen-wrapper { flex-direction:column; }
-  .fullscreen-video { flex:3; }
-  .fullscreen-chat { flex:2; border-left:none; border-top:2px solid #333; }
+  .fullscreen-wrapper { 
+    flex-direction:column; 
+    height:100vh;
+  }
+  .fullscreen-video { 
+    flex:3; 
+    min-height:40vh;
+    width:100%;
+  }
+  .fullscreen-chat { 
+    flex:2; 
+    width:100%;
+    max-width:100%;
+    border-left:none; 
+    border-top:2px solid #333; 
+    display:flex; 
+    flex-direction:column; 
+  }
+  .fullscreen-chat-messages {
+    flex:1;
+    overflow-y:auto;
+    padding:8px;
+  }
+  .fullscreen-chat-input {
+    flex:0;
+    display:flex;
+    padding:5px;
+  }
+  .fullscreen-chat-input input {
+    flex:1;
+    padding:12px;
+    font-size:1rem;
+  }
+  .fullscreen-chat-input button {
+    padding:12px;
+    font-size:1rem;
+  }
 }
 </style>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
@@ -191,10 +245,8 @@ function sendFSMessage(){
 sendFS.addEventListener("click", sendFSMessage);
 chatInputFS.addEventListener("keypress", e=>{if(e.key==="Enter") sendFSMessage();});
 
-// Chat + sound
-// Use a subtle notification sound
-const msgSound = new Audio("https://freesound.org/data/previews/522/522072_7037-lq.mp3"); // short ping
-
+// Chat + subtle sound
+const msgSound = new Audio("https://freesound.org/data/previews/522/522072_7037-lq.mp3");
 db.ref("sessions/MAIN/chat").on("child_added", snap=>{
   const data = snap.val();
   const text = `${data.user}: ${data.text}`;
@@ -212,9 +264,6 @@ const userId = "user_"+Math.floor(Math.random()*10000);
 const userRef = db.ref("sessions/MAIN/users/"+userId);
 userRef.set({name:username,joined:Date.now(),lastActive:Date.now()});
 userRef.onDisconnect().remove();
-db.ref("sessions/MAIN/users").on("value", snap=>{
-  // Optionally, you can display online users
-});
 
 // Enter fake fullscreen
 enterFS.addEventListener("click", ()=>{
