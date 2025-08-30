@@ -23,6 +23,7 @@
     main {
       flex: 1;
       display: flex;
+      flex-direction: row;
     }
     .video-section {
       flex: 2;
@@ -71,6 +72,21 @@
       border-top: 1px solid #333;
       font-size: 0.9em;
     }
+
+    /* 📱 Mobile-friendly */
+    @media (max-width: 768px) {
+      main {
+        flex-direction: column;
+      }
+      .chat-section {
+        border-left: none;
+        border-top: 2px solid #333;
+        height: 40vh;
+      }
+      .video-section {
+        height: 60vh;
+      }
+    }
   </style>
   <!-- Firebase SDKs -->
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
@@ -99,7 +115,7 @@
   </main>
 
   <script>
-    // ✅ Your Firebase Config
+    // ✅ Firebase Config (yours)
     const firebaseConfig = {
       apiKey: "AIzaSyD5CSVD8q_jKxxnmX65Do1V5NALdX1oYO0",
       authDomain: "wechatwatch-e76ae.firebaseapp.com",
@@ -110,10 +126,15 @@
       appId: "1:247455453850:web:a9481b0e1b825c4cf74523",
       measurementId: "G-WQ9S69L3DY"
     };
-
-    // ✅ Initialize Firebase
     firebase.initializeApp(firebaseConfig);
     const db = firebase.database();
+
+    // ✅ Ask for username
+    let username = localStorage.getItem("username");
+    if (!username) {
+      username = prompt("Enter your name:") || "Guest" + Math.floor(Math.random() * 1000);
+      localStorage.setItem("username", username);
+    }
 
     // Elements
     const video = document.getElementById("videoPlayer");
@@ -123,24 +144,34 @@
     const sendBtn = document.getElementById("sendBtn");
     const usersList = document.getElementById("usersList");
 
-    // Load local video
+    // ✅ Upload & share video
     fileInput.addEventListener("change", (e) => {
       const file = e.target.files[0];
       if (file) {
-        const url = URL.createObjectURL(file);
-        video.src = url;
+        const reader = new FileReader();
+        reader.onload = function(ev) {
+          const base64 = ev.target.result;
+          db.ref("sessions/MAIN/videoFile").set(base64);
+        };
+        reader.readAsDataURL(file);
       }
     });
 
-    // Sync play/pause/seek
+    // Receive video from Firebase
+    db.ref("sessions/MAIN/videoFile").on("value", (snap) => {
+      const data = snap.val();
+      if (data) {
+        video.src = data;
+      }
+    });
+
+    // ✅ Sync play/pause/seek
     video.addEventListener("play", () => {
       db.ref("sessions/MAIN/videoState").set({ state: "play", time: video.currentTime });
     });
-
     video.addEventListener("pause", () => {
       db.ref("sessions/MAIN/videoState").set({ state: "pause", time: video.currentTime });
     });
-
     video.addEventListener("seeking", () => {
       db.ref("sessions/MAIN/videoState").set({ state: "seek", time: video.currentTime });
     });
@@ -159,24 +190,21 @@
       }
     });
 
-    // Chat
-    sendBtn.addEventListener("click", sendMessage);
-    chatInput.addEventListener("keypress", (e) => {
-      if (e.key === "Enter") sendMessage();
-    });
-
+    // ✅ Chat
     function sendMessage() {
       const msg = chatInput.value.trim();
       if (!msg) return;
-      const user = localStorage.getItem("username") || ("User" + Math.floor(Math.random() * 1000));
       db.ref("sessions/MAIN/chat").push({
-        user,
+        user: username,
         text: msg,
         time: Date.now()
       });
       chatInput.value = "";
     }
-
+    sendBtn.addEventListener("click", sendMessage);
+    chatInput.addEventListener("keypress", (e) => {
+      if (e.key === "Enter") sendMessage();
+    });
     db.ref("sessions/MAIN/chat").on("child_added", (snap) => {
       const data = snap.val();
       const div = document.createElement("div");
@@ -185,15 +213,16 @@
       chatMessages.scrollTop = chatMessages.scrollHeight;
     });
 
-    // Users Online
+    // ✅ Users Online
     const userId = "user_" + Math.floor(Math.random() * 10000);
     const userRef = db.ref("sessions/MAIN/users/" + userId);
-    userRef.set({ joined: Date.now(), lastActive: Date.now() });
+    userRef.set({ name: username, joined: Date.now(), lastActive: Date.now() });
     userRef.onDisconnect().remove();
 
     db.ref("sessions/MAIN/users").on("value", (snap) => {
       const users = snap.val() || {};
-      usersList.innerHTML = "👥 Users Online: " + Object.keys(users).length;
+      const names = Object.values(users).map(u => u.name);
+      usersList.innerHTML = "👥 Users Online: " + names.join(", ");
     });
   </script>
 </body>
