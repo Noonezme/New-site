@@ -192,7 +192,9 @@ sendFS.addEventListener("click", sendFSMessage);
 chatInputFS.addEventListener("keypress", e=>{if(e.key==="Enter") sendFSMessage();});
 
 // Chat + sound
-const msgSound = new Audio("https://www.myinstants.com/media/sounds/message.mp3");
+// Use a subtle notification sound
+const msgSound = new Audio("https://freesound.org/data/previews/522/522072_7037-lq.mp3"); // short ping
+
 db.ref("sessions/MAIN/chat").on("child_added", snap=>{
   const data = snap.val();
   const text = `${data.user}: ${data.text}`;
