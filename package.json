@@ -1,0 +1,17 @@
+{
+  "name": "firebase-chat-app",
+  "version": "1.0.0",
+  "description": "Secure Firebase Chat Application",
+  "main": "index.html",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "firebase": "^9.22.0"
+  },
+  "devDependencies": {
+    "vite": "^4.4.0"
+  }
+}
