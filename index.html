@@ -3,98 +3,640 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Secure Chat App</title>
-    <link rel="stylesheet" href="styles.css">
-    
-    <!-- Firebase CDN -->
-    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    <title>Tower Defense Map Editor</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to bottom, #0f172a, #1e293b);
+            min-height: 100vh;
+            padding: 20px;
+            color: white;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: #1e293b;
+            padding: 30px;
+            border-radius: 15px;
+            border: 2px solid #334155;
+        }
+        h1 { text-align: center; margin-bottom: 20px; color: #60a5fa; }
+        .settings-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            background: #334155;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+        .settings-grid-2col {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 15px;
+            background: #334155;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+        .form-group { display: flex; flex-direction: column; }
+        .form-group label { font-size: 12px; color: #cbd5e1; margin-bottom: 5px; }
+        .form-group input, .form-group select {
+            background: #475569;
+            border: none;
+            color: white;
+            padding: 8px;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+        .wave-section {
+            background: #334155;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            display: none;
+        }
+        .wave-section.active { display: block; }
+        .wave-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        .wave-list {
+            max-height: 200px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .wave-item {
+            background: #475569;
+            padding: 10px;
+            border-radius: 5px;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        .wave-item span { font-weight: bold; min-width: 40px; }
+        .wave-item input {
+            width: 80px;
+            background: #1e293b;
+            border: none;
+            color: white;
+            padding: 5px;
+            border-radius: 3px;
+            font-size: 12px;
+        }
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        .tool-box {
+            background: #334155;
+            padding: 15px;
+            border-radius: 10px;
+        }
+        .tool-box h3 { font-size: 14px; margin-bottom: 10px; color: #60a5fa; }
+        .btn-group { display: flex; flex-direction: column; gap: 8px; }
+        button {
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.2s;
+        }
+        button:hover { transform: translateY(-2px); opacity: 0.9; }
+        .btn-path { background: #f59e0b; color: white; }
+        .btn-path.active { background: #d97706; }
+        .btn-zone { background: #3b82f6; color: white; }
+        .btn-zone.active { background: #2563eb; }
+        .btn-base { background: #ef4444; color: white; }
+        .btn-base.active { background: #dc2626; }
+        .btn-upload { background: #3b82f6; color: white; }
+        .btn-import { background: #8b5cf6; color: white; }
+        .btn-export { background: #10b981; color: white; }
+        .btn-undo { background: #eab308; color: white; }
+        .btn-clear { background: #ef4444; color: white; }
+        .btn-add { background: #10b981; color: white; }
+        .btn-delete { background: #ef4444; color: white; padding: 5px 10px; font-size: 11px; }
+        .action-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        canvas {
+            border: 4px solid #475569;
+            border-radius: 10px;
+            cursor: crosshair;
+            width: 100%;
+            display: block;
+        }
+        .stats { font-size: 13px; color: #cbd5e1; }
+        .stats div { margin-bottom: 5px; }
+        .stats span { color: #60a5fa; font-weight: bold; }
+        input[type="file"] { display: none; }
+    </style>
 </head>
 <body>
-    <div class="app-container">
-        <header class="app-header">
-            <div class="app-title">
-                <span>💬 Secure Chat</span>
+    <div class="container">
+        <h1>🗺️ Tower Defense Map Editor</h1>
+
+        <!-- Map Settings -->
+        <div class="settings-grid">
+            <div class="form-group">
+                <label>Map Name</label>
+                <input type="text" id="mapName" value="My Map">
             </div>
-            <div class="user-info">
-                <div id="current-user"></div>
-                <button class="logout-btn" id="logout-btn">Logout</button>
+            <div class="form-group">
+                <label>Difficulty</label>
+                <select id="difficulty">
+                    <option value="easy">Easy</option>
+                    <option value="medium" selected>Medium</option>
+                    <option value="hard">Hard</option>
+                </select>
             </div>
-        </header>
-
-        <div class="main-content">
-            <aside class="sidebar">
-                <div class="sidebar-section">
-                    <h3><i>👥</i> Online Users (<span id="user-count">0</span>)</h3>
-                    <div class="users-list" id="users-list"></div>
-                </div>
-                
-                <div class="sidebar-section">
-                    <h3><i>👤</i> All Users</h3>
-                    <div class="users-list" id="all-users-list"></div>
-                </div>
-                
-                <div class="sidebar-section">
-                    <h3><i>⚙️</i> Admin Panel</h3>
-                    <div class="admin-panel" id="admin-panel" style="display: none;">
-                        <h4>Add New User</h4>
-                        <div class="admin-input-group">
-                            <input type="text" id="new-user-name" class="admin-input" placeholder="Username">
-                            <input type="email" id="new-user-email" class="admin-input" placeholder="Email">
-                            <input type="password" id="new-user-password" class="admin-input" placeholder="Password">
-                            <button class="admin-btn" id="add-user-btn">Add User</button>
-                        </div>
-                    </div>
-                </div>
-            </aside>
-
-            <main class="chat-area">
-                <div class="chat-header">
-                    <h3 class="chat-title" id="chat-title"><i>🌍</i> Public Chat Room</h3>
-                </div>
-                
-                <div class="messages-container" id="chat-messages">
-                    <div class="message other">
-                        <div class="message-header">
-                            <span class="message-sender">System</span>
-                            <span class="message-time">Just now</span>
-                        </div>
-                        <div class="message-text">Welcome to Secure Chat! Start a conversation below.</div>
-                    </div>
-                </div>
-                
-                <div class="message-input-container" id="message-input-container" style="display: none;">
-                    <div class="input-group">
-                        <textarea class="message-input" id="message-input" placeholder="Type your message..."></textarea>
-                        <button class="send-btn" id="send-btn">➤</button>
-                    </div>
-                </div>
-            </main>
-        </div>
-    </div>
-
-    <!-- Context Menu -->
-    <div id="context-menu" class="context-menu">
-        <div class="context-item" id="context-private-message">
-            <i>💬</i> Send Private Message
-        </div>
-    </div>
-
-    <div class="notification" id="notification">Welcome!</div>
-
-    <div class="modal" id="login-modal">
-        <div class="modal-content">
-            <h2>Welcome to Secure Chat</h2>
-            <p>Please log in to continue</p>
-            <div class="login-form">
-                <input type="email" id="login-email" class="form-input" placeholder="Email" value="noone.zplayer@gmail.com">
-                <input type="password" id="login-password" class="form-input" placeholder="Password" value="Iamtheadmin123">
-                <button class="login-btn" id="login-btn">Login</button>
+            <div class="form-group">
+                <label>Start Gold</label>
+                <input type="number" id="startGold" value="500">
+            </div>
+            <div class="form-group">
+                <label>Start Lives</label>
+                <input type="number" id="startLives" value="20">
             </div>
         </div>
+
+        <div class="settings-grid-2col">
+            <div class="form-group">
+                <label>Wave Mode</label>
+                <select id="waveMode" onchange="toggleWaveSection()">
+                    <option value="auto" selected>Auto Scaling Waves</option>
+                    <option value="custom">Custom Waves</option>
+                </select>
+            </div>
+            <div class="form-group" id="autoWavesGroup">
+                <label>Number of Waves (Auto Mode)</label>
+                <input type="number" id="autoWaveCount" value="20" min="1">
+            </div>
+        </div>
+
+        <!-- Custom Waves Section -->
+        <div class="wave-section" id="waveSection">
+            <div class="wave-header">
+                <h3>Custom Waves</h3>
+                <button class="btn-add" onclick="addWave()">+ Add Wave</button>
+            </div>
+            <div class="wave-list" id="waveList"></div>
+        </div>
+
+        <!-- Tools -->
+        <div class="tools-grid">
+            <div class="tool-box">
+                <h3>Tools</h3>
+                <div class="btn-group">
+                    <button class="btn-path active" onclick="setMode('path')">🧭 Draw Path</button>
+                    <p style="font-size: 11px; color: #94a3b8; margin-top: 5px;">Hold CTRL to make underground path (towers can't attack)</p>
+                    <button class="btn-zone" onclick="setMode('blocked')">🚫 Draw Blocked Zones</button>
+                    <p style="font-size: 11px; color: #94a3b8; margin-top: 5px;">Draw areas where towers CANNOT be placed</p>
+                    <button class="btn-base" onclick="setMode('base')">🎯 Place Base</button>
+                </div>
+            </div>
+            <div class="tool-box">
+                <h3>Stats</h3>
+                <div class="stats">
+                    <div>Path Points: <span id="pathCount">0</span></div>
+                    <div>Blocked Zones: <span id="zoneCount">0</span></div>
+                    <div>Base: <span id="baseStatus">✗</span></div>
+                </div>
+            </div>
+            <div class="tool-box">
+                <h3>Actions</h3>
+                <div class="btn-group">
+                    <button class="btn-undo" onclick="undoPath()">↩️ Undo Path</button>
+                    <button class="btn-undo" onclick="undoZone()">↩️ Undo Blocked Zone</button>
+                    <button class="btn-clear" onclick="clearAll()">🗑️ Clear All</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Upload/Export -->
+        <div class="action-grid">
+            <button class="btn-upload" onclick="document.getElementById('bgUpload').click()">📤 Upload Background</button>
+            <button class="btn-import" onclick="document.getElementById('mapImport').click()">📥 Import Map</button>
+            <button class="btn-export" onclick="exportMap()">💾 Export Map</button>
+        </div>
+
+        <input type="file" id="bgUpload" accept="image/*" onchange="loadBackground(event)">
+        <input type="file" id="mapImport" accept=".json" onchange="importMap(event)">
+
+        <!-- Canvas -->
+        <canvas id="canvas" width="800" height="600"></canvas>
     </div>
 
-    <script src="app.js"></script>
+    <script>
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        
+        let mode = 'path';
+        let bgImage = null;
+        let pathPoints = [];
+        let blockedZones = [];
+        let basePosition = null;
+        let isDrawing = false;
+        let currentZone = null;
+        let waves = [
+            { count: 10, hp: 50, speed: 1, gold: 10 },
+            { count: 15, hp: 80, speed: 1.2, gold: 15 }
+        ];
+
+        function setMode(newMode) {
+            mode = newMode;
+            document.querySelectorAll('.btn-path, .btn-zone, .btn-base').forEach(btn => btn.classList.remove('active'));
+            if (newMode === 'path') document.querySelector('.btn-path').classList.add('active');
+            if (newMode === 'blocked') document.querySelector('.btn-zone').classList.add('active');
+            if (newMode === 'base') document.querySelector('.btn-base').classList.add('active');
+        }
+
+        function toggleWaveSection() {
+            const waveMode = document.getElementById('waveMode').value;
+            document.getElementById('waveSection').classList.toggle('active', waveMode === 'custom');
+            document.getElementById('autoWavesGroup').style.display = waveMode === 'auto' ? 'flex' : 'none';
+        }
+
+        function addWave() {
+            waves.push({ count: 10, hp: 50, speed: 1, gold: 10 });
+            renderWaves();
+        }
+
+        function deleteWave(index) {
+            waves.splice(index, 1);
+            renderWaves();
+        }
+
+        function updateWave(index, field, value) {
+            waves[index][field] = parseFloat(value);
+        }
+
+        function renderWaves() {
+            const list = document.getElementById('waveList');
+            list.innerHTML = waves.map((wave, i) => `
+                <div class="wave-item">
+                    <span>#${i + 1}</span>
+                    <input type="number" value="${wave.count}" onchange="updateWave(${i}, 'count', this.value)" placeholder="Count" title="Enemy Count">
+                    <input type="number" value="${wave.hp}" onchange="updateWave(${i}, 'hp', this.value)" placeholder="HP" title="Enemy HP">
+                    <input type="number" step="0.1" value="${wave.speed}" onchange="updateWave(${i}, 'speed', this.value)" placeholder="Speed" title="Speed">
+                    <input type="number" value="${wave.gold}" onchange="updateWave(${i}, 'gold', this.value)" placeholder="Gold" title="Gold Reward">
+                    <button class="btn-delete" onclick="deleteWave(${i})">Delete</button>
+                </div>
+            `).join('');
+        }
+
+        function draw() {
+            ctx.fillStyle = '#1e293b';
+            ctx.fillRect(0, 0, 800, 600);
+
+            // Grid
+            ctx.strokeStyle = '#334155';
+            ctx.lineWidth = 1;
+            for (let x = 0; x < 800; x += 50) {
+                ctx.beginPath();
+                ctx.moveTo(x, 0);
+                ctx.lineTo(x, 600);
+                ctx.stroke();
+            }
+            for (let y = 0; y < 600; y += 50) {
+                ctx.beginPath();
+                ctx.moveTo(0, y);
+                ctx.lineTo(800, y);
+                ctx.stroke();
+            }
+
+            // Background
+            if (bgImage) {
+                ctx.globalAlpha = 0.7;
+                ctx.drawImage(bgImage, 0, 0, 800, 600);
+                ctx.globalAlpha = 1;
+            }
+
+            // Path
+            if (pathPoints.length > 0) {
+                // Draw underground sections with dashed line
+                ctx.strokeStyle = '#666';
+                ctx.lineWidth = 30;
+                ctx.lineCap = 'round';
+                ctx.lineJoin = 'round';
+                ctx.globalAlpha = 0.4;
+                ctx.setLineDash([20, 10]);
+                ctx.beginPath();
+                let started = false;
+                for (let i = 0; i < pathPoints.length; i++) {
+                    const p = pathPoints[i];
+                    if (p.underground) {
+                        if (!started) {
+                            ctx.moveTo(p.x, p.y);
+                            started = true;
+                        } else {
+                            ctx.lineTo(p.x, p.y);
+                        }
+                    } else {
+                        started = false;
+                    }
+                }
+                ctx.stroke();
+                ctx.setLineDash([]);
+
+                // Draw regular path
+                ctx.strokeStyle = '#f59e0b';
+                ctx.lineWidth = 30;
+                ctx.globalAlpha = 0.6;
+                ctx.beginPath();
+                started = false;
+                for (let i = 0; i < pathPoints.length; i++) {
+                    const p = pathPoints[i];
+                    if (!p.underground) {
+                        if (!started) {
+                            ctx.moveTo(p.x, p.y);
+                            started = true;
+                        } else {
+                            ctx.lineTo(p.x, p.y);
+                        }
+                    } else {
+                        started = false;
+                    }
+                }
+                ctx.stroke();
+                ctx.globalAlpha = 1;
+
+                // Draw all connection lines (thin)
+                ctx.strokeStyle = '#555';
+                ctx.lineWidth = 2;
+                ctx.setLineDash([5, 5]);
+                ctx.beginPath();
+                ctx.moveTo(pathPoints[0].x, pathPoints[0].y);
+                pathPoints.forEach(p => ctx.lineTo(p.x, p.y));
+                ctx.stroke();
+                ctx.setLineDash([]);
+
+                // Draw points
+                pathPoints.forEach((p, i) => {
+                    if (p.underground) {
+                        ctx.fillStyle = '#6b7280';
+                        ctx.strokeStyle = '#374151';
+                        ctx.lineWidth = 2;
+                        ctx.beginPath();
+                        ctx.arc(p.x, p.y, 8, 0, Math.PI * 2);
+                        ctx.fill();
+                        ctx.stroke();
+                    } else {
+                        ctx.fillStyle = i === 0 ? '#10b981' : i === pathPoints.length - 1 ? '#ef4444' : '#f59e0b';
+                        ctx.beginPath();
+                        ctx.arc(p.x, p.y, 8, 0, Math.PI * 2);
+                        ctx.fill();
+                    }
+                    ctx.fillStyle = '#fff';
+                    ctx.font = 'bold 12px Arial';
+                    ctx.textAlign = 'center';
+                    ctx.fillText(i + 1, p.x, p.y + 4);
+                });
+
+                if (pathPoints.length > 0) {
+                    ctx.fillStyle = '#10b981';
+                    ctx.font = 'bold 16px Arial';
+                    ctx.strokeStyle = '#000';
+                    ctx.lineWidth = 3;
+                    ctx.strokeText('START', pathPoints[0].x, pathPoints[0].y - 20);
+                    ctx.fillText('START', pathPoints[0].x, pathPoints[0].y - 20);
+                    
+                    if (pathPoints.length > 1) {
+                        ctx.fillStyle = '#ef4444';
+                        ctx.strokeText('END', pathPoints[pathPoints.length - 1].x, pathPoints[pathPoints.length - 1].y - 20);
+                        ctx.fillText('END', pathPoints[pathPoints.length - 1].x, pathPoints[pathPoints.length - 1].y - 20);
+                    }
+                }
+            }
+
+            // Blocked zones (where towers cannot be placed)
+            blockedZones.forEach((z, i) => {
+                ctx.fillStyle = 'rgba(239, 68, 68, 0.4)';
+                ctx.strokeStyle = '#ef4444';
+                ctx.lineWidth = 2;
+                ctx.fillRect(z.x, z.y, z.width, z.height);
+                ctx.strokeRect(z.x, z.y, z.width, z.height);
+                ctx.fillStyle = '#fff';
+                ctx.font = 'bold 12px Arial';
+                ctx.textAlign = 'center';
+                ctx.fillText('NO TOWERS', z.x + z.width / 2, z.y + z.height / 2);
+            });
+
+            if (currentZone) {
+                ctx.fillStyle = 'rgba(239, 68, 68, 0.4)';
+                ctx.strokeStyle = '#ef4444';
+                ctx.lineWidth = 2;
+                ctx.fillRect(currentZone.x, currentZone.y, currentZone.width, currentZone.height);
+                ctx.strokeRect(currentZone.x, currentZone.y, currentZone.width, currentZone.height);
+            }
+
+            // Base
+            if (basePosition) {
+                ctx.fillStyle = '#ef4444';
+                ctx.beginPath();
+                ctx.arc(basePosition.x, basePosition.y, 30, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.fillStyle = '#fff';
+                ctx.font = '30px Arial';
+                ctx.textAlign = 'center';
+                ctx.fillText('🏰', basePosition.x, basePosition.y + 10);
+            }
+
+            updateStats();
+        }
+
+        function updateStats() {
+            document.getElementById('pathCount').textContent = pathPoints.length;
+            document.getElementById('zoneCount').textContent = blockedZones.length;
+            document.getElementById('baseStatus').textContent = basePosition ? '✓' : '✗';
+            document.getElementById('baseStatus').style.color = basePosition ? '#10b981' : '#ef4444';
+        }
+
+        canvas.addEventListener('click', (e) => {
+            const rect = canvas.getBoundingClientRect();
+            const scaleX = canvas.width / rect.width;
+            const scaleY = canvas.height / rect.height;
+            const x = (e.clientX - rect.left) * scaleX;
+            const y = (e.clientY - rect.top) * scaleY;
+
+            if (mode === 'path') {
+                // Check if Ctrl key is pressed for underground path
+                const underground = e.ctrlKey || e.metaKey;
+                pathPoints.push({ x, y, underground });
+                draw();
+            } else if (mode === 'base') {
+                basePosition = { x, y };
+                draw();
+            }
+        });
+
+        canvas.addEventListener('mousedown', (e) => {
+            if (mode !== 'blocked') return;
+            const rect = canvas.getBoundingClientRect();
+            const scaleX = canvas.width / rect.width;
+            const scaleY = canvas.height / rect.height;
+            const x = (e.clientX - rect.left) * scaleX;
+            const y = (e.clientY - rect.top) * scaleY;
+            isDrawing = true;
+            currentZone = { x, y, width: 0, height: 0 };
+        });
+
+        canvas.addEventListener('mousemove', (e) => {
+            if (!isDrawing || mode !== 'blocked') return;
+            const rect = canvas.getBoundingClientRect();
+            const scaleX = canvas.width / rect.width;
+            const scaleY = canvas.height / rect.height;
+            const x = (e.clientX - rect.left) * scaleX;
+            const y = (e.clientY - rect.top) * scaleY;
+            currentZone.width = x - currentZone.x;
+            currentZone.height = y - currentZone.y;
+            draw();
+        });
+
+        canvas.addEventListener('mouseup', () => {
+            if (isDrawing && currentZone && mode === 'blocked') {
+                if (Math.abs(currentZone.width) > 30 && Math.abs(currentZone.height) > 30) {
+                    const zone = {
+                        x: currentZone.width < 0 ? currentZone.x + currentZone.width : currentZone.x,
+                        y: currentZone.height < 0 ? currentZone.y + currentZone.height : currentZone.y,
+                        width: Math.abs(currentZone.width),
+                        height: Math.abs(currentZone.height)
+                    };
+                    blockedZones.push(zone);
+                }
+                currentZone = null;
+                draw();
+            }
+            isDrawing = false;
+        });
+
+        function loadBackground(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = (event) => {
+                    const img = new Image();
+                    img.onload = () => {
+                        bgImage = img;
+                        draw();
+                    };
+                    img.src = event.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function undoPath() {
+            if (pathPoints.length > 0) {
+                pathPoints.pop();
+                draw();
+            }
+        }
+
+        function undoZone() {
+            if (blockedZones.length > 0) {
+                blockedZones.pop();
+                draw();
+            }
+        }
+
+        function clearAll() {
+            if (confirm('Clear everything?')) {
+                pathPoints = [];
+                blockedZones = [];
+                basePosition = null;
+                draw();
+            }
+        }
+
+        function exportMap() {
+            if (pathPoints.length < 2) {
+                alert('Need at least 2 path points!');
+                return;
+            }
+            if (!basePosition) {
+                alert('Need to place the base!');
+                return;
+            }
+
+            const data = {
+                name: document.getElementById('mapName').value,
+                difficulty: document.getElementById('difficulty').value,
+                startGold: parseInt(document.getElementById('startGold').value),
+                startLives: parseInt(document.getElementById('startLives').value),
+                waveMode: document.getElementById('waveMode').value,
+                autoWaveCount: parseInt(document.getElementById('autoWaveCount').value),
+                customWaves: waves,
+                backgroundImage: bgImage ? canvas.toDataURL() : null,
+                path: pathPoints,
+                blockedZones: blockedZones,
+                base: basePosition,
+                createdAt: new Date().toISOString()
+            };
+
+            const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `${data.name.replace(/\s+/g, '_')}_map.json`;
+            a.click();
+        }
+
+        function importMap(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = (event) => {
+                    try {
+                        const data = JSON.parse(event.target.result);
+                        
+                        if (data.backgroundImage) {
+                            const img = new Image();
+                            img.onload = () => {
+                                bgImage = img;
+                                draw();
+                            };
+                            img.src = data.backgroundImage;
+                        }
+                        
+                        pathPoints = data.path || [];
+                        blockedZones = data.blockedZones || [];
+                        basePosition = data.base || null;
+                        waves = data.customWaves || [];
+                        
+                        document.getElementById('mapName').value = data.name || 'Imported';
+                        document.getElementById('difficulty').value = data.difficulty || 'medium';
+                        document.getElementById('startGold').value = data.startGold || 500;
+                        document.getElementById('startLives').value = data.startLives || 20;
+                        document.getElementById('waveMode').value = data.waveMode || 'auto';
+                        document.getElementById('autoWaveCount').value = data.autoWaveCount || 20;
+                        
+                        toggleWaveSection();
+                        renderWaves();
+                        draw();
+                        alert('Map imported!');
+                    } catch (err) {
+                        alert('Invalid map file!');
+                    }
+                };
+                reader.readAsText(file);
+            }
+        }
+
+        renderWaves();
+        draw();
+    </script>
 </body>
 </html>
