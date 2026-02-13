@@ -1,20 +1,12 @@
-import { useState, useEffect } from "react";
-
-const courses = [
-  { id: "hg",   name: "Histoire-Géo",     icon: "fa-landmark",    color: "#e07b3c", url: "https://onedrive.live.com/:o:/g/personal/CEBFB03B5BA76A19/IgB6znVF18qVQZ1X1pXhKDTQAZmocOQYAbXA76zES0oN4i0?resid=CEBFB03B5BA76A19!s4575ce7acad741959d57d695e12834d0&ithint=onenote&e=suhau4" },
-  { id: "fr",   name: "Français",         icon: "fa-book-open",   color: "#6d9af5", url: "https://onedrive.live.com/view.aspx?resid=CEBFB03B5BA76A19!s06c47d7850f4422a8e7feb2a8a13de58&migratedtospo=true" },
-  { id: "ses",  name: "SES",              icon: "fa-chart-line",  color: "#a78bfa", url: "https://onedrive.live.com/:o:/g/personal/CEBFB03B5BA76A19/IgBVf310G-9OSppzhLwa0rBBAWuArNs61qqWre46AayU8ok?resid=CEBFB03B5BA76A19!s747d7f55ef1b4a4e9a7384bc1ad2b041&ithint=onenote&e=8cbkGi" },
-  { id: "math", name: "Maths",            icon: "fa-calculator",  color: "#34d399", url: "https://ita01.safelinks.protection.outlook.com/ap/od-59584e83/?url=https%3A%2F%2F1drv.ms%2Fo%2Fc%2Fcebfb03b5ba76a19%2FIgCQR9R5U9ghR6howZduVLcrAbaisG870ccqwwzfVGgEE4E%3Fe%3DWbaMgE" },
-  { id: "pc",   name: "Physique-Chimie",  icon: "fa-flask",       color: "#fbbf24", url: "https://onedrive.live.com/view.aspx?resid=CEBFB03B5BA76A19!sc168dbd805e04dc7b7b5636ef9d13c96&migratedtospo=true" },
-  { id: "svt",  name: "SVT",              icon: "fa-dna",         color: "#4ade80", url: "https://ita01.safelinks.protection.outlook.com/ap/od-59584e83/?url=https%3A%2F%2F1drv.ms%2Fo%2Fc%2Fcebfb03b5ba76a19%2FIgDYOmeegeS7QphH83OJZ5v5ATSECi9HLFq45FnjHJkrjUQ%3Fe%3DHWUeaU" },
-  { id: "snt",  name: "SNT",              icon: "fa-laptop-code", color: "#22d3ee", url: "https://ita01.safelinks.protection.outlook.com/ap/od-59584e83/?url=https%3A%2F%2F1drv.ms%2Fo%2Fc%2Fcebfb03b5ba76a19%2FIgB0PJJHPUdhT57CS5CkuMlFAbfhpPrKxzIGWOUmfTmxBDE%3Fe%3DTLlzEp" },
-  { id: "ang",  name: "Anglais",          icon: "fa-comments",    color: "#f87171", url: "https://ita01.safelinks.protection.outlook.com/ap/od-59584e83/?url=https%3A%2F%2F1drv.ms%2Fo%2Fc%2Fcebfb03b5ba76a19%2FIgB2HQ0tOcCDTJJp33ivaL_SAUxD6t5CVJdMQNxek_T8LsM%3Fe%3DK7dUII" },
-  { id: "all",  name: "Allemand",         icon: "fa-star",        color: "#fb923c", url: "https://ita01.safelinks.protection.outlook.com/ap/od-59584e83/?url=https%3A%2F%2F1drv.ms%2Fo%2Fc%2Fcebfb03b5ba76a19%2FIgC4QzX7Uk85TrMKZlHrEdNeAdsOmUs7rhfJchPT83VZkCo%3Fe%3DGYRLb4" },
-];
-
-const css = `
-@import url('https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500&display=swap');
-
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Mes Cours</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
+<style>
 *{box-sizing:border-box;margin:0;padding:0}
 body{background:#080b10;color:#dde3ee;font-family:'DM Sans',sans-serif;min-height:100vh;overflow-x:hidden}
 
@@ -27,7 +19,7 @@ body{background:#080b10;color:#dde3ee;font-family:'DM Sans',sans-serif;min-heigh
   border-bottom:1px solid rgba(255,255,255,.055)}
 .hdr-l{display:flex;align-items:center;gap:11px}
 .hdr-ico{width:34px;height:34px;border-radius:9px;background:linear-gradient(135deg,#3b6de8,#8b5cf6);
-  display:grid;place-items:center;font-size:14px;flex-shrink:0}
+  display:grid;place-items:center;font-size:14px;flex-shrink:0;color:#fff}
 .hdr-t{font-family:'Syne',sans-serif;font-size:1.15rem;font-weight:800;letter-spacing:-.03em}
 .hdr-b{font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;
   background:rgba(255,255,255,.055);border:1px solid rgba(255,255,255,.09);
@@ -69,7 +61,7 @@ body{background:#080b10;color:#dde3ee;font-family:'DM Sans',sans-serif;min-heigh
 .open-btn:hover{background:rgba(255,255,255,.11);color:#e2e8f0}
 .ph{height:118px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px}
 .ph-ico{font-size:26px;opacity:.45}
-.ph-txt{font-size:10px;opacity:.45}
+.ph-txt{font-size:10px;opacity:.45;text-align:center;padding:0 12px}
 
 @keyframes up{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
 .card{animation:up .42s cubic-bezier(.22,.8,.36,1) both}
@@ -80,73 +72,86 @@ body{background:#080b10;color:#dde3ee;font-family:'DM Sans',sans-serif;min-heigh
 .card:nth-child(9){animation-delay:.36s}
 
 @media(max-width:340px){.grid{grid-template-columns:1fr}.card.full{grid-column:auto}}
-`;
+</style>
+</head>
+<body>
 
-function Card({ c, i, total }) {
-  const [on, setOn] = useState(false);
-  const full = total % 2 !== 0 && i === total - 1;
-  return (
-    <div
-      className={`card${on ? " on" : ""}${full ? " full" : ""}`}
-      onClick={() => setOn(o => !o)}
-      style={{ boxShadow: on ? `0 0 0 1px ${c.color}20, 0 8px 28px ${c.color}18` : "none" }}
-    >
-      <div className="bar" style={{ background: c.color }} />
-      <div className="top">
-        <div className="ico" style={{ background: c.color + "1e", color: c.color }}>
-          <i className={`fa-solid ${c.icon}`} />
-        </div>
-        <div className="nm">{c.name}</div>
-        <i className="fa-solid fa-chevron-down chev" />
+<div class="blob b1"></div>
+<div class="blob b2"></div>
+
+<header class="hdr">
+  <div class="hdr-l">
+    <div class="hdr-ico"><i class="fa-solid fa-graduation-cap"></i></div>
+    <span class="hdr-t">Mes Cours</span>
+  </div>
+  <span class="hdr-b">Seconde</span>
+</header>
+
+<main class="main">
+  <p class="lbl">9 matières</p>
+  <div class="grid" id="grid"></div>
+</main>
+
+<script>
+const courses = [
+  { id:"hg",   name:"Histoire-Géo",    icon:"fa-landmark",    color:"#e07b3c", url:"https://onedrive.live.com/:o:/g/personal/CEBFB03B5BA76A19/IgB6znVF18qVQZ1X1pXhKDTQAZmocOQYAbXA76zES0oN4i0?resid=CEBFB03B5BA76A19!s4575ce7acad741959d57d695e12834d0&ithint=onenote&e=suhau4" },
+  { id:"fr",   name:"Français",        icon:"fa-book-open",   color:"#6d9af5", url:"https://onedrive.live.com/view.aspx?resid=CEBFB03B5BA76A19!s06c47d7850f4422a8e7feb2a8a13de58&migratedtospo=true" },
+  { id:"ses",  name:"SES",             icon:"fa-chart-line",  color:"#a78bfa", url:"https://onedrive.live.com/:o:/g/personal/CEBFB03B5BA76A19/IgBVf310G-9OSppzhLwa0rBBAWuArNs61qqWre46AayU8ok?resid=CEBFB03B5BA76A19!s747d7f55ef1b4a4e9a7384bc1ad2b041&ithint=onenote&e=8cbkGi" },
+  { id:"math", name:"Maths",           icon:"fa-calculator",  color:"#34d399", url:"https://ita01.safelinks.protection.outlook.com/ap/od-59584e83/?url=https%3A%2F%2F1drv.ms%2Fo%2Fc%2Fcebfb03b5ba76a19%2FIgCQR9R5U9ghR6howZduVLcrAbaisG870ccqwwzfVGgEE4E%3Fe%3DWbaMgE" },
+  { id:"pc",   name:"Physique-Chimie", icon:"fa-flask",       color:"#fbbf24", url:"https://onedrive.live.com/view.aspx?resid=CEBFB03B5BA76A19!sc168dbd805e04dc7b7b5636ef9d13c96&migratedtospo=true" },
+  { id:"svt",  name:"SVT",             icon:"fa-dna",         color:"#4ade80", url:"https://ita01.safelinks.protection.outlook.com/ap/od-59584e83/?url=https%3A%2F%2F1drv.ms%2Fo%2Fc%2Fcebfb03b5ba76a19%2FIgDYOmeegeS7QphH83OJZ5v5ATSECi9HLFq45FnjHJkrjUQ%3Fe%3DHWUeaU" },
+  { id:"snt",  name:"SNT",             icon:"fa-laptop-code", color:"#22d3ee", url:"https://ita01.safelinks.protection.outlook.com/ap/od-59584e83/?url=https%3A%2F%2F1drv.ms%2Fo%2Fc%2Fcebfb03b5ba76a19%2FIgB0PJJHPUdhT57CS5CkuMlFAbfhpPrKxzIGWOUmfTmxBDE%3Fe%3DTLlzEp" },
+  { id:"ang",  name:"Anglais",         icon:"fa-comments",    color:"#f87171", url:"https://ita01.safelinks.protection.outlook.com/ap/od-59584e83/?url=https%3A%2F%2F1drv.ms%2Fo%2Fc%2Fcebfb03b5ba76a19%2FIgB2HQ0tOcCDTJJp33ivaL_SAUxD6t5CVJdMQNxek_T8LsM%3Fe%3DK7dUII" },
+  { id:"all",  name:"Allemand",        icon:"fa-star",        color:"#fb923c", url:"https://ita01.safelinks.protection.outlook.com/ap/od-59584e83/?url=https%3A%2F%2F1drv.ms%2Fo%2Fc%2Fcebfb03b5ba76a19%2FIgC4QzX7Uk85TrMKZlHrEdNeAdsOmUs7rhfJchPT83VZkCo%3Fe%3DGYRLb4" },
+];
+
+const grid = document.getElementById("grid");
+
+courses.forEach((c, i) => {
+  const full = (courses.length % 2 !== 0) && (i === courses.length - 1);
+  const card = document.createElement("div");
+  card.className = "card" + (full ? " full" : "");
+
+  card.innerHTML = `
+    <div class="bar" style="background:${c.color}"></div>
+    <div class="top">
+      <div class="ico" style="background:${c.color}1e;color:${c.color}">
+        <i class="fa-solid ${c.icon}"></i>
       </div>
-      <div className={`panel${on ? " on" : ""}`}>
-        <div className="inner">
-          <div className="pbar">
-            <div className="dots">
-              <div className="dot" style={{ background: "#ef4444" }} />
-              <div className="dot" style={{ background: "#fbbf24" }} />
-              <div className="dot" style={{ background: "#22c55e" }} />
-            </div>
-            <div className="purl">onedrive.live.com</div>
-            <a className="open-btn" href={c.url} target="_blank" rel="noopener" onClick={e => e.stopPropagation()}>
-              <i className="fa-solid fa-arrow-up-right" /> Ouvrir
-            </a>
+      <div class="nm">${c.name}</div>
+      <i class="fa-solid fa-chevron-down chev"></i>
+    </div>
+    <div class="panel">
+      <div class="inner">
+        <div class="pbar">
+          <div class="dots">
+            <div class="dot" style="background:#ef4444"></div>
+            <div class="dot" style="background:#fbbf24"></div>
+            <div class="dot" style="background:#22c55e"></div>
           </div>
-          <div className="ph">
-            <div className="ph-ico" style={{ color: c.color }}><i className={`fa-solid ${c.icon}`} /></div>
-            <div className="ph-txt">Appuie sur « Ouvrir » pour accéder au cours</div>
-          </div>
+          <div class="purl">onedrive.live.com</div>
+          <a class="open-btn" href="${c.url}" target="_blank" rel="noopener">
+            <i class="fa-solid fa-arrow-up-right"></i> Ouvrir
+          </a>
+        </div>
+        <div class="ph">
+          <div class="ph-ico" style="color:${c.color}"><i class="fa-solid ${c.icon}"></i></div>
+          <div class="ph-txt">Appuie sur « Ouvrir » pour accéder au cours</div>
         </div>
       </div>
     </div>
-  );
-}
+  `;
 
-export default function App() {
-  useEffect(() => {
-    const s = document.createElement("style"); s.textContent = css; document.head.appendChild(s);
-    const fa = document.createElement("link"); fa.rel = "stylesheet";
-    fa.href = "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css";
-    document.head.appendChild(fa);
-    return () => document.head.removeChild(s);
-  }, []);
+  card.addEventListener("click", () => {
+    const on = card.classList.toggle("on");
+    card.querySelector(".panel").classList.toggle("on", on);
+    card.style.boxShadow = on ? `0 0 0 1px ${c.color}20,0 8px 28px ${c.color}18` : "none";
+  });
 
-  return (
-    <div style={{ minHeight: "100vh" }}>
-      <div className="blob b1" /><div className="blob b2" />
-      <header className="hdr">
-        <div className="hdr-l">
-          <div className="hdr-ico"><i className="fa-solid fa-graduation-cap" style={{ color: "#fff" }} /></div>
-          <span className="hdr-t">Mes Cours</span>
-        </div>
-        <span className="hdr-b">Seconde</span>
-      </header>
-      <main className="main">
-        <p className="lbl">{courses.length} matières</p>
-        <div className="grid">
-          {courses.map((c, i) => <Card key={c.id} c={c} i={i} total={courses.length} />)}
-        </div>
-      </main>
-    </div>
-  );
-}
+  card.querySelector(".open-btn").addEventListener("click", e => e.stopPropagation());
+
+  grid.appendChild(card);
+});
+</script>
+</body>
+</html>
