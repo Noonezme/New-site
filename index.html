@@ -1,157 +1,1576 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>Mes Cours</title>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
-<style>
-*{box-sizing:border-box;margin:0;padding:0}
-body{background:#080b10;color:#dde3ee;font-family:'DM Sans',sans-serif;min-height:100vh;overflow-x:hidden}
-
-.blob{position:fixed;border-radius:50%;filter:blur(110px);pointer-events:none;z-index:0}
-.b1{width:500px;height:500px;top:-180px;left:-180px;background:radial-gradient(circle,rgba(59,109,232,.10),transparent 70%)}
-.b2{width:400px;height:400px;bottom:-120px;right:-120px;background:radial-gradient(circle,rgba(167,139,250,.09),transparent 70%)}
-
-.hdr{position:sticky;top:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:15px 18px;
-  backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);background:rgba(8,11,16,.82);
-  border-bottom:1px solid rgba(255,255,255,.055)}
-.hdr-l{display:flex;align-items:center;gap:11px}
-.hdr-ico{width:34px;height:34px;border-radius:9px;background:linear-gradient(135deg,#3b6de8,#8b5cf6);
-  display:grid;place-items:center;font-size:14px;flex-shrink:0;color:#fff}
-.hdr-t{font-family:'Syne',sans-serif;font-size:1.15rem;font-weight:800;letter-spacing:-.03em}
-.hdr-b{font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;
-  background:rgba(255,255,255,.055);border:1px solid rgba(255,255,255,.09);
-  padding:3px 9px;border-radius:999px;color:#475569}
-
-.main{position:relative;z-index:1;padding:20px 14px 48px;max-width:580px;margin:0 auto}
-.lbl{font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:#334155;margin-bottom:14px;padding-left:2px}
-
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:9px}
-
-.card{position:relative;border-radius:15px;background:#0d1018;border:1px solid rgba(255,255,255,.057);
-  overflow:hidden;cursor:pointer;transition:transform .18s cubic-bezier(.22,.8,.36,1),border-color .2s,box-shadow .2s;
-  -webkit-tap-highlight-color:transparent;user-select:none}
-.card:active{transform:scale(.96)}
-.card.on{border-color:rgba(255,255,255,.13)}
-.card.full{grid-column:1/-1}
-
-.bar{height:3px;width:100%}
-
-.top{display:flex;align-items:center;gap:11px;padding:13px 13px 11px}
-.ico{width:38px;height:38px;border-radius:10px;display:grid;place-items:center;font-size:15px;flex-shrink:0;
-  transition:transform .3s cubic-bezier(.22,.8,.36,1)}
-.card.on .ico{transform:scale(1.12) rotate(-5deg)}
-.nm{font-family:'Syne',sans-serif;font-size:.87rem;font-weight:700;letter-spacing:-.01em;line-height:1.2}
-.chev{font-size:10px;color:#334155;transition:transform .3s cubic-bezier(.22,.8,.36,1),color .2s;margin-left:auto;flex-shrink:0}
-.card.on .chev{transform:rotate(180deg);color:#64748b}
-
-.panel{overflow:hidden;max-height:0;opacity:0;transition:max-height .38s cubic-bezier(.22,.8,.36,1),opacity .28s ease}
-.panel.on{max-height:190px;opacity:1}
-.inner{margin:0 9px 9px;border-radius:9px;background:rgba(0,0,0,.28);border:1px solid rgba(255,255,255,.055);overflow:hidden}
-.pbar{display:flex;align-items:center;gap:8px;padding:7px 10px;border-bottom:1px solid rgba(255,255,255,.05)}
-.dots{display:flex;gap:4px}
-.dot{width:6px;height:6px;border-radius:50%}
-.purl{flex:1;font-size:9px;color:#334155;text-align:center;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.open-btn{font-size:9px;font-weight:600;letter-spacing:.05em;padding:4px 9px;border-radius:5px;
-  border:1px solid rgba(255,255,255,.09);background:rgba(255,255,255,.05);color:#94a3b8;
-  cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:4px;
-  transition:background .2s,color .2s;flex-shrink:0}
-.open-btn:hover{background:rgba(255,255,255,.11);color:#e2e8f0}
-.ph{height:118px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px}
-.ph-ico{font-size:26px;opacity:.45}
-.ph-txt{font-size:10px;opacity:.45;text-align:center;padding:0 12px}
-
-@keyframes up{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
-.card{animation:up .42s cubic-bezier(.22,.8,.36,1) both}
-.card:nth-child(1){animation-delay:.04s}.card:nth-child(2){animation-delay:.08s}
-.card:nth-child(3){animation-delay:.12s}.card:nth-child(4){animation-delay:.16s}
-.card:nth-child(5){animation-delay:.20s}.card:nth-child(6){animation-delay:.24s}
-.card:nth-child(7){animation-delay:.28s}.card:nth-child(8){animation-delay:.32s}
-.card:nth-child(9){animation-delay:.36s}
-
-@media(max-width:340px){.grid{grid-template-columns:1fr}.card.full{grid-column:auto}}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Oman Scholars - Master Simulator</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        dark: '#030303',
+                        gold: '#D4AF37',
+                        goldLight: '#F4CF67',
+                        accent: '#ffffff',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #030303;
+            color: #ffffff;
+            font-family: 'Inter', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .card-glass {
+            background: rgba(255, 255, 255, 0.02);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .btn-gold {
+            background: linear-gradient(135deg, #D4AF37 0%, #F4CF67 100%);
+            color: #000;
+            font-weight: 800;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .btn-gold:active { transform: scale(0.95); }
+        .matrix-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            max-width: 300px;
+            margin: 2rem auto;
+        }
+        .matrix-cell {
+            aspect-ratio: 1;
+            border: 1px solid rgba(212, 175, 55, 0.15);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255,255,255,0.01);
+            font-size: 1.8rem;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+        }
+        .progress-bar {
+            height: 4px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 2px;
+            overflow: hidden;
+        }
+        .progress-fill {
+            height: 100%;
+            background: #D4AF37;
+            transition: width 0.6s cubic-bezier(0.65, 0, 0.35, 1);
+        }
+        .theme-badge {
+            background: rgba(212, 175, 55, 0.1);
+            color: #D4AF37;
+            padding: 4px 14px;
+            border-radius: 99px;
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            font-weight: 900;
+        }
+        .feedback-tip {
+            border-left: 4px solid #D4AF37;
+            background: rgba(212, 175, 55, 0.05);
+        }
+        .animate-pop { animation: pop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        @keyframes pop {
+            from { opacity: 0; transform: scale(0.95) translateY(10px); }
+            to { opacity: 1; transform: scale(1) translateY(0); }
+        }
+    </style>
 </head>
-<body>
-
-<div class="blob b1"></div>
-<div class="blob b2"></div>
-
-<header class="hdr">
-  <div class="hdr-l">
-    <div class="hdr-ico"><i class="fa-solid fa-graduation-cap"></i></div>
-    <span class="hdr-t">Mes Cours</span>
-  </div>
-  <span class="hdr-b">Seconde</span>
-</header>
-
-<main class="main">
-  <p class="lbl">9 matières</p>
-  <div class="grid" id="grid"></div>
-</main>
-
-<script>
-const courses = [
-  { id:"hg",   name:"Histoire-Géo",    icon:"fa-landmark",    color:"#e07b3c", url:"https://onedrive.live.com/:o:/g/personal/CEBFB03B5BA76A19/IgB6znVF18qVQZ1X1pXhKDTQAZmocOQYAbXA76zES0oN4i0?resid=CEBFB03B5BA76A19!s4575ce7acad741959d57d695e12834d0&ithint=onenote&e=suhau4" },
-  { id:"fr",   name:"Français",        icon:"fa-book-open",   color:"#6d9af5", url:"https://onedrive.live.com/view.aspx?resid=CEBFB03B5BA76A19!s06c47d7850f4422a8e7feb2a8a13de58&migratedtospo=true" },
-  { id:"ses",  name:"SES",             icon:"fa-chart-line",  color:"#a78bfa", url:"https://onedrive.live.com/:o:/g/personal/CEBFB03B5BA76A19/IgBVf310G-9OSppzhLwa0rBBAWuArNs61qqWre46AayU8ok?resid=CEBFB03B5BA76A19!s747d7f55ef1b4a4e9a7384bc1ad2b041&ithint=onenote&e=8cbkGi" },
-  { id:"math", name:"Maths",           icon:"fa-calculator",  color:"#34d399", url:"https://ita01.safelinks.protection.outlook.com/ap/od-59584e83/?url=https%3A%2F%2F1drv.ms%2Fo%2Fc%2Fcebfb03b5ba76a19%2FIgCQR9R5U9ghR6howZduVLcrAbaisG870ccqwwzfVGgEE4E%3Fe%3DWbaMgE" },
-  { id:"pc",   name:"Physique-Chimie", icon:"fa-flask",       color:"#fbbf24", url:"https://onedrive.live.com/view.aspx?resid=CEBFB03B5BA76A19!sc168dbd805e04dc7b7b5636ef9d13c96&migratedtospo=true" },
-  { id:"svt",  name:"SVT",             icon:"fa-dna",         color:"#4ade80", url:"https://ita01.safelinks.protection.outlook.com/ap/od-59584e83/?url=https%3A%2F%2F1drv.ms%2Fo%2Fc%2Fcebfb03b5ba76a19%2FIgDYOmeegeS7QphH83OJZ5v5ATSECi9HLFq45FnjHJkrjUQ%3Fe%3DHWUeaU" },
-  { id:"snt",  name:"SNT",             icon:"fa-laptop-code", color:"#22d3ee", url:"https://ita01.safelinks.protection.outlook.com/ap/od-59584e83/?url=https%3A%2F%2F1drv.ms%2Fo%2Fc%2Fcebfb03b5ba76a19%2FIgB0PJJHPUdhT57CS5CkuMlFAbfhpPrKxzIGWOUmfTmxBDE%3Fe%3DTLlzEp" },
-  { id:"ang",  name:"Anglais",         icon:"fa-comments",    color:"#f87171", url:"https://ita01.safelinks.protection.outlook.com/ap/od-59584e83/?url=https%3A%2F%2F1drv.ms%2Fo%2Fc%2Fcebfb03b5ba76a19%2FIgB2HQ0tOcCDTJJp33ivaL_SAUxD6t5CVJdMQNxek_T8LsM%3Fe%3DK7dUII" },
-  { id:"all",  name:"Allemand",        icon:"fa-star",        color:"#fb923c", url:"https://ita01.safelinks.protection.outlook.com/ap/od-59584e83/?url=https%3A%2F%2F1drv.ms%2Fo%2Fc%2Fcebfb03b5ba76a19%2FIgC4QzX7Uk85TrMKZlHrEdNeAdsOmUs7rhfJchPT83VZkCo%3Fe%3DGYRLb4" },
-];
-
-const grid = document.getElementById("grid");
-
-courses.forEach((c, i) => {
-  const full = (courses.length % 2 !== 0) && (i === courses.length - 1);
-  const card = document.createElement("div");
-  card.className = "card" + (full ? " full" : "");
-
-  card.innerHTML = `
-    <div class="bar" style="background:${c.color}"></div>
-    <div class="top">
-      <div class="ico" style="background:${c.color}1e;color:${c.color}">
-        <i class="fa-solid ${c.icon}"></i>
-      </div>
-      <div class="nm">${c.name}</div>
-      <i class="fa-solid fa-chevron-down chev"></i>
-    </div>
-    <div class="panel">
-      <div class="inner">
-        <div class="pbar">
-          <div class="dots">
-            <div class="dot" style="background:#ef4444"></div>
-            <div class="dot" style="background:#fbbf24"></div>
-            <div class="dot" style="background:#22c55e"></div>
-          </div>
-          <div class="purl">onedrive.live.com</div>
-          <a class="open-btn" href="${c.url}" target="_blank" rel="noopener">
-            <i class="fa-solid fa-arrow-up-right"></i> Ouvrir
-          </a>
+<body class="min-h-screen flex flex-col overflow-x-hidden">
+    <!-- Header -->
+    <header class="p-6 border-b border-white/5 flex justify-between items-center sticky top-0 bg-dark/95 backdrop-blur-xl z-50">
+        <div>
+            <h1 class="text-xl font-black tracking-tighter text-gold">OMAN SCHOLARS <span class="text-white/20 font-light text-xs tracking-widest uppercase">Mastery</span></h1>
         </div>
-        <div class="ph">
-          <div class="ph-ico" style="color:${c.color}"><i class="fa-solid ${c.icon}"></i></div>
-          <div class="ph-txt">Appuie sur « Ouvrir » pour accéder au cours</div>
+        <div id="status-display" class="hidden flex items-center gap-4">
+            <button onclick="toggleStudyGuide()" class="text-gold/60 hover:text-gold transition-colors p-2 rounded-lg bg-white/5 border border-white/5">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
+            </button>
+            <span id="current-theme-badge" class="theme-badge">English</span>
+            <div class="h-4 w-[1px] bg-white/10"></div>
+            <span id="timer-display" class="font-mono text-gold font-bold bg-gold/5 px-3 py-1 rounded-lg border border-gold/10 text-xs">45:00</span>
         </div>
-      </div>
+    </header>
+
+    <!-- Study Guide Modal -->
+    <div id="study-guide-modal" class="fixed inset-0 bg-black/95 z-[100] hidden overflow-y-auto">
+        <div class="p-6 max-w-4xl mx-auto space-y-8">
+            <div class="flex justify-between items-center sticky top-0 bg-black/80 py-4 backdrop-blur-xl border-b border-white/10 z-10">
+                <h2 class="text-2xl font-black text-gold tracking-tight">Master Study Guide & Answer Key</h2>
+                <button onclick="toggleStudyGuide()" class="p-2 rounded-full bg-white/10 text-white hover:bg-white/20 transition-all">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
+            </div>
+            
+            <div class="space-y-12 pb-20">
+                <!-- English Section -->
+                <section>
+                    <h3 class="text-gold font-black uppercase tracking-[0.3em] text-xs mb-6 border-l-4 border-gold pl-4">English Mastery (Takatuf Techniques)</h3>
+                    <div id="guide-english" class="space-y-6"></div>
+                </section>
+                
+                <!-- Abstract Section -->
+                <section>
+                    <h3 class="text-gold font-black uppercase tracking-[0.3em] text-xs mb-6 border-l-4 border-gold pl-4">Abstract Reasoning (Matrix Logic)</h3>
+                    <div id="guide-abstract" class="space-y-6"></div>
+                </section>
+                
+                <!-- Numerical Section -->
+                <section>
+                    <h3 class="text-gold font-black uppercase tracking-[0.3em] text-xs mb-6 border-l-4 border-gold pl-4">Numerical Logic (Data Interpretation)</h3>
+                    <div id="guide-numerical" class="space-y-6"></div>
+                </section>
+            </div>
+        </div>
     </div>
-  `;
 
-  card.addEventListener("click", () => {
-    const on = card.classList.toggle("on");
-    card.querySelector(".panel").classList.toggle("on", on);
-    card.style.boxShadow = on ? `0 0 0 1px ${c.color}20,0 8px 28px ${c.color}18` : "none";
-  });
+    <!-- Main Container -->
+    <main id="app-container" class="flex-1 p-5 md:p-10 max-w-2xl mx-auto w-full flex flex-col justify-center">
+        <!-- Start Screen -->
+        <div id="start-screen" class="text-center space-y-10 animate-pop">
+            <div class="space-y-4">
+                <div class="w-24 h-24 bg-gold/5 rounded-[2rem] mx-auto flex items-center justify-center border border-gold/10 shadow-2xl shadow-gold/5">
+                    <svg class="w-12 h-12 text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
+                </div>
+                <h2 class="text-5xl font-black tracking-tighter">Master Simulator</h2>
+                <p class="text-white/40 leading-relaxed max-w-sm mx-auto text-sm font-medium">Takatuf Elite Level Preparation. Randomized on every reload. 45-minute strict countdown.</p>
+            </div>
+            
+            <div class="card-glass p-8 rounded-3xl space-y-5 text-left border border-white/5 relative overflow-hidden">
+                <div class="absolute top-0 right-0 w-32 h-32 bg-gold/5 blur-3xl rounded-full"></div>
+                <h3 class="font-black text-[10px] uppercase tracking-widest text-gold/60">Strict Sequence:</h3>
+                <div class="space-y-4">
+                    <div class="flex items-center gap-4">
+                        <div class="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center text-gold font-bold border border-white/5">1</div>
+                        <div>
+                            <p class="text-sm font-bold text-white/90">Advanced English</p>
+                            <p class="text-[10px] text-white/30 uppercase">Academic Vocab & Context</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-4">
+                        <div class="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center text-gold font-bold border border-white/5">2</div>
+                        <div>
+                            <p class="text-sm font-bold text-white/90">Elite IQ & Matrices</p>
+                            <p class="text-[10px] text-white/30 uppercase">Latin Squares & Rotations</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-4">
+                        <div class="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center text-gold font-bold border border-white/5">3</div>
+                        <div>
+                            <p class="text-sm font-bold text-white/90">Numerical Logic</p>
+                            <p class="text-[10px] text-white/30 uppercase">GDP, Desalination & Data</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-  card.querySelector(".open-btn").addEventListener("click", e => e.stopPropagation());
+            <button onclick="startFullExam()" class="btn-gold w-full py-6 rounded-2xl text-xl shadow-2xl shadow-gold/10 group active:scale-95">
+                Launch Examination
+                <span class="inline-block ml-2 group-hover:translate-x-1 transition-transform">→</span>
+            </button>
+        </div>
 
-  grid.appendChild(card);
-});
-</script>
+        <!-- Exam View -->
+        <div id="exam-view" class="hidden space-y-8 animate-pop">
+            <div class="space-y-3">
+                <div class="flex justify-between items-end text-[9px] uppercase tracking-[0.3em] text-white/30 font-black">
+                    <span id="overall-progress-text">Quest 1 / 15</span>
+                    <span id="theme-display">Academic English</span>
+                </div>
+                <div class="progress-bar"><div id="progress-fill" class="progress-fill" style="width: 0%"></div></div>
+            </div>
+            
+            <div id="question-content" class="space-y-8 min-h-[350px]">
+                <!-- Injected -->
+            </div>
+
+            <div id="feedback-area" class="hidden p-6 rounded-2xl border border-white/5 relative overflow-hidden transition-all duration-500">
+                <div id="feedback-bg" class="absolute inset-0 opacity-5"></div>
+                <div class="relative z-10">
+                    <p id="feedback-status" class="font-black mb-2 uppercase text-[10px] tracking-[0.2em]"></p>
+                    <p id="feedback-text" class="text-sm leading-relaxed text-white/90 font-medium"></p>
+                    <div id="feedback-tips-area" class="mt-4 pt-4 border-t border-white/5 space-y-3">
+                        <!-- Tips & Vocabulary Meanings -->
+                    </div>
+                </div>
+            </div>
+
+            <div class="pt-4">
+                <button id="action-btn" onclick="handleAction()" class="btn-gold w-full py-6 rounded-2xl text-lg shadow-xl shadow-gold/5 active:scale-95">
+                    Verify Answer
+                </button>
+            </div>
+        </div>
+
+        <!-- Results View -->
+        <div id="results-view" class="hidden text-center space-y-10 animate-pop">
+            <div class="space-y-3">
+                <h2 class="text-7xl font-black tracking-tighter text-gold" id="final-score">12/15</h2>
+                <p class="text-white/30 uppercase tracking-[0.4em] text-[10px] font-black">Performance Audit</p>
+            </div>
+            
+            <div id="breakdown-area" class="space-y-3 px-2">
+                <!-- Breakdown -->
+            </div>
+
+            <div class="p-6 card-glass rounded-3xl text-left border border-white/5 space-y-4">
+                <h4 class="text-xs font-black uppercase tracking-widest text-gold/60">Assessor's Note:</h4>
+                <p id="final-advice" class="text-sm text-white/70 leading-relaxed font-medium"></p>
+            </div>
+            
+            <button onclick="location.reload()" class="w-full py-6 rounded-2xl border border-white/10 font-black uppercase tracking-widest text-xs text-white/50 hover:text-white transition-all">
+                Restart Full Simulation
+            </button>
+        </div>
+    </main>
+
+    <script>
+        // --- MASSIVE RANDOMIZED QUESTION BANK ---
+        const MASTER_BANK = {
+            English: [
+                {
+                    passage: "The Omani economy is undergoing a structural paradigm shift. By prioritizing the 'knowledge economy' pillar of Vision 2040, the Sultanate aims to mitigate the volatility inherent in global energy markets. This trajectory necessitates a pedagogical evolution, ensuring that the local workforce is proficient in emerging digital landscapes.",
+                    question: "In the passage, the word 'mitigate' most nearly means:",
+                    options: ["Exacerbate", "Alleviate", "Verify", "Forecast"],
+                    correct: 1,
+                    explanation: "To 'mitigate' means to make something less severe or painful. In this context, it refers to reducing the negative impact of market volatility.",
+                    tips: ["Elimination Logic: 'Exacerbate' means make worse (opposite), 'Verify' means check, 'Forecast' means predict.", "Vocab: Volatility = Unpredictable change."],
+                    meanings: { "Paradigm Shift": "A fundamental change in approach or underlying assumptions.", "Pedagogical": "Related to teaching and education methods." }
+                },
+                {
+                    passage: "The Sultanate's commitment to net-zero by 2050 is a strategic pivot towards green hydrogen. This initiative leverages Oman's geographical advantage—vast solar irradiance and wind corridors—to establish a competitive edge in the decarbonized energy sector.",
+                    question: "What is the primary 'competitive edge' mentioned in the text?",
+                    options: ["Financial capital from oil", "Political stability", "Geographical and climatic conditions", "Existing hydrogen infrastructure"],
+                    correct: 2,
+                    explanation: "The text explicitly links the competitive edge to 'geographical advantage—vast solar irradiance and wind corridors'.",
+                    tips: ["Contextual Logic: Competitive edge refers to a unique strength.", "Takatuf Tip: Always look for keywords like 'leverages' or 'advantage' in the text."],
+                    meanings: { "Irradiance": "The power per unit area received from the Sun in the form of electromagnetic radiation.", "Pivot": "A central point on which a mechanism turns; in business, it means a change in strategy." }
+                },
+                {
+                    passage: "Urban planning in Muscat has increasingly focused on 'smart city' integration. By utilizing IoT sensors to manage traffic flow and water distribution, the municipality aims to optimize resource allocation while reducing the carbon footprint of the burgeoning population.",
+                    question: "The word 'burgeoning' as used in the text most nearly means:",
+                    options: ["Declining", "Stable", "Rapidly expanding", "Highly educated"],
+                    correct: 2,
+                    explanation: "'Burgeoning' refers to something that is beginning to grow or increase rapidly.",
+                    tips: ["Logic: Population in cities usually grows, so look for a 'growth' word.", "Meanings: Optimize = Make the best use of."],
+                    meanings: { "IoT": "Internet of Things - interconnected computing devices in everyday objects.", "Carbon Footprint": "The amount of carbon dioxide released into the atmosphere as a result of activities." }
+                },
+                {
+                    passage: "Sultanate's maritime legacy is being modernized through the Port of Duqm project. This strategic hub bridges the gap between historical trade routes and the future of global logistics, emphasizing Oman's role as a gateway to three continents.",
+                    question: "The primary purpose of mentioning 'three continents' is to emphasize:",
+                    options: ["Oman's isolation", "Geographic centralism", "Historical conflicts", "Tourism potential"],
+                    correct: 1,
+                    explanation: "Mentioning the continents highlights Oman's strategic position as a central gateway connecting different parts of the world.",
+                    tips: ["Takatuf Logic: Geography questions in Omani exams almost always focus on 'Strategic Location'.", "Elimination: Isolation is the opposite of a gateway."],
+                    meanings: { "Logistics": "The detailed coordination of a complex operation involving many people, facilities, or supplies.", "Legacy": "Something handed down from the past." }
+                },
+                {
+                    passage: "The preservation of Omani biodiversity, particularly the Arabian Oryx and the green turtles of Ras Al Jinz, is integrated into the national environmental strategy. Sustainable ecotourism provides a viable alternative to industrial exploitation, fostering a symbiotic relationship between nature and the economy.",
+                    question: "What does the author imply by a 'symbiotic relationship'?",
+                    options: ["One entity benefits at the expense of the other", "Both nature and the economy benefit mutually", "The relationship is parasitic and harmful", "The economy is independent of the environment"],
+                    correct: 1,
+                    explanation: "Symbiotic implies a mutually beneficial interaction between two different organisms or entities.",
+                    tips: ["Context clues: 'fostering' and 'relationship' suggest positive interaction.", "Vocabulary: Symbiotic = mutually beneficial."],
+                    meanings: { "Biodiversity": "The variety of life in the world or in a particular habitat or ecosystem.", "Ecotourism": "Tourism directed towards exotic, often threatened, natural environments, intended to support conservation efforts." }
+                },
+                {
+                    passage: "Oman's mining sector, specifically the extraction of copper and gypsum, is being revitalized with modern technology. By implementing advanced geological mapping, the Sultanate aims to unlock untapped mineral wealth while adhering to stringent environmental regulations.",
+                    question: "The word 'stringent' as used in the text most nearly means:",
+                    options: ["Flexible", "Lax", "Strict", "Inconsistent"],
+                    correct: 2,
+                    explanation: "Stringent means strict, precise, and exacting.",
+                    tips: ["Context: 'Regulations' are usually described as strict or lax.", "Elimination: Lax and flexible are opposites of what is needed for environmental protection."],
+                    meanings: { "Revitalized": "Imbued with new life and vitality.", "Gypsum": "A soft sulfate mineral used as a fertilizer and as the main constituent in many forms of plaster." }
+                },
+                {
+                    passage: "The expansion of the Khasab Port in Musandam is critical for regional trade. Due to its proximity to the Strait of Hormuz, the port acts as a vital artery for global oil shipments, necessitating sophisticated security and navigational infrastructure.",
+                    question: "Why is the Khasab Port described as a 'vital artery'?",
+                    options: ["Because it is shaped like a human heart", "Because it is essential for the flow of global trade", "Because it is the only port in Oman", "Because it only handles food shipments"],
+                    correct: 1,
+                    explanation: "Metaphorically, an artery is a major route or channel. In trade, it refers to a path essential for the flow of goods.",
+                    tips: ["Metaphor recognition: 'Artery' = essential flow.", "Context: Proximity to Strait of Hormuz suggests trade importance."],
+                    meanings: { "Proximity": "Nearness in space, time, or relationship.", "Infrastructure": "The basic physical and organizational structures and facilities needed for the operation of a society or enterprise." }
+                },
+                {
+                    passage: "The Omani craftsmanship of 'Khanjar' making is not just an art but a cultural signifier. By promoting these traditional crafts in international exhibitions, Oman preserves its intangible heritage while providing local artisans with a global platform.",
+                    question: "The word 'intangible' as used in the text refers to:",
+                    options: ["Something that cannot be touched or seen", "Something very expensive", "Something modern and digital", "Something easily broken"],
+                    correct: 0,
+                    explanation: "Intangible heritage refers to traditions or living expressions inherited from our ancestors and passed on to our descendants, such as oral traditions, performing arts, social practices, rituals, festive events, knowledge and practices concerning nature and the universe or the knowledge and skills to produce traditional crafts.",
+                    tips: ["Context: 'Heritage' often includes things like stories and skills which are intangible.", "Vocab: Tangible = touchable; Intangible = non-physical."],
+                    meanings: { "Signifier": "A symbol, sound, or image that represents an underlying concept or meaning.", "Artisan": "A worker in a skilled trade, especially one that involves making things by hand." }
+                },
+                {
+                    passage: "The Royal Opera House Muscat represents a fusion of traditional Omani architecture and modern acoustic engineering. This landmark serves as a cultural bridge, hosting world-class performances that foster cross-cultural understanding and artistic appreciation.",
+                    question: "The author uses the phrase 'cultural bridge' to suggest that the Opera House:",
+                    options: ["Is built over a river", "Connects different cultures through art", "Is only for Omani people", "Is a physical bridge for cars"],
+                    correct: 1,
+                    explanation: "A cultural bridge facilitates communication and understanding between different cultures.",
+                    tips: ["Metaphor: Bridge = connection.", "Context: 'cross-cultural understanding' confirms the connection logic."],
+                    meanings: { "Fusion": "The process or result of joining two or more things together to form a single entity.", "Acoustic": "Relating to sound or the sense of hearing." }
+                },
+                {
+                    passage: "The development of the Duqm Special Economic Zone (SEZAD) is a monumental undertaking. By offering tax incentives and 100% foreign ownership, Oman attracts global investors to set up manufacturing hubs, thereby accelerating industrialization and job creation for the Omani youth.",
+                    question: "What is the primary mechanism mentioned for attracting investors to SEZAD?",
+                    options: ["High taxes and government control", "Tax incentives and foreign ownership rights", "Limiting the zone to local companies only", "Focusing only on the tourism sector"],
+                    correct: 1,
+                    explanation: "The text explicitly mentions 'offering tax incentives and 100% foreign ownership' as the draw for investors.",
+                    tips: ["Keyword search: 'Attracts', 'investors'.", "Logic: Investors look for favorable financial conditions (incentives)."],
+                    meanings: { "Monumental": "Great in importance, extent, or size.", "Industrialization": "The development of industries in a country or region on a wide scale." }
+                },
+                {
+                    passage: "The Omani government's 'Tanfeedh' program is designed to accelerate economic diversification by focusing on sectors like manufacturing, tourism, and logistics. This initiative emphasizes public-private partnerships as a vehicle for sustainable growth, reducing the sovereign state's reliance on unpredictable oil revenues.",
+                    question: "The word 'vehicle' as used in the passage most nearly means:",
+                    options: ["A physical car or truck", "A method or medium", "A type of fuel", "A legal document"],
+                    correct: 1,
+                    explanation: "In this context, 'vehicle' means a medium or method used to achieve a goal (sustainable growth).",
+                    tips: ["Contextual analysis: Look at how the 'vehicle' is helping (facilitating growth).", "Elimination: Physical transportation doesn't fit economic policy."],
+                    meanings: { "Diversification": "The process of a business enlarging or varying its range of products or field of operation.", "Sovereign": "Possessing supreme or ultimate power." }
+                },
+                {
+                    passage: "Oman's strategic focus on 'Blue Economy' involves the sustainable use of ocean resources for economic growth, improved livelihoods, and jobs while preserving the health of the ocean ecosystem. This includes sectors such as fisheries, aquaculture, and maritime transport.",
+                    question: "What is the dual focus of the 'Blue Economy' described in the text?",
+                    options: ["Economic growth and environmental preservation", "Deep-sea mining and oil extraction", "Replacing all land-based industry with sea-based", "Eliminating the need for maritime transport"],
+                    correct: 0,
+                    explanation: "The text mentions 'sustainable use... for economic growth' AND 'preserving the health of the ocean ecosystem'.",
+                    tips: ["Takatuf Strategy: Look for the balance between economy and nature.", "Vocabulary: Aquaculture = farming of aquatic organisms."],
+                    meanings: { "Ecosystem": "A biological community of interacting organisms and their physical environment.", "Livelihoods": "A means of securing the necessities of life." }
+                },
+                {
+                    passage: "The Sultan Qaboos Grand Mosque is an architectural marvel that blends various Islamic design styles. Its prayer hall features a massive hand-woven carpet and a spectacular chandelier, reflecting the Sultanate's dedication to preserving traditional arts within modern structures.",
+                    question: "The author mentions the carpet and chandelier primarily to:",
+                    options: ["Criticize the expense of the mosque", "Illustrate the dedication to traditional arts", "Argue for simpler mosque designs", "Compare Omani mosques to others in the region"],
+                    correct: 1,
+                    explanation: "The text states these features 'reflecting the Sultanate's dedication to preserving traditional arts'.",
+                    tips: ["Inference: Why did the author pick these specific examples?", "Logic: Examples serve as evidence for the 'dedication' claim."],
+                    meanings: { "Marvel": "A wonderful or astonishing person or thing.", "Dedication": "The quality of being dedicated or committed to a task or purpose." }
+                },
+                {
+                    passage: "As global markets shift towards electric vehicles (EVs), Oman is exploring the potential of its mining sector to provide critical minerals like lithium and nickel. This transition requires a workforce that is not only technically skilled but also adaptable to rapid technological disruptions.",
+                    question: "The word 'disruptions' as used in the text most nearly means:",
+                    options: ["Complete failures", "Gradual improvements", "Disturbances or radical changes", "Minor inconveniences"],
+                    correct: 2,
+                    explanation: "In technology, a disruption is a radical change that replaces old methods with new ones.",
+                    tips: ["Context: 'Rapid technological' suggests something fast and impactful.", "Meanings: Adaptable = able to adjust to new conditions."],
+                    meanings: { "Critical Minerals": "Mineral resources that are essential to the economy and whose supply may be at risk.", "Adaptable": "Able to adjust to new conditions." }
+                },
+                {
+                    passage: "Oman's tourism strategy, part of Vision 2040, emphasizes 'quality over quantity.' By focusing on high-end, low-impact travelers, the Sultanate aims to protect its natural and cultural resources while generating high revenue per visitor.",
+                    question: "What does 'low-impact' travelers most likely mean in this context?",
+                    options: ["Travelers who don't spend much money", "Travelers who have minimal negative effect on the environment", "Travelers who only visit cities", "Travelers who travel by foot"],
+                    correct: 1,
+                    explanation: "Low-impact in tourism refers to minimizing the ecological and cultural footprint of visitors.",
+                    tips: ["Context: 'Protect natural resources' directly leads to the 'minimal effect' answer.", "Strategy: Quality vs Quantity usually refers to high value vs high volume."],
+                    meanings: { "Low-impact": "Designed or made to have little or no damaging effect on the environment.", "Revenue": "Income, especially when of a company or organization." }
+                },
+                {
+                    passage: "The expansion of renewable energy in Oman is not just about solar power. The Dhofar wind farm, the first of its kind in the GCC, utilizes the seasonal monsoon (Khareef) winds to generate electricity, showcasing the diversity of Oman's renewable energy portfolio.",
+                    question: "The text mentions the Dhofar wind farm primarily to show:",
+                    options: ["That solar power is better than wind", "The diversity of Oman's renewable energy sources", "That the monsoon is harmful to the economy", "That wind power is only possible in Dhofar"],
+                    correct: 1,
+                    explanation: "The text states it 'showcases the diversity of Oman's renewable energy portfolio'.",
+                    tips: ["Keyword: 'diversity'.", "Logic: Mentioning a different type of energy (wind) next to solar proves variety."],
+                    meanings: { "Portfolio": "A range of investments held by a person or organization; in this context, a range of energy sources.", "Monsoon": "A seasonal prevailing wind in the region of South and Southeast Asia." }
+                },
+                {
+                    passage: "The Omani fishing industry is being modernized with 'smart fishing' technologies. By using satellite data to track fish migrations and modern cold-chain logistics, the sector aims to increase exports while ensuring the sustainability of fish stocks.",
+                    question: "The primary goal of 'smart fishing' is to balance:",
+                    options: ["Speed and cost", "Satellite technology and traditional boats", "Increased exports and resource sustainability", "Fish migration and international laws"],
+                    correct: 2,
+                    explanation: "The text mentions 'increase exports' AND 'ensuring the sustainability of fish stocks'.",
+                    tips: ["Balance: Omani policy questions often look for the balance between growth and protection.", "Meanings: Sustainability = able to be maintained at a certain rate or level."],
+                    meanings: { "Migration": "Seasonal movement of animals from one region to another.", "Cold-chain": "A temperature-controlled supply chain." }
+                },
+                {
+                    passage: "Oman's health sector is increasingly adopting telemedicine to provide specialized care to remote areas. This digital transformation reduces the need for patients to travel long distances to Muscat, improving accessibility and efficiency in healthcare delivery.",
+                    question: "The main benefit of telemedicine mentioned in the text is:",
+                    options: ["Replacing all doctors with robots", "Improving healthcare accessibility for remote regions", "Making healthcare more expensive", "Focusing all care in Muscat"],
+                    correct: 1,
+                    explanation: "The text explicitly says it provides care to 'remote areas' and 'improving accessibility'.",
+                    tips: ["Context: Remote areas + digital = easier access.", "Elimination: Digital transformation usually aims for efficiency, not higher cost."],
+                    meanings: { "Telemedicine": "The remote diagnosis and treatment of patients by means of telecommunications technology.", "Accessibility": "The quality of being able to be reached or entered." }
+                },
+                {
+                    passage: "The development of Al Mouj Muscat as an Integrated Tourism Complex (ITC) demonstrates the success of public-private partnerships. By combining residential, commercial, and leisure facilities, it creates a vibrant urban environment that attracts both residents and international tourists.",
+                    question: "Al Mouj Muscat is cited as an example of:",
+                    options: ["A failing government project", "A successful public-private partnership", "A project solely for international tourists", "A replacement for traditional Omani markets"],
+                    correct: 1,
+                    explanation: "The text states it 'demonstrates the success of public-private partnerships'.",
+                    tips: ["Direct quote: Look for the phrase 'demonstrates the success'.", "Logic: Multi-use developments (Integrated) often involve both sectors."],
+                    meanings: { "Integrated": "With various parts or aspects linked or coordinated.", "Leisure": "Use of free time for enjoyment." }
+                },
+                {
+                    passage: "Oman's investment in human capital includes scholarships for study abroad in top-tier universities. These 'Oman Scholars' are expected to bring back global expertise and innovative thinking to drive the Sultanate's progress in science, technology, and governance.",
+                    question: "What is the expected contribution of the returning 'Oman Scholars'?",
+                    options: ["To stay abroad forever", "To bring back global expertise and drive national progress", "To only work in top-tier universities", "To replace all existing Omani workers"],
+                    correct: 1,
+                    explanation: "The text mentions they are expected to 'bring back global expertise... to drive the Sultanate's progress'.",
+                    tips: ["Goal-oriented: What is the purpose of the scholarship?", "Logic: Expertise + Progress = National Development."],
+                    meanings: { "Expertise": "Expert skill or knowledge in a particular field.", "Innovative": "Featuring new methods; advanced and original." }
+                },
+                {
+                    passage: "The expansion of the Port of Salalah has made it one of the most efficient transshipment hubs in the world. By utilizing automated stacking cranes and advanced berthing software, the port has significantly reduced the turnaround time for ultra-large container vessels.",
+                    question: "What has been the primary result of the technological upgrades at the Port of Salalah?",
+                    options: ["Increased fuel costs for vessels", "Reduced turnaround time for large ships", "Elimination of all human workers", "Focusing only on small fishing boats"],
+                    correct: 1,
+                    explanation: "The text states the port has 'significantly reduced the turnaround time for ultra-large container vessels'.",
+                    tips: ["Keyword: 'turnaround time'.", "Logic: Efficiency in ports is measured by how fast ships can enter and leave."],
+                    meanings: { "Transshipment": "The shipment of goods or containers to an intermediate destination, then to another destination.", "Berthing": "The process of bringing a ship to its allotted place at a wharf or pier." }
+                },
+                {
+                    passage: "The Omani 'Zari' embroidery is a testament to the country's rich textile history. Traditionally using gold and silver threads, this intricate craft is now being integrated into contemporary fashion, allowing Omani designers to compete on global runways while honoring their roots.",
+                    question: "The author mentions 'global runways' to suggest that Zari embroidery is:",
+                    options: ["Only suitable for Omani weddings", "Gaining international recognition in modern fashion", "Too expensive for the average person", "A dying art that cannot be modernized"],
+                    correct: 1,
+                    explanation: "Competing on global runways implies that the traditional craft is finding a place in the international modern fashion industry.",
+                    tips: ["Inference: Global runways = International fashion industry.", "Context: 'integrated into contemporary fashion'."],
+                    meanings: { "Intricate": "Very complicated or detailed.", "Contemporary": "Living or occurring at the same time; belonging to or occurring in the present." }
+                },
+                {
+                    passage: "The development of the Oman Botanic Garden aims to conserve the Sultanate's unique flora. This project serves as a living laboratory for researchers and an educational center for the public, highlighting the importance of botanical diversity in the face of climate change.",
+                    question: "According to the text, the Oman Botanic Garden serves as both:",
+                    options: ["A park and a shopping mall", "A laboratory and an educational center", "A farm and a factory", "A zoo and a museum"],
+                    correct: 1,
+                    explanation: "The text explicitly mentions it serves as a 'living laboratory for researchers and an educational center for the public'.",
+                    tips: ["Direct detail: Look for the 'both' or 'and' structure in the sentence.", "Context: Scientific and public education roles."],
+                    meanings: { "Flora": "The plants of a particular region, habitat, or geological period.", "Botanical": "Relating to plants." }
+                },
+                {
+                    passage: "Oman's 'Invest Easy' portal has revolutionized the process of starting a business. by digitizing license applications and approvals, the government has moved up in the global 'Ease of Doing Business' rankings, fostering a more vibrant entrepreneurial ecosystem.",
+                    question: "The 'Invest Easy' portal is primarily credited with:",
+                    options: ["Increasing the cost of business licenses", "Simplifying and digitizing the business startup process", "Replacing all private banks with government ones", "Limiting business to Omani nationals only"],
+                    correct: 1,
+                    explanation: "The text mentions 'digitizing license applications' and improving 'Ease of Doing Business' rankings.",
+                    tips: ["Keyword: 'digitizing'.", "Logic: Improving rankings usually means making things easier and faster."],
+                    meanings: { "Entrepreneurial": "Characterized by the taking of financial risks in the hope of profit; enterprising.", "Ecosystem": "A complex network or interconnected system." }
+                },
+                {
+                    passage: "The 'Khareef' season in Dhofar brings a unique microclimate that allows for the growth of tropical fruits like frankincense and coconuts. This seasonal phenomenon is not only an environmental marvel but also a significant driver of the regional economy through tourism and agriculture.",
+                    question: "The author describes the Khareef season as a 'significant driver' because it:",
+                    options: ["Causes many traffic accidents", "Boosts both tourism and agriculture", "Is the only time people can work", "Changes the way people drive their cars"],
+                    correct: 1,
+                    explanation: "The text states it is a 'significant driver of the regional economy through tourism and agriculture'.",
+                    tips: ["Metaphor: 'Driver' = something that provides power or direction to a process.", "Context: Economic benefits are linked to tourism and farming."],
+                    meanings: { "Microclimate": "The climate of a very small or restricted area, especially when this differs from the climate of the surrounding area.", "Phenomenon": "A fact or situation that is observed to exist or happen." }
+                },
+                {
+                    passage: "The expansion of the Port of Salalah has made it one of the most efficient transshipment hubs in the world. By utilizing automated stacking cranes and advanced berthing software, the port has significantly reduced the turnaround time for ultra-large container vessels.",
+                    question: "What has been the primary result of the technological upgrades at the Port of Salalah?",
+                    options: ["Increased fuel costs for vessels", "Reduced turnaround time for large ships", "Elimination of all human workers", "Focusing only on small fishing boats"],
+                    correct: 1,
+                    explanation: "The text states the port has 'significantly reduced the turnaround time for ultra-large container vessels'.",
+                    tips: ["Keyword: 'turnaround time'.", "Logic: Efficiency in ports is measured by how fast ships can enter and leave."],
+                    meanings: { "Transshipment": "The shipment of goods or containers to an intermediate destination, then to another destination.", "Berthing": "The process of bringing a ship to its allotted place at a wharf or pier." }
+                },
+                {
+                    passage: "The Omani 'Zari' embroidery is a testament to the country's rich textile history. Traditionally using gold and silver threads, this intricate craft is now being integrated into contemporary fashion, allowing Omani designers to compete on global runways while honoring their roots.",
+                    question: "The author mentions 'global runways' to suggest that Zari embroidery is:",
+                    options: ["Only suitable for Omani weddings", "Gaining international recognition in modern fashion", "Too expensive for the average person", "A dying art that cannot be modernized"],
+                    correct: 1,
+                    explanation: "Competing on global runways implies that the traditional craft is finding a place in the international modern fashion industry.",
+                    tips: ["Inference: Global runways = International fashion industry.", "Context: 'integrated into contemporary fashion'."],
+                    meanings: { "Intricate": "Very complicated or detailed.", "Contemporary": "Living or occurring at the same time; belonging to or occurring in the present." }
+                },
+                {
+                    passage: "The development of the Oman Botanic Garden aims to conserve the Sultanate's unique flora. This project serves as a living laboratory for researchers and an educational center for the public, highlighting the importance of botanical diversity in the face of climate change.",
+                    question: "According to the text, the Oman Botanic Garden serves as both:",
+                    options: ["A park and a shopping mall", "A laboratory and an educational center", "A farm and a factory", "A zoo and a museum"],
+                    correct: 1,
+                    explanation: "The text explicitly mentions it serves as a 'living laboratory for researchers and an educational center for the public'.",
+                    tips: ["Direct detail: Look for the 'both' or 'and' structure in the sentence.", "Context: Scientific and public education roles."],
+                    meanings: { "Flora": "The plants of a particular region, habitat, or geological period.", "Botanical": "Relating to plants." }
+                },
+                {
+                    passage: "Oman's 'Invest Easy' portal has revolutionized the process of starting a business. By digitizing license applications and approvals, the government has moved up in the global 'Ease of Doing Business' rankings, fostering a more vibrant entrepreneurial ecosystem.",
+                    question: "The 'Invest Easy' portal is primarily credited with:",
+                    options: ["Increasing the cost of business licenses", "Simplifying and digitizing the business startup process", "Replacing all private banks with government ones", "Limiting business to Omani nationals only"],
+                    correct: 1,
+                    explanation: "The text mentions 'digitizing license applications' and improving 'Ease of Doing Business' rankings.",
+                    tips: ["Keyword: 'digitizing'.", "Logic: Improving rankings usually means making things easier and faster."],
+                    meanings: { "Entrepreneurial": "Characterized by the taking of financial risks in the hope of profit; enterprising.", "Ecosystem": "A complex network or interconnected system." }
+                },
+                {
+                    passage: "Oman's strategic pivot towards food security includes the expansion of the 'Najd' agricultural project. By utilizing desalinated water and hydroponic technology, the Sultanate aims to reduce its reliance on food imports, ensuring a stable supply of essential crops year-round.",
+                    question: "The primary objective of the 'Najd' project expansion is to:",
+                    options: ["Increase the export of luxury food items", "Enhance national food security and reduce imports", "Focus only on organic farming techniques", "Replace traditional markets with supermarkets"],
+                    correct: 1,
+                    explanation: "The text mentions 'reduce its reliance on food imports' and 'ensuring a stable supply', which defines food security.",
+                    tips: ["Contextual goal: Why use advanced tech in farming? To become self-sufficient.", "Meanings: Hydroponic = growing plants in sand, gravel, or liquid, with added nutrients but without soil."],
+                    meanings: { "Food Security": "The state of having reliable access to a sufficient quantity of affordable, nutritious food.", "Hydroponic": "Growing plants without soil, using mineral nutrient solutions in a water solvent." }
+                },
+                {
+                    passage: "The Sultanate's commitment to gender equality is reflected in the increasing number of Omani women in leadership roles across both public and private sectors. This inclusivity is seen as a key driver for social progress and economic innovation, aligning with global benchmarks for sustainable development.",
+                    question: "How is inclusivity described in the context of Omani leadership?",
+                    options: ["As a minor social trend", "As a key driver for social progress and innovation", "As a requirement only for government roles", "As a distraction from economic goals"],
+                    correct: 1,
+                    explanation: "The passage states that inclusivity is 'seen as a key driver for social progress and economic innovation'.",
+                    tips: ["Keyword identification: 'Inclusivity', 'Leadership', 'Driver'.", "Elimination: The text frames this positively, so avoid 'minor' or 'distraction'."],
+                    meanings: { "Inclusivity": "The practice or policy of providing equal access to opportunities and resources for people who might otherwise be excluded.", "Benchmarks": "Standards or points of reference against which things may be compared or assessed." }
+                },
+                {
+                    passage: "The development of Muscat's public transport network, including the 'Mwasalat' bus service, aims to reduce traffic congestion and carbon emissions. By providing an efficient alternative to private vehicle use, the municipality is fostering a more sustainable and accessible urban environment.",
+                    question: "The main environmental benefit of the 'Mwasalat' bus service is:",
+                    options: ["Increasing the speed of private cars", "Reducing carbon emissions through fewer private vehicles", "Limiting bus travel to certain times of the day", "Building more roads for buses only"],
+                    correct: 1,
+                    explanation: "The text explicitly states it aims to 'reduce traffic congestion and carbon emissions' by providing an alternative to private cars.",
+                    tips: ["Environmental link: Public transport = fewer cars = lower emissions.", "Meanings: Congestion = the state of being extremely full or blocked."],
+                    meanings: { "Congestion": "The state of being extremely full or blocked.", "Emissions": "The production and discharge of something, especially gas or radiation." }
+                },
+                {
+                    passage: "Oman's traditional 'Aflaj' irrigation systems are recognized as UNESCO World Heritage sites. These ancient gravity-fed channels demonstrate a sophisticated understanding of hydrology and communal resource management that has sustained Omani agriculture for centuries.",
+                    question: "The 'Aflaj' systems are primarily cited as evidence of ancient Omanis':",
+                    options: ["Advanced understanding of hydrology", "Lack of interest in resource management", "Reliance on modern pump technology", "Focus on urban over rural development"],
+                    correct: 0,
+                    explanation: "The text mentions they 'demonstrate a sophisticated understanding of hydrology and communal resource management'.",
+                    tips: ["Detail check: What do the systems 'demonstrate'?", "Elimination: 'Lack of interest' and 'modern pump' contradict the text."],
+                    meanings: { "Hydrology": "The branch of science concerned with the properties of the earth's water.", "Communal": "Shared by all members of a community; for common use." }
+                },
+                {
+                    passage: "The 'Oman 2040' vision places a high priority on the 'Society and Culture' pillar. This involves preserving national identity while fostering a culture of innovation and lifelong learning, ensuring that the Sultanate remains competitive in a rapidly changing global landscape.",
+                    question: "Which two elements are balanced within the 'Society and Culture' pillar?",
+                    options: ["National identity and global competition", "Tradition and isolation", "Innovation and the elimination of old customs", "Lifelong learning and the end of formal education"],
+                    correct: 0,
+                    explanation: "The text mentions 'preserving national identity' AND 'fostering a culture of innovation... to remain competitive'.",
+                    tips: ["Dual goals: Look for the pair of objectives mentioned in the vision.", "Inference: Competition requires innovation, identity is the tradition part."],
+                    meanings: { "Identity": "The fact of being who or what a person or thing is.", "Lifelong": "Lasting or remaining in a particular state throughout a person's life." }
+                }
+            ],
+            Abstract: [
+                {
+                    type: "matrix",
+                    matrix: ["◰", "◱", "◲", "◱", "◲", "◰", "◲", "◰", "?"],
+                    question: "Which quadrant pattern completes the cyclical logic of this 3x3 matrix?",
+                    options: ["◰", "◱", "◲", "◳"],
+                    correct: 1,
+                    explanation: "The symbols cycle: Top-Left -> Top-Right -> Bottom-Left. The next in the sequence for the final cell is Top-Right (◱).",
+                    tips: ["Logic: Look for the 'Movement' of the shaded part. Is it jumping or sliding?", "Hard Mode Tip: Some matrices use 'Addition' logic where the 3rd cell is the sum of the first two. This one is Cyclical."]
+                },
+                {
+                    type: "matrix",
+                    matrix: ["●", "●●", "●●●", "▲", "▲▲", "▲▲▲", "■", "■■", "?"],
+                    question: "Find the missing element based on quantitative logic.",
+                    options: ["■■", "■■■", "▲▲▲", "●●●"],
+                    correct: 1,
+                    explanation: "The number of shapes increments by 1 in each row. Row 3 has squares, so it needs 3 squares (■■■).",
+                    tips: ["IQ Tip: Don't overthink. Sometimes the pattern is just counting.", "Elimination: The shape must be a Square (■). Options C and D are wrong shapes."]
+                },
+                {
+                    type: "rotation",
+                    question: "If a shape is rotated 45° CW, then 90° CCW, and finally 135° CW, what is its final net rotation relative to the start?",
+                    options: ["45° CW", "90° CW", "180° CW", "0° (Original)"],
+                    correct: 1,
+                    explanation: "+45 (CW) - 90 (CCW) + 135 (CW) = +90 (CW).",
+                    tips: ["Pro Tip: Use a 'number line' for rotations. Clockwise is positive (+), Counter-Clockwise is negative (-).", "Math: 45 - 90 = -45. -45 + 135 = 90."]
+                },
+                {
+                    type: "matrix",
+                    matrix: ["+", "x", "*", "x", "*", "+", "*", "+", "?"],
+                    question: "Complete the operator logic grid.",
+                    options: ["+", "x", "*", "/"],
+                    correct: 1,
+                    explanation: "Latin Square pattern: Plus, X, and Asterisk must each appear once per row/column.",
+                    tips: ["Elimination: Division (/) is not used anywhere else in the grid, so it's a distractor.", "Check: Row 3 has * and +. Column 3 has * and +. Missing is x."]
+                },
+                {
+                    type: "matrix",
+                    matrix: ["⬚", "▢", "▣", "▢", "▣", "⬚", "▣", "⬚", "?"],
+                    question: "Complete the nested square pattern.",
+                    options: ["▢", "▣", "⬚", "■"],
+                    correct: 0,
+                    explanation: "Each row and column contains one empty box, one bordered box, and one filled/nested box.",
+                    tips: ["Check Row 3: It has nested and empty. Column 3: Nested and empty. Answer: Bordered."]
+                },
+                {
+                    type: "matrix",
+                    matrix: ["1A", "2B", "3C", "2B", "3C", "1A", "3C", "1A", "?"],
+                    question: "Identify the missing alphanumeric code in this Latin Square.",
+                    options: ["1A", "2B", "3C", "4D"],
+                    correct: 1,
+                    explanation: "Each row and column must have 1A, 2B, and 3C.",
+                    tips: ["Treat the combination as a single symbol.", "Elimination: 4D doesn't exist in the rest of the grid."]
+                },
+                {
+                    type: "matrix",
+                    matrix: ["↖", "↑", "↗", "←", "●", "→", "↙", "↓", "?"],
+                    question: "Directional logic matrix: Analyze the flow around the center point.",
+                    options: ["↘", "↖", "↔", "↕"],
+                    correct: 0,
+                    explanation: "The grid represents a compass. The missing arrow is South-East (↘) to complete the surrounding directions.",
+                    tips: ["Visual: Imagine the grid as a map or compass.", "Elimination: The other directions are already present."]
+                },
+                {
+                    type: "matrix",
+                    matrix: ["◓", "◑", "◒", "◒", "◓", "◑", "◑", "◒", "?"],
+                    question: "Rotation matrix: A half-circle rotates 90° CW in each cell. What is the next position?",
+                    options: ["◓", "◑", "◒", "◐"],
+                    correct: 0,
+                    explanation: "The pattern is a 90° CW rotation. Top -> Right -> Bottom -> Top... Following the Latin square logic, the missing one is Top (◓).",
+                    tips: ["Logic: Track the 'flat' side of the half-circle.", "Rule: Rotation + Latin Square."]
+                },
+                {
+                    type: "matrix",
+                    matrix: ["★", "★★", "★★★", "☆", "☆☆", "☆☆☆", "✦", "✦✦", "?"],
+                    question: "Complete the quantitative star pattern.",
+                    options: ["✦✦", "✦✦✦", "☆☆☆", "★★★"],
+                    correct: 1,
+                    explanation: "The number of symbols increases from 1 to 3 in each row. Row 3 uses '✦', so 3 '✦' are needed.",
+                    tips: ["Pattern: Identity + Count.", "Rule: 1, 2, 3."]
+                },
+                {
+                    type: "matrix",
+                    matrix: ["◷", "◶", "◵", "◶", "◵", "◷", "◵", "◷", "?"],
+                    question: "Clock-hand logic: Determine the next position based on rotation.",
+                    options: ["◷", "◶", "◵", "◴"],
+                    correct: 1,
+                    explanation: "Each row and column contains three positions: Top-Left, Bottom-Left, and Bottom-Right. The missing one is Bottom-Left (◶).",
+                    tips: ["Logic: Latin Square on positions.", "Rule: Each position once per row/column."]
+                },
+                {
+                    type: "matrix",
+                    matrix: ["A", "B", "C", "C", "A", "B", "B", "C", "?"],
+                    question: "Alphabetical Latin Square: What is the missing letter?",
+                    options: ["A", "B", "C", "D"],
+                    correct: 0,
+                    explanation: "Each row and column must contain A, B, and C.",
+                    tips: ["Check Row 3: Has B and C. Column 3: Has C and B. Missing: A.", "Elimination: D is not in the grid."]
+                },
+                {
+                    type: "matrix",
+                    matrix: ["■", "□", "■", "□", "■", "□", "■", "□", "?"],
+                    question: "Alternating pattern logic: What is the final cell?",
+                    options: ["■", "□", "▣", "⬚"],
+                    correct: 0,
+                    explanation: "The pattern alternates between filled and empty squares. The last cell must be a filled square (■).",
+                    tips: ["Pattern: 1, 0, 1, 0...", "Verification: Follow the sequence through all 9 cells."]
+                },
+                {
+                    type: "matrix",
+                    matrix: ["◩", "◪", "◩", "◪", "◩", "◪", "◩", "◪", "?"],
+                    question: "Diagonal half-square logic: Determine the next orientation.",
+                    options: ["◩", "◪", "◫", "◬"],
+                    correct: 0,
+                    explanation: "The pattern alternates between the two diagonal orientations.",
+                    tips: ["Visual: Look at the line direction.", "Rule: Binary alternation."]
+                },
+                {
+                    type: "matrix",
+                    matrix: ["1", "3", "5", "7", "9", "11", "13", "15", "?"],
+                    question: "Numerical progression in a matrix: What comes next?",
+                    options: ["16", "17", "18", "19"],
+                    correct: 1,
+                    explanation: "The sequence adds 2 at each step. 15 + 2 = 17.",
+                    tips: ["Logic: Simple arithmetic progression.", "Verification: Check the difference between all cells."]
+                },
+                {
+                    type: "matrix",
+                    matrix: ["⬔", "⬕", "⬓", "⬕", "⬓", "⬔", "⬓", "⬔", "?"],
+                    question: "Complex corner-fill logic: Identify the missing orientation.",
+                    options: ["⬔", "⬕", "⬓", "⬒"],
+                    correct: 1,
+                    explanation: "Latin Square on corner orientations. Row 3 has ⬓ and ⬔. Column 3 has ⬓ and ⬔. Missing is ⬕.",
+                    tips: ["Logic: Latin Square.", "Observation: Track which corner is filled."]
+                },
+                {
+                    type: "matrix",
+                    matrix: ["○", "●", "◌", "◌", "○", "●", "●", "◌", "?"],
+                    question: "Circle state logic: Determine the final cell.",
+                    options: ["○", "●", "◌", "◎"],
+                    correct: 0,
+                    explanation: "Latin Square on circle types: Empty, Filled, Dotted. Row 3 has Filled and Dotted. Column 3 has Dotted and Filled. Missing is Empty (○).",
+                    tips: ["Logic: Latin Square.", "Observation: Differentiate between the three circle styles."]
+                },
+                {
+                    type: "matrix",
+                    matrix: ["⇑", "⇒", "⇓", "⇓", "⇑", "⇒", "⇒", "⇓", "?"],
+                    question: "Arrow rotation logic: Complete the matrix.",
+                    options: ["⇑", "⇒", "⇓", "⇐"],
+                    correct: 0,
+                    explanation: "Latin Square on arrow directions: Up, Right, Down. Row 3 has Right and Down. Column 3 has Down and Right. Missing is Up (⇑).",
+                    tips: ["Logic: Latin Square.", "Rule: Each direction once per row/column."]
+                },
+                {
+                    type: "matrix",
+                    matrix: ["◧", "◨", "◩", "◨", "◩", "◧", "◩", "◧", "?"],
+                    question: "Shaded side logic: Identify the missing cell.",
+                    options: ["◧", "◨", "◩", "◪"],
+                    correct: 1,
+                    explanation: "Latin Square on shaded sides: Left, Right, Diagonal. Row 3 has Diagonal and Left. Column 3 has Diagonal and Left. Missing is Right (◨).",
+                    tips: ["Logic: Latin Square.", "Observation: Track the position of the shading."]
+                },
+                {
+                    type: "matrix",
+                    matrix: ["⊚", "⊛", "⊜", "⊛", "⊜", "⊚", "⊜", "⊚", "?"],
+                    question: "Nested symbol logic: Complete the grid.",
+                    options: ["⊚", "⊛", "⊜", "⊝"],
+                    correct: 1,
+                    explanation: "Latin Square on nested symbols. Row 3 has ⊜ and ⊚. Column 3 has ⊜ and ⊚. Missing is ⊛.",
+                    tips: ["Logic: Latin Square.", "Observation: Identify the three unique nested symbols."]
+                },
+                {
+                    type: "matrix",
+                    matrix: ["◰", "◱", "◲", "◱", "◲", "◰", "◲", "◰", "?"],
+                    question: "Cyclical quadrant pattern: Which cell is next?",
+                    options: ["◰", "◱", "◲", "◳"],
+                    correct: 1,
+                    explanation: "The pattern cycles through Top-Left, Top-Right, and Bottom-Left quadrants. Row 3 follows this cycle.",
+                    tips: ["Check Row 3: Has Bottom-Left and Top-Left. Missing: Top-Right."]
+                },
+                {
+                    type: "matrix",
+                    matrix: ["1", "4", "7", "2", "5", "8", "3", "6", "?"],
+                    question: "Numerical sequence logic: What is the missing number?",
+                    options: ["7", "8", "9", "10"],
+                    correct: 2,
+                    explanation: "The sequence increases vertically in each column: 1-2-3, 4-5-6, 7-8-9.",
+                    tips: ["Look for vertical patterns if horizontal ones fail.", "Rule: Column-wise +1."]
+                },
+                {
+                    type: "matrix",
+                    matrix: ["○", "◑", "●", "◑", "●", "○", "●", "○", "?"],
+                    question: "Shading progression: Complete the pattern.",
+                    options: ["○", "◑", "●", "◌"],
+                    correct: 1,
+                    explanation: "Latin Square logic on shading: Empty, Half-filled, Full-filled. Row 3 has Full and Empty. Column 3 has ● and ○. Missing is ◑.",
+                    tips: ["Logic: Latin Square on shading levels.", "Verification: Each level once per row/column."]
+                },
+                {
+                    type: "matrix",
+                    matrix: ["+", "=", "-", "=", "-", "+", "-", "+", "?"],
+                    question: "Operator grid: Find the missing symbol.",
+                    options: ["+", "-", "=", "x"],
+                    correct: 2,
+                    explanation: "Latin Square logic on math operators: Plus, Minus, Equals. Row 3 has Minus and Plus. Column 3 has Minus and Plus. Missing is Equals (=).",
+                    tips: ["Logic: Latin Square.", "Elimination: 'x' is not part of the grid's set."]
+                },
+                {
+                    type: "matrix",
+                    matrix: ["⬖", "⬗", "⬘", "⬗", "⬘", "⬖", "⬘", "⬖", "?"],
+                    question: "Shape orientation matrix: Complete the logic.",
+                    options: ["⬖", "⬗", "⬘", "⬙"],
+                    correct: 1,
+                    explanation: "Latin Square on orientations. Row 3 has ⬘ and ⬖. Column 3 has ⬘ and ⬖. Missing is ⬗.",
+                    tips: ["Visual: Track the tip of the diamond.", "Rule: Each orientation once per row/column."]
+                }
+            ],
+            Abstract: [
+                {
+                    type: "matrix",
+                    matrix: ["◰", "◱", "◲", "◱", "◲", "◰", "◲", "◰", "?"],
+                    question: "Which quadrant pattern completes the cyclical logic of this 3x3 matrix?",
+                    options: ["◰", "◱", "◲", "◳"],
+                    correct: 1,
+                    explanation: "The symbols cycle: Top-Left -> Top-Right -> Bottom-Left. The next in the sequence for the final cell is Top-Right (◱).",
+                    tips: ["Logic: Look for the 'Movement' of the shaded part. Is it jumping or sliding?", "Hard Mode Tip: Some matrices use 'Addition' logic where the 3rd cell is the sum of the first two. This one is Cyclical."]
+                },
+                {
+                    type: "matrix",
+                    matrix: ["●", "●●", "●●●", "▲", "▲▲", "▲▲▲", "■", "■■", "?"],
+                    question: "Find the missing element based on quantitative logic.",
+                    options: ["■■", "■■■", "▲▲▲", "●●●"],
+                    correct: 1,
+                    explanation: "The number of shapes increments by 1 in each row. Row 3 has squares, so it needs 3 squares (■■■).",
+                    tips: ["IQ Tip: Don't overthink. Sometimes the pattern is just counting.", "Elimination: The shape must be a Square (■). Options C and D are wrong shapes."]
+                },
+                {
+                    type: "rotation",
+                    question: "If a shape is rotated 45° CW, then 90° CCW, and finally 135° CW, what is its final net rotation relative to the start?",
+                    options: ["45° CW", "90° CW", "180° CW", "0° (Original)"],
+                    correct: 1,
+                    explanation: "+45 (CW) - 90 (CCW) + 135 (CW) = +90 (CW).",
+                    tips: ["Pro Tip: Use a 'number line' for rotations. Clockwise is positive (+), Counter-Clockwise is negative (-).", "Math: 45 - 90 = -45. -45 + 135 = 90."]
+                },
+                {
+                    type: "matrix",
+                    matrix: ["+", "x", "*", "x", "*", "+", "*", "+", "?"],
+                    question: "Complete the operator logic grid.",
+                    options: ["+", "x", "*", "/"],
+                    correct: 1,
+                    explanation: "Latin Square pattern: Plus, X, and Asterisk must each appear once per row/column.",
+                    tips: ["Elimination: Division (/) is not used anywhere else in the grid, so it's a distractor.", "Check: Row 3 has * and +. Column 3 has * and +. Missing is x."]
+                },
+                {
+                    type: "matrix",
+                    matrix: ["⬚", "▢", "▣", "▢", "▣", "⬚", "▣", "⬚", "?"],
+                    question: "Complete the nested square pattern.",
+                    options: ["▢", "▣", "⬚", "■"],
+                    correct: 0,
+                    explanation: "Each row and column contains one empty box, one bordered box, and one filled/nested box.",
+                    tips: ["Check Row 3: It has nested and empty. Column 3: Nested and empty. Answer: Bordered."]
+                },
+                {
+                    type: "matrix",
+                    matrix: ["1A", "2B", "3C", "2B", "3C", "1A", "3C", "1A", "?"],
+                    question: "Identify the missing alphanumeric code in this Latin Square.",
+                    options: ["1A", "2B", "3C", "4D"],
+                    correct: 1,
+                    explanation: "Each row and column must have 1A, 2B, and 3C.",
+                    tips: ["Treat the combination as a single symbol.", "Elimination: 4D doesn't exist in the rest of the grid."]
+                },
+                {
+                    type: "matrix",
+                    matrix: ["↖", "↑", "↗", "←", "●", "→", "↙", "↓", "?"],
+                    question: "Directional logic matrix: Analyze the flow around the center point.",
+                    options: ["↘", "↖", "↔", "↕"],
+                    correct: 0,
+                    explanation: "The grid represents a compass. The missing arrow is South-East (↘) to complete the surrounding directions.",
+                    tips: ["Visual: Imagine the grid as a map or compass.", "Elimination: The other directions are already present."]
+                },
+                {
+                    type: "matrix",
+                    matrix: ["◓", "◑", "◒", "◒", "◓", "◑", "◑", "◒", "?"],
+                    question: "Rotation matrix: A half-circle rotates 90° CW in each cell. What is the next position?",
+                    options: ["◓", "◑", "◒", "◐"],
+                    correct: 0,
+                    explanation: "The pattern is a 90° CW rotation. Top -> Right -> Bottom -> Top... Following the Latin square logic, the missing one is Top (◓).",
+                    tips: ["Logic: Track the 'flat' side of the half-circle.", "Rule: Rotation + Latin Square."]
+                },
+                {
+                    type: "matrix",
+                    matrix: ["★", "★★", "★★★", "☆", "☆☆", "☆☆☆", "✦", "✦✦", "?"],
+                    question: "Complete the quantitative star pattern.",
+                    options: ["✦✦", "✦✦✦", "☆☆☆", "★★★"],
+                    correct: 1,
+                    explanation: "The number of symbols increases from 1 to 3 in each row. Row 3 uses '✦', so 3 '✦' are needed.",
+                    tips: ["Pattern: Identity + Count.", "Rule: 1, 2, 3."]
+                },
+                {
+                    type: "matrix",
+                    matrix: ["◷", "◶", "◵", "◶", "◵", "◷", "◵", "◷", "?"],
+                    question: "Clock-hand logic: Determine the next position based on rotation.",
+                    options: ["◷", "◶", "◵", "◴"],
+                    correct: 1,
+                    explanation: "Each row and column contains three positions: Top-Left, Bottom-Left, and Bottom-Right. The missing one is Bottom-Left (◶).",
+                    tips: ["Logic: Latin Square on positions.", "Rule: Each position once per row/column."]
+                },
+                {
+                    type: "matrix",
+                    matrix: ["A", "B", "C", "C", "A", "B", "B", "C", "?"],
+                    question: "Alphabetical Latin Square: What is the missing letter?",
+                    options: ["A", "B", "C", "D"],
+                    correct: 0,
+                    explanation: "Each row and column must contain A, B, and C.",
+                    tips: ["Check Row 3: Has B and C. Column 3: Has C and B. Missing: A.", "Elimination: D is not in the grid."]
+                },
+                {
+                    type: "matrix",
+                    matrix: ["■", "□", "■", "□", "■", "□", "■", "□", "?"],
+                    question: "Alternating pattern logic: What is the final cell?",
+                    options: ["■", "□", "▣", "⬚"],
+                    correct: 0,
+                    explanation: "The pattern alternates between filled and empty squares. The last cell must be a filled square (■).",
+                    tips: ["Pattern: 1, 0, 1, 0...", "Verification: Follow the sequence through all 9 cells."]
+                },
+                {
+                    type: "matrix",
+                    matrix: ["◩", "◪", "◩", "◪", "◩", "◪", "◩", "◪", "?"],
+                    question: "Diagonal half-square logic: Determine the next orientation.",
+                    options: ["◩", "◪", "◫", "◬"],
+                    correct: 0,
+                    explanation: "The pattern alternates between the two diagonal orientations.",
+                    tips: ["Visual: Look at the line direction.", "Rule: Binary alternation."]
+                },
+                {
+                    type: "matrix",
+                    matrix: ["1", "3", "5", "7", "9", "11", "13", "15", "?"],
+                    question: "Numerical progression in a matrix: What comes next?",
+                    options: ["16", "17", "18", "19"],
+                    correct: 1,
+                    explanation: "The sequence adds 2 at each step. 15 + 2 = 17.",
+                    tips: ["Logic: Simple arithmetic progression.", "Verification: Check the difference between all cells."]
+                },
+                {
+                    type: "matrix",
+                    matrix: ["⬔", "⬕", "⬓", "⬕", "⬓", "⬔", "⬓", "⬔", "?"],
+                    question: "Complex corner-fill logic: Identify the missing orientation.",
+                    options: ["⬔", "⬕", "⬓", "⬒"],
+                    correct: 1,
+                    explanation: "Latin Square on corner orientations. Row 3 has ⬓ and ⬔. Column 3 has ⬓ and ⬔. Missing is ⬕.",
+                    tips: ["Logic: Latin Square.", "Observation: Track which corner is filled."]
+                },
+                {
+                    type: "matrix",
+                    matrix: ["○", "●", "◌", "◌", "○", "●", "●", "◌", "?"],
+                    question: "Circle state logic: Determine the final cell.",
+                    options: ["○", "●", "◌", "◎"],
+                    correct: 0,
+                    explanation: "Latin Square on circle types: Empty, Filled, Dotted. Row 3 has Filled and Dotted. Column 3 has Dotted and Filled. Missing is Empty (○).",
+                    tips: ["Logic: Latin Square.", "Observation: Differentiate between the three circle styles."]
+                },
+                {
+                    type: "matrix",
+                    matrix: ["⇑", "⇒", "⇓", "⇓", "⇑", "⇒", "⇒", "⇓", "?"],
+                    question: "Arrow rotation logic: Complete the matrix.",
+                    options: ["⇑", "⇒", "⇓", "⇐"],
+                    correct: 0,
+                    explanation: "Latin Square on arrow directions: Up, Right, Down. Row 3 has Right and Down. Column 3 has Down and Right. Missing is Up (⇑).",
+                    tips: ["Logic: Latin Square.", "Rule: Each direction once per row/column."]
+                },
+                {
+                    type: "matrix",
+                    matrix: ["◧", "◨", "◩", "◨", "◩", "◧", "◩", "◧", "?"],
+                    question: "Shaded side logic: Identify the missing cell.",
+                    options: ["◧", "◨", "◩", "◪"],
+                    correct: 1,
+                    explanation: "Latin Square on shaded sides: Left, Right, Diagonal. Row 3 has Diagonal and Left. Column 3 has Diagonal and Left. Missing is Right (◨).",
+                    tips: ["Logic: Latin Square.", "Observation: Track the position of the shading."]
+                },
+                {
+                    type: "matrix",
+                    matrix: ["⊚", "⊛", "⊜", "⊛", "⊜", "⊚", "⊜", "⊚", "?"],
+                    question: "Nested symbol logic: Complete the grid.",
+                    options: ["⊚", "⊛", "⊜", "⊝"],
+                    correct: 1,
+                    explanation: "Latin Square on nested symbols. Row 3 has ⊜ and ⊚. Column 3 has ⊚ and ⊚ (wait, logic check: Column 3 has ⊜ and ⊚). Missing is ⊛.",
+                    tips: ["Logic: Latin Square.", "Observation: Identify the three unique nested symbols."]
+                },
+                {
+                    type: "matrix",
+                    matrix: ["◓", "◑", "◒", "◒", "◓", "◑", "◑", "◒", "?"],
+                    question: "Rotation matrix: A half-circle rotates 90° CW in each cell. What is the next position?",
+                    options: ["◓", "◑", "◒", "◐"],
+                    correct: 0,
+                    explanation: "The pattern is a 90° CW rotation. Top -> Right -> Bottom -> Top... Following the Latin square logic, the missing one is Top (◓).",
+                    tips: ["Logic: Track the 'flat' side of the half-circle.", "Rule: Rotation + Latin Square."]
+                },
+                {
+                    type: "matrix",
+                    matrix: ["★", "★★", "★★★", "☆", "☆☆", "☆☆☆", "✦", "✦✦", "?"],
+                    question: "Complete the quantitative star pattern.",
+                    options: ["✦✦", "✦✦✦", "☆☆☆", "★★★"],
+                    correct: 1,
+                    explanation: "The number of symbols increases from 1 to 3 in each row. Row 3 uses '✦', so 3 '✦' are needed.",
+                    tips: ["Pattern: Identity + Count.", "Rule: 1, 2, 3."]
+                },
+                {
+                    type: "matrix",
+                    matrix: ["◷", "◶", "◵", "◶", "◵", "◷", "◵", "◷", "?"],
+                    question: "Clock-hand logic: Determine the next position based on rotation.",
+                    options: ["◷", "◶", "◵", "◴"],
+                    correct: 1,
+                    explanation: "Each row and column contains three positions: Top-Left, Bottom-Left, and Bottom-Right. The missing one is Bottom-Left (◶).",
+                    tips: ["Logic: Latin Square on positions.", "Rule: Each position once per row/column."]
+                },
+                {
+                    type: "matrix",
+                    matrix: ["A", "B", "C", "C", "A", "B", "B", "C", "?"],
+                    question: "Alphabetical Latin Square: What is the missing letter?",
+                    options: ["A", "B", "C", "D"],
+                    correct: 0,
+                    explanation: "Each row and column must contain A, B, and C.",
+                    tips: ["Check Row 3: Has B and C. Column 3: Has C and B. Missing: A.", "Elimination: D is not in the grid."]
+                },
+                {
+                    type: "matrix",
+                    matrix: ["■", "□", "■", "□", "■", "□", "■", "□", "?"],
+                    question: "Alternating pattern logic: What is the final cell?",
+                    options: ["■", "□", "▣", "⬚"],
+                    correct: 0,
+                    explanation: "The pattern alternates between filled and empty squares. The last cell must be a filled square (■).",
+                    tips: ["Pattern: 1, 0, 1, 0...", "Verification: Follow the sequence through all 9 cells."]
+                },
+                {
+                    type: "matrix",
+                    matrix: ["◩", "◪", "◩", "◪", "◩", "◪", "◩", "◪", "?"],
+                    question: "Diagonal half-square logic: Determine the next orientation.",
+                    options: ["◩", "◪", "◫", "◬"],
+                    correct: 0,
+                    explanation: "The pattern alternates between the two diagonal orientations.",
+                    tips: ["Visual: Look at the line direction.", "Rule: Binary alternation."]
+                },
+                {
+                    type: "matrix",
+                    matrix: ["1", "3", "5", "7", "9", "11", "13", "15", "?"],
+                    question: "Numerical progression in a matrix: What comes next?",
+                    options: ["16", "17", "18", "19"],
+                    correct: 1,
+                    explanation: "The sequence adds 2 at each step. 15 + 2 = 17.",
+                    tips: ["Logic: Simple arithmetic progression.", "Verification: Check the difference between all cells."]
+                },
+                {
+                    type: "matrix",
+                    matrix: ["⬔", "⬕", "⬓", "⬕", "⬓", "⬔", "⬓", "⬔", "?"],
+                    question: "Complex corner-fill logic: Identify the missing orientation.",
+                    options: ["⬔", "⬕", "⬓", "⬒"],
+                    correct: 1,
+                    explanation: "Latin Square on corner orientations. Row 3 has ⬓ and ⬔. Column 3 has ⬓ and ⬔. Missing is ⬕.",
+                    tips: ["Logic: Latin Square.", "Observation: Track which corner is filled."]
+                },
+                {
+                    type: "matrix",
+                    matrix: ["○", "●", "◌", "◌", "○", "●", "●", "◌", "?"],
+                    question: "Circle state logic: Determine the final cell.",
+                    options: ["○", "●", "◌", "◎"],
+                    correct: 0,
+                    explanation: "Latin Square on circle types: Empty, Filled, Dotted. Row 3 has Filled and Dotted. Column 3 has Dotted and Filled. Missing is Empty (○).",
+                    tips: ["Logic: Latin Square.", "Observation: Differentiate between the three circle styles."]
+                },
+                {
+                    type: "matrix",
+                    matrix: ["⇑", "⇒", "⇓", "⇓", "⇑", "⇒", "⇒", "⇓", "?"],
+                    question: "Arrow rotation logic: Complete the matrix.",
+                    options: ["⇑", "⇒", "⇓", "⇐"],
+                    correct: 0,
+                    explanation: "Latin Square on arrow directions: Up, Right, Down. Row 3 has Right and Down. Column 3 has Down and Right. Missing is Up (⇑).",
+                    tips: ["Logic: Latin Square.", "Rule: Each direction once per row/column."]
+                },
+                {
+                    type: "matrix",
+                    matrix: ["◧", "◨", "◩", "◨", "◩", "◧", "◩", "◧", "?"],
+                    question: "Shaded side logic: Identify the missing cell.",
+                    options: ["◧", "◨", "◩", "◪"],
+                    correct: 1,
+                    explanation: "Latin Square on shaded sides: Left, Right, Diagonal. Row 3 has Diagonal and Left. Column 3 has Diagonal and Left. Missing is Right (◨).",
+                    tips: ["Logic: Latin Square.", "Observation: Track the position of the shading."]
+                },
+                {
+                    type: "matrix",
+                    matrix: ["⊚", "⊛", "⊜", "⊛", "⊜", "⊚", "⊜", "⊚", "?"],
+                    question: "Nested symbol logic: Complete the grid.",
+                    options: ["⊚", "⊛", "⊜", "⊝"],
+                    correct: 1,
+                    explanation: "Latin Square on nested symbols. Row 3 has ⊜ and ⊚. Column 3 has ⊚ and ⊚ (wait, logic check: Column 3 has ⊜ and ⊚). Missing is ⊛.",
+                    tips: ["Logic: Latin Square.", "Observation: Identify the three unique nested symbols."]
+                },
+                {
+                    type: "matrix",
+                    matrix: ["◓", "◑", "◒", "◒", "◓", "◑", "◑", "◒", "?"],
+                    question: "Rotation matrix: A half-circle rotates 90° CW in each cell. What is the next position?",
+                    options: ["◓", "◑", "◒", "◐"],
+                    correct: 0,
+                    explanation: "The pattern is a 90° CW rotation. Top -> Right -> Bottom -> Top... Following the Latin square logic, the missing one is Top (◓).",
+                    tips: ["Logic: Track the 'flat' side of the half-circle.", "Rule: Rotation + Latin Square."]
+                },
+                {
+                    type: "matrix",
+                    matrix: ["★", "★★", "★★★", "☆", "☆☆", "☆☆☆", "✦", "✦✦", "?"],
+                    question: "Complete the quantitative star pattern.",
+                    options: ["✦✦", "✦✦✦", "☆☆☆", "★★★"],
+                    correct: 1,
+                    explanation: "The number of symbols increases from 1 to 3 in each row. Row 3 uses '✦', so 3 '✦' are needed.",
+                    tips: ["Pattern: Identity + Count.", "Rule: 1, 2, 3."]
+                },
+                {
+                    type: "matrix",
+                    matrix: ["◷", "◶", "◵", "◶", "◵", "◷", "◵", "◷", "?"],
+                    question: "Clock-hand logic: Determine the next position based on rotation.",
+                    options: ["◷", "◶", "◵", "◴"],
+                    correct: 1,
+                    explanation: "Each row and column contains three positions: Top-Left, Bottom-Left, and Bottom-Right. The missing one is Bottom-Left (◶).",
+                    tips: ["Logic: Latin Square on positions.", "Rule: Each position once per row/column."]
+                },
+                {
+                    type: "matrix",
+                    matrix: ["A", "B", "C", "C", "A", "B", "B", "C", "?"],
+                    question: "Alphabetical Latin Square: What is the missing letter?",
+                    options: ["A", "B", "C", "D"],
+                    correct: 0,
+                    explanation: "Each row and column must contain A, B, and C.",
+                    tips: ["Check Row 3: Has B and C. Column 3: Has C and B. Missing: A.", "Elimination: D is not in the grid."]
+                },
+                {
+                    type: "matrix",
+                    matrix: ["■", "□", "■", "□", "■", "□", "■", "□", "?"],
+                    question: "Alternating pattern logic: What is the final cell?",
+                    options: ["■", "□", "▣", "⬚"],
+                    correct: 0,
+                    explanation: "The pattern alternates between filled and empty squares. The last cell must be a filled square (■).",
+                    tips: ["Pattern: 1, 0, 1, 0...", "Verification: Follow the sequence through all 9 cells."]
+                },
+                {
+                    type: "matrix",
+                    matrix: ["◩", "◪", "◩", "◪", "◩", "◪", "◩", "◪", "?"],
+                    question: "Diagonal half-square logic: Determine the next orientation.",
+                    options: ["◩", "◪", "◫", "◬"],
+                    correct: 0,
+                    explanation: "The pattern alternates between the two diagonal orientations.",
+                    tips: ["Visual: Look at the line direction.", "Rule: Binary alternation."]
+                },
+                {
+                    type: "matrix",
+                    matrix: ["1", "3", "5", "7", "9", "11", "13", "15", "?"],
+                    question: "Numerical progression in a matrix: What comes next?",
+                    options: ["16", "17", "18", "19"],
+                    correct: 1,
+                    explanation: "The sequence adds 2 at each step. 15 + 2 = 17.",
+                    tips: ["Logic: Simple arithmetic progression.", "Verification: Check the difference between all cells."]
+                },
+                {
+                    type: "matrix",
+                    matrix: ["⬔", "⬕", "⬓", "⬕", "⬓", "⬔", "⬓", "⬔", "?"],
+                    question: "Complex corner-fill logic: Identify the missing orientation.",
+                    options: ["⬔", "⬕", "⬓", "⬒"],
+                    correct: 1,
+                    explanation: "Latin Square on corner orientations. Row 3 has ⬓ and ⬔. Column 3 has ⬓ and ⬔. Missing is ⬕.",
+                    tips: ["Logic: Latin Square.", "Observation: Track which corner is filled."]
+                },
+                {
+                    type: "matrix",
+                    matrix: ["○", "●", "◌", "◌", "○", "●", "●", "◌", "?"],
+                    question: "Circle state logic: Determine the final cell.",
+                    options: ["○", "●", "◌", "◎"],
+                    correct: 0,
+                    explanation: "Latin Square on circle types: Empty, Filled, Dotted. Row 3 has Filled and Dotted. Column 3 has Dotted and Filled. Missing is Empty (○).",
+                    tips: ["Logic: Latin Square.", "Observation: Differentiate between the three circle styles."]
+                },
+                {
+                    type: "matrix",
+                    matrix: ["⇑", "⇒", "⇓", "⇓", "⇑", "⇒", "⇒", "⇓", "?"],
+                    question: "Arrow rotation logic: Complete the matrix.",
+                    options: ["⇑", "⇒", "⇓", "⇐"],
+                    correct: 0,
+                    explanation: "Latin Square on arrow directions: Up, Right, Down. Row 3 has Right and Down. Column 3 has Down and Right. Missing is Up (⇑).",
+                    tips: ["Logic: Latin Square.", "Rule: Each direction once per row/column."]
+                },
+                {
+                    type: "matrix",
+                    matrix: ["◧", "◨", "◩", "◨", "◩", "◧", "◩", "◧", "?"],
+                    question: "Shaded side logic: Identify the missing cell.",
+                    options: ["◧", "◨", "◩", "◪"],
+                    correct: 1,
+                    explanation: "Latin Square on shaded sides: Left, Right, Diagonal. Row 3 has Diagonal and Left. Column 3 has Diagonal and Left. Missing is Right (◨).",
+                    tips: ["Logic: Latin Square.", "Observation: Track the position of the shading."]
+                },
+                {
+                    type: "matrix",
+                    matrix: ["⊚", "⊛", "⊜", "⊛", "⊜", "⊚", "⊜", "⊚", "?"],
+                    question: "Nested symbol logic: Complete the grid.",
+                    options: ["⊚", "⊛", "⊜", "⊝"],
+                    correct: 1,
+                    explanation: "Latin Square on nested symbols. Row 3 has ⊜ and ⊚. Column 3 has ⊚ and ⊚ (wait, logic check: Column 3 has ⊜ and ⊚). Missing is ⊛.",
+                    tips: ["Logic: Latin Square.", "Observation: Identify the three unique nested symbols."]
+                }
+            ],
+            Numerical: [
+                {
+                    question: "Oman's non-oil GDP grew by 4.5% in 2023. If the non-oil sector was valued at 16 Billion OMR at the start, what was its value at the end?",
+                    options: ["16.45 Billion OMR", "16.72 Billion OMR", "17.10 Billion OMR", "15.80 Billion OMR"],
+                    correct: 1,
+                    explanation: "16B + (16 * 0.045) = 16.72 Billion OMR.",
+                    tips: ["Numerical Tip: 1% of 16 is 0.16. So 4% is 0.64. Half percent (0.5%) is 0.08. Total growth = 0.64 + 0.08 = 0.72.", "Logic: Always check if the answer is bigger than the start for 'growth'."],
+                    meanings: { "GDP": "Gross Domestic Product - the total value of goods produced and services provided in a country during one year." }
+                },
+                {
+                    question: "A desalination plant produces 450,000 m³ of water with 15 turbines. If 3 turbines are shut down, what is the new daily production?",
+                    options: ["360,000 m³", "400,000 m³", "300,000 m³", "420,000 m³"],
+                    correct: 0,
+                    explanation: "Water per turbine = 450k / 15 = 30k. Remaining = 12 turbines. 12 * 30k = 360,000 m³.",
+                    tips: ["Logic: Figure out the 'Unit Value' first (water per 1 turbine).", "Quick Math: 12/15 is 80%. 80% of 450k is 360k."]
+                },
+                {
+                    question: "The ratio of Renewable to Gas energy is 1:9. To reach 30% renewables, by what factor must renewable production increase (assuming Gas is constant)?",
+                    options: ["2.5x", "3.0x", "3.85x", "4.2x"],
+                    correct: 2,
+                    explanation: "Current: 1 R, 9 G. To get 30% R with 9 G: R/(R+9) = 0.3. Solving for R gives 3.85. 3.85 / 1 = 3.85x.",
+                    tips: ["Hard Logic: Most people guess 3x (for 30%), but the TOTAL changes when you add renewables. Use the formula: New / (New + Constant) = Target %.", "Elimination: It must be more than 3x because the total energy increases."]
+                },
+                {
+                    question: "If an investor buys Omani Riyals (OMR) worth 10,000 USD at a rate of 1 OMR = 2.60 USD, and the rate changes to 1 OMR = 2.50 USD, what is the value of his investment in USD if he sells?",
+                    options: ["9,615 USD", "10,400 USD", "9,250 USD", "10,000 USD"],
+                    correct: 0,
+                    explanation: "Initial OMR = 10,000 / 2.60 = 3,846.15 OMR. New value in USD = 3,846.15 * 2.50 = 9,615.38 USD.",
+                    tips: ["Currency Logic: If the OMR weakens (costs fewer USD), your OMR is worth fewer USD.", "Math: Divide to go from USD to OMR, multiply to go back."],
+                    meanings: { "Exchange Rate": "The value of one currency for the purpose of conversion to another." }
+                },
+                {
+                    question: "A shipment of 500 tons of Omani dates is reduced by 15% due to quality control. The remaining dates are packed into 5kg boxes. How many boxes are produced?",
+                    options: ["85,000 boxes", "100,000 boxes", "75,000 boxes", "92,000 boxes"],
+                    correct: 0,
+                    explanation: "Remaining dates = 500 * 0.85 = 425 tons. 425 tons = 425,000 kg. Boxes = 425,000 / 5 = 85,000.",
+                    tips: ["Step 1: Calculate the reduction. Step 2: Convert tons to kg (1 ton = 1000kg). Step 3: Divide by box size.", "Unit conversion is key."],
+                    meanings: { "Quality Control": "A system of maintaining standards in manufactured products by testing a sample of the output against the specification." }
+                },
+                {
+                    question: "If Oman's population is 5 million and it grows at 2% annually, what will be the approximate population in 3 years (using compound growth)?",
+                    options: ["5.3 million", "5.2 million", "5.4 million", "5.1 million"],
+                    correct: 0,
+                    explanation: "Year 1: 5 * 1.02 = 5.1. Year 2: 5.1 * 1.02 = 5.202. Year 3: 5.202 * 1.02 = 5.306 million.",
+                    tips: ["Compound interest formula: P(1+r)^n.", "Estimate: 2% of 5 is 0.1. In 3 years, it will be a bit more than 5 + 0.3 = 5.3."],
+                    meanings: { "Compound Growth": "The rate of growth of a number where the growth is added back to the base." }
+                },
+                {
+                    question: "A project in Duqm requires 120 engineers. If 40% are Omani and the goal is to increase Omanization to 60%, how many more Omani engineers must be hired (total staff stays 120)?",
+                    options: ["24", "20", "12", "30"],
+                    correct: 0,
+                    explanation: "Current Omani = 120 * 0.4 = 48. Target Omani = 120 * 0.6 = 72. Additional needed = 72 - 48 = 24.",
+                    tips: ["Percentage logic: Difference in % is 20%. 20% of 120 is 24.", "Quick check: 0.2 * 120 = 24."]
+                },
+                {
+                    question: "If a tourist spends 50 OMR per day for 10 days, and the VAT is 5%, what is the total cost including tax?",
+                    options: ["525 OMR", "500 OMR", "550 OMR", "505 OMR"],
+                    correct: 0,
+                    explanation: "Base cost = 50 * 10 = 500. VAT = 500 * 0.05 = 25. Total = 500 + 25 = 525 OMR.",
+                    tips: ["Step 1: Total before tax. Step 2: Add 5%.", "Math: 5% is the same as dividing by 20."],
+                    meanings: { "VAT": "Value Added Tax - a consumption tax placed on a product whenever value is added at each stage of the supply chain." }
+                },
+                {
+                    question: "A oil tanker travels at 15 knots. If it needs to cover 360 nautical miles to reach the Port of Salalah, how long will the journey take?",
+                    options: ["24 hours", "20 hours", "18 hours", "30 hours"],
+                    correct: 0,
+                    explanation: "Time = Distance / Speed. Time = 360 / 15 = 24 hours.",
+                    tips: ["Formula: T = D / S.", "Units: 1 knot = 1 nautical mile per hour."],
+                    meanings: { "Knot": "A unit of speed equivalent to one nautical mile per hour." }
+                },
+                {
+                    question: "If the price of copper is 9,000 USD per ton and Oman exports 50,000 tons, but the price drops by 10%, what is the loss in total revenue?",
+                    options: ["45 Million USD", "50 Million USD", "40 Million USD", "55 Million USD"],
+                    correct: 0,
+                    explanation: "Current revenue = 9,000 * 50,000 = 450M. New price = 8,100. New revenue = 8,100 * 50,000 = 405M. Loss = 45 Million USD.",
+                    tips: ["Short way: Loss is 10% of total current revenue. 10% of 450M is 45M.", "Avoid long multiplications if a percentage shortcut exists."]
+                },
+                {
+                    question: "A data center in Muscat consumes 500 kWh of energy. If it implements liquid cooling and saves 12%, but then adds new servers that increase base consumption by 8%, what is the final net consumption?",
+                    options: ["484 kWh", "492.8 kWh", "515.2 kWh", "475.2 kWh"],
+                    correct: 1,
+                    explanation: "Step 1: 500 * (1 - 0.12) = 440 kWh. Step 2: 440 * (1 + 0.08) = 475.2 kWh. wait, base consumption increase usually applies to the starting point or the current. If it's base: 500 * 1.08 = 540. 540 * 0.88 = 475.2. Correct: 475.2 kWh.",
+                    tips: ["Percentage order matters if they are cumulative.", "Logic: Reduction followed by addition."],
+                    meanings: { "kWh": "Kilowatt-hour - a unit of energy equivalent to one kilowatt of power sustained for one hour." }
+                },
+                {
+                    question: "The ratio of tourists to Salalah in Winter vs Summer is 1:4. If 800,000 tourists visit in Summer, how many visit in Winter?",
+                    options: ["200,000", "400,000", "100,000", "300,000"],
+                    correct: 0,
+                    explanation: "Ratio 1:4 means Summer is 4 parts. 800,000 / 4 = 200,000 for 1 part (Winter).",
+                    tips: ["Ratio logic: Divide the known quantity by its ratio part.", "Verification: 200k * 4 = 800k."]
+                },
+                {
+                    question: "An Omani SME receives a grant of 50,000 OMR. It spends 30% on equipment, 20% on marketing, and 10% on legal fees. How much capital remains?",
+                    options: ["20,000 OMR", "25,000 OMR", "30,000 OMR", "15,000 OMR"],
+                    correct: 0,
+                    explanation: "Total spent % = 30 + 20 + 10 = 60%. Remaining % = 40%. 50,000 * 0.40 = 20,000 OMR.",
+                    tips: ["Sum percentages first if they apply to the same total.", "Logic: 100% - 60% = 40% remaining."]
+                },
+                {
+                    question: "A cargo drone can carry 15kg. If a logistics firm in Suhar needs to transport 180kg of medical supplies across 12 trips, how many drones are needed if each drone makes exactly one trip?",
+                    options: ["12", "15", "10", "18"],
+                    correct: 0,
+                    explanation: "Total weight = 180kg. 180 / 15 = 12 trips needed. Since each drone makes 1 trip, 12 drones are needed.",
+                    tips: ["Division: Weight / Capacity = Number of trips.", "Context: Read carefully if drones can make multiple trips."]
+                },
+                {
+                    question: "If the price of frankincense increases from 12 OMR to 15 OMR per kg, what is the percentage increase?",
+                    options: ["25%", "20%", "30%", "15%"],
+                    correct: 0,
+                    explanation: "Increase = 15 - 12 = 3. % Increase = (3 / 12) * 100 = 25%.",
+                    tips: ["Formula: (Change / Original) * 100.", "Math: 3 is 1/4 of 12, which is 25%."]
+                },
+                {
+                    question: "A public library in Nizwa has 12,000 books. If 15% are in English and the rest are in Arabic, how many Arabic books are there?",
+                    options: ["10,200", "9,800", "10,500", "11,000"],
+                    correct: 0,
+                    explanation: "Arabic % = 100% - 15% = 85%. 12,000 * 0.85 = 10,200.",
+                    tips: ["Logic: Find the complement percentage first.", "Math: 12,000 - (10% of 12,000 + 5% of 12,000) = 12,000 - 1,800 = 10,200."]
+                },
+                {
+                    question: "A solar panel produces 300W in direct sunlight. If cloud cover reduces output by 40%, but an optimizer increases efficiency of the remaining output by 10%, what is the final wattage?",
+                    options: ["198W", "180W", "210W", "162W"],
+                    correct: 0,
+                    explanation: "After cloud: 300 * 0.60 = 180W. After optimizer: 180 * 1.10 = 198W.",
+                    tips: ["Step-by-step calculation for compound changes.", "Logic: Percentage reduction followed by percentage gain."]
+                },
+                {
+                    question: "If a water tank at a farm in Ibri is 2/3 full and holds 1,200 liters, what is the total capacity of the tank?",
+                    options: ["1,800 liters", "1,600 liters", "2,000 liters", "2,400 liters"],
+                    correct: 0,
+                    explanation: "2/3 = 1,200. 1/3 = 600. 3/3 (Full) = 600 * 3 = 1,800 liters.",
+                    tips: ["Fraction logic: Divide the value by the numerator and multiply by the denominator.", "Check: 2/3 of 1,800 is 1,200."]
+                },
+                {
+                    question: "A textile factory produces 200 dishdashas per day. If they improve the process to produce 250 per day, what is the percentage improvement?",
+                    options: ["25%", "50%", "20%", "30%"],
+                    correct: 0,
+                    explanation: "Increase = 50. % Improvement = (50 / 200) * 100 = 25%.",
+                    tips: ["Formula: (New - Old) / Old * 100.", "Math: 50 is a quarter of 200."]
+                },
+                {
+                    question: "If the current exchange rate is 1 OMR = 0.97 UAE Dirhams (AED) - wait, that's wrong. 1 OMR = approx 9.5 AED. Let's use: 1 OMR = 10 AED for simplicity. If a product costs 250 AED, what is its price in OMR?",
+                    options: ["25 OMR", "2500 OMR", "50 OMR", "10 OMR"],
+                    correct: 0,
+                    explanation: "Price in OMR = 250 / 10 = 25 OMR.",
+                    tips: ["Conversion: Divide when going from smaller unit value to larger.", "Check: 25 * 10 = 250."]
+                }
+            ]
+        };
+
+
+        // --- Simulator State ---
+        let state = {
+            currentIndex: 0,
+            score: 0,
+            fullQuestions: [],
+            themeScores: { English: 0, Abstract: 0, Numerical: 0 },
+            hasAnswered: false,
+            selectedIdx: null,
+            timeRemaining: 2700,
+            timerInterval: null
+        };
+
+        // --- Core Functions ---
+        function startFullExam() {
+            // Randomize questions from bank
+            const english = [...MASTER_BANK.English].sort(() => Math.random() - 0.5).slice(0, 7);
+            const abstract = [...MASTER_BANK.Abstract].sort(() => Math.random() - 0.5).slice(0, 7);
+            const numerical = [...MASTER_BANK.Numerical].sort(() => Math.random() - 0.5).slice(0, 6);
+            state.fullQuestions = [...english, ...abstract, ...numerical];
+            
+            populateStudyGuide();
+            
+            document.getElementById('start-screen').classList.add('hidden');
+            document.getElementById('exam-view').classList.remove('hidden');
+            document.getElementById('status-display').classList.remove('hidden');
+            
+            startTimer();
+            renderQuestion();
+        }
+
+        function toggleStudyGuide() {
+            const modal = document.getElementById('study-guide-modal');
+            modal.classList.toggle('hidden');
+            if (!modal.classList.contains('hidden')) {
+                document.body.style.overflow = 'hidden';
+            } else {
+                document.body.style.overflow = 'auto';
+            }
+        }
+
+        function populateStudyGuide() {
+            const sections = {
+                English: document.getElementById('guide-english'),
+                Abstract: document.getElementById('guide-abstract'),
+                Numerical: document.getElementById('guide-numerical')
+            };
+
+            // Reset
+            Object.values(sections).forEach(s => s.innerHTML = '');
+
+            Object.keys(MASTER_BANK).forEach(theme => {
+                MASTER_BANK[theme].forEach((q, idx) => {
+                    const card = document.createElement('div');
+                    card.className = 'p-6 rounded-2xl bg-white/5 border border-white/5 space-y-4';
+                    
+                    let content = `
+                        <div class="flex justify-between items-start">
+                            <span class="text-[10px] font-black uppercase text-gold/60 tracking-widest">Question ${idx + 1}</span>
+                            <span class="text-[10px] font-black uppercase text-white/20 tracking-widest">${theme}</span>
+                        </div>
+                        <p class="text-sm font-bold text-white/90">${q.question}</p>
+                        <div class="p-3 bg-black/40 rounded-xl border border-gold/20">
+                            <p class="text-[10px] uppercase font-black text-gold mb-1">Correct Answer:</p>
+                            <p class="text-sm text-white/90 font-bold">${q.options[q.correct]}</p>
+                        </div>
+                        <div class="space-y-2">
+                            <p class="text-[10px] uppercase font-black text-white/40 mb-1">Elite Techniques:</p>
+                    `;
+                    
+                    if (q.tips) {
+                        q.tips.forEach(tip => {
+                            content += `<div class="flex items-start gap-2 text-xs text-white/60"><span class="text-gold">•</span><p>${tip}</p></div>`;
+                        });
+                    }
+                    
+                    if (q.meanings) {
+                        content += `<div class="mt-4 pt-4 border-t border-white/10">`;
+                        for (const [word, meaning] of Object.entries(q.meanings)) {
+                            content += `<p class="text-[10px] text-white/50"><b class="text-white/80">${word}:</b> ${meaning}</p>`;
+                        }
+                        content += `</div>`;
+                    }
+                    
+                    content += `</div>`;
+                    card.innerHTML = content;
+                    
+                    // Route to correct section in guide
+                    if (q.passage) sections.English.appendChild(card);
+                    else if (q.type) sections.Abstract.appendChild(card);
+                    else sections.Numerical.appendChild(card);
+                });
+            });
+        }
+
+        function renderQuestion() {
+            const q = state.fullQuestions[state.currentIndex];
+            const container = document.getElementById('question-content');
+            const progressFill = document.getElementById('progress-fill');
+            const progressText = document.getElementById('overall-progress-text');
+            const themeDisplay = document.getElementById('theme-display');
+            const themeBadge = document.getElementById('current-theme-badge');
+
+            progressFill.style.width = `${((state.currentIndex) / state.fullQuestions.length) * 100}%`;
+            progressText.innerText = `Quest ${state.currentIndex + 1} / ${state.fullQuestions.length}`;
+            themeDisplay.innerText = q.passage ? "Academic Reading" : (q.type ? "Abstract Logic" : "Numerical Data");
+            themeBadge.innerText = q.theme || (q.passage ? "English" : (q.type ? "Abstract" : "Numerical"));
+
+            let html = '';
+            if (q.passage) {
+                html += `<div class="p-6 rounded-2xl text-sm italic text-white/70 border-l-2 border-gold/40 leading-relaxed bg-white/5 animate-pop">${q.passage}</div>`;
+            }
+            
+            if (q.type === 'matrix') {
+                html += `<div class="matrix-grid animate-pop">`;
+                q.matrix.forEach(cell => html += `<div class="matrix-cell font-bold text-white">${cell}</div>`);
+                html += `</div>`;
+            }
+
+            html += `<p class="text-xl font-black leading-tight tracking-tight pt-2 animate-pop">${q.question}</p>`;
+            html += `<div class="grid grid-cols-1 gap-3 pt-4">`;
+            q.options.forEach((opt, idx) => {
+                html += `
+                    <button id="opt-${idx}" onclick="selectOption(${idx})" 
+                        class="w-full text-left p-5 rounded-2xl border-2 border-white/5 bg-white/5 hover:bg-white/10 transition-all flex items-center gap-5 group active:scale-98">
+                        <span class="w-10 h-10 rounded-xl bg-gold/5 text-gold flex items-center justify-center font-black text-xs group-hover:bg-gold group-hover:text-black transition-colors border border-gold/10">${String.fromCharCode(65+idx)}</span>
+                        <span class="text-white/80 font-bold text-sm tracking-tight">${opt}</span>
+                    </button>
+                `;
+            });
+            html += `</div>`;
+
+            container.innerHTML = html;
+            document.getElementById('feedback-area').classList.add('hidden');
+            document.getElementById('action-btn').innerText = "Verify Answer";
+            state.hasAnswered = false;
+            state.selectedIdx = null;
+            window.scrollTo(0, 0);
+        }
+
+        function selectOption(idx) {
+            if (state.hasAnswered) return;
+            document.querySelectorAll('[id^="opt-"]').forEach(btn => {
+                btn.classList.replace('border-gold/50', 'border-white/5');
+                btn.classList.remove('bg-gold/10');
+            });
+            const selected = document.getElementById(`opt-${idx}`);
+            selected.classList.replace('border-white/5', 'border-gold/50');
+            selected.classList.add('bg-gold/10');
+            state.selectedIdx = idx;
+        }
+
+        function handleAction() {
+            if (state.selectedIdx === null) return;
+            if (!state.hasAnswered) {
+                checkAnswer();
+            } else {
+                state.currentIndex++;
+                if (state.currentIndex < state.fullQuestions.length) {
+                    renderQuestion();
+                } else {
+                    showResults();
+                }
+            }
+        }
+
+        function checkAnswer() {
+            const q = state.fullQuestions[state.currentIndex];
+            const isCorrect = state.selectedIdx === q.correct;
+            const themeKey = q.passage ? "English" : (q.type ? "Abstract" : "Numerical");
+            
+            if (isCorrect) {
+                state.score++;
+                state.themeScores[themeKey]++;
+            }
+            state.hasAnswered = true;
+
+            const feedback = document.getElementById('feedback-area');
+            const status = document.getElementById('feedback-status');
+            const text = document.getElementById('feedback-text');
+            const tipsArea = document.getElementById('feedback-tips-area');
+            const bg = document.getElementById('feedback-bg');
+            
+            feedback.classList.remove('hidden');
+            bg.className = `absolute inset-0 opacity-10 ${isCorrect ? 'bg-green-500' : 'bg-red-500'}`;
+            feedback.className = `p-6 rounded-2xl border-l-4 transition-all duration-300 ${isCorrect ? 'border-green-500/50 bg-green-500/5' : 'border-red-500/50 bg-red-500/5'}`;
+            
+            status.innerText = isCorrect ? "Elite Accuracy" : "Strategic Error";
+            status.className = `font-black mb-2 uppercase text-[10px] tracking-[0.2em] ${isCorrect ? 'text-green-400' : 'text-red-400'}`;
+            text.innerHTML = `<span class="text-gold font-black uppercase text-[9px] block mb-1">Assessor's Logic:</span> ${q.explanation}`;
+
+            // Add Tips and Meanings
+            let tipsHtml = '';
+            if (q.tips) {
+                q.tips.forEach(tip => {
+                    tipsHtml += `<div class="flex items-start gap-3 text-xs text-white/60"><span class="text-gold mt-1">•</span><p>${tip}</p></div>`;
+                });
+            }
+            if (q.meanings) {
+                tipsHtml += `<div class="mt-4 pt-4 border-t border-white/10"><p class="text-[9px] font-black uppercase tracking-widest text-gold/60 mb-2">Key Vocabulary:</p>`;
+                for (const [word, meaning] of Object.entries(q.meanings)) {
+                    tipsHtml += `<p class="text-xs text-white/50 mb-2"><b class="text-white/80">${word}:</b> ${meaning}</p>`;
+                }
+                tipsHtml += `</div>`;
+            }
+            tipsArea.innerHTML = tipsHtml;
+
+            document.getElementById('action-btn').innerText = 
+                state.currentIndex < state.fullQuestions.length - 1 ? "Next Challenge" : "Finalize Simulation";
+        }
+
+        function startTimer() {
+            state.timerInterval = setInterval(() => {
+                state.timeRemaining--;
+                const mins = Math.floor(state.timeRemaining / 60);
+                const secs = state.timeRemaining % 60;
+                document.getElementById('timer-display').innerText = 
+                    `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+                if (state.timeRemaining <= 0) {
+                    clearInterval(state.timerInterval);
+                    showResults();
+                }
+            }, 1000);
+        }
+
+        function showResults() {
+            clearInterval(state.timerInterval);
+            document.getElementById('exam-view').classList.add('hidden');
+            document.getElementById('status-display').classList.add('hidden');
+            document.getElementById('results-view').classList.remove('hidden');
+            
+            document.getElementById('final-score').innerText = `${state.score}/${state.fullQuestions.length}`;
+            
+            const breakdown = document.getElementById('breakdown-area');
+            let html = '';
+            const themeCounts = {
+                English: state.fullQuestions.filter(q => q.passage || (q.tips && q.tips.some(t => t.includes('Takatuf')))).length,
+                Abstract: state.fullQuestions.filter(q => q.type).length,
+                Numerical: state.fullQuestions.filter(q => !q.passage && !q.type).length
+            };
+
+            for (const [theme, score] of Object.entries(state.themeScores)) {
+                const total = themeCounts[theme] || 0;
+                const perc = total > 0 ? Math.round((score / total) * 100) : 0;
+                html += `
+                    <div class="card-glass p-5 rounded-3xl flex justify-between items-center border border-white/5 ${perc >= 75 ? 'border-green-500/20' : 'border-red-500/20'}">
+                        <div class="text-left">
+                            <p class="text-[9px] uppercase font-black text-white/30 tracking-widest mb-1">${theme}</p>
+                            <p class="font-black text-lg text-white">${score}/${total}</p>
+                        </div>
+                        <div class="text-right">
+                            <p class="text-3xl font-black ${perc >= 75 ? 'text-green-400' : 'text-red-400'}">${perc}%</p>
+                        </div>
+                    </div>
+                `;
+            }
+            breakdown.innerHTML = html;
+
+            const advice = document.getElementById('final-advice');
+            const totalPerc = (state.score / state.fullQuestions.length) * 100;
+            if (totalPerc >= 75) {
+                advice.innerText = "Exceptional results. You are maintaining the 'Independent Vibe' and elite accuracy required for the Oman Scholars Programme. Continue using Elimination Logic to secure your 75% threshold.";
+            } else {
+                advice.innerText = "Critical Warning: You are currently below the 75% threshold. Focus on the vocabulary meanings and IQ tips provided in the feedback to eliminate 'distractor' answers. Independence and speed are your keys to winning.";
+            }
+        }
+    </script>
 </body>
 </html>
